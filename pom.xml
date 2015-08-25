@@ -1,34 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.auscope.portal</groupId>
-    <artifactId>AuScope-Portal</artifactId>
+    <groupId>au.gov.ga</groupId>
+    <artifactId>geoscience-portal</artifactId>
     <packaging>war</packaging>
-    <version>4.2.0-SNAPSHOT</version>
-    <name>AuScope-Portal</name>
-    <description>AuScopes flagship demonstration tool</description>
-    <url>http://portal.auscope.org</url>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Geoscience Portal</name>
+    <description></description>
+    <url>http://portal.geoscience.gov.au</url>
     <issueManagement>
         <system>Jira</system>
-        <url>https://jira.csiro.au/browse/AUS</url>
+        <url>http://intranet.ga.gov.au/jira/browse/GPT</url>
     </issueManagement>
     <ciManagement>
-        <system>BuildBot</system>
-        <url>http://geobuilder.arrc.csiro.au</url>
+        <system>Jenkins</system>
+        <url>http://ci.prod.lan/</url>
     </ciManagement>
     <scm>
-        <connection>scm:svn:https://svn.auscope.org/subversion/AuScopePortal/AuScope-Portal/trunk</connection>
-        <developerConnection>scm:svn:https://svn.auscope.org/subversion/AuScopePortal/AuScope-Portal/trunk</developerConnection>
-        <url>https://svn.auscope.org/subversion/AuScopePortal/AuScope-Portal/trunk</url>
+        <connection>scm:git:https://github.com/GeoscienceAustralia/geoscience-portal.git</connection>
+        <developerConnection>scm:git:https://github.com/GeoscienceAustralia/geoscience-portal.git</developerConnection>
     </scm>
-    <!-- Build Configuration -->
     <organization>
-        <name>AuScope</name>
-        <url>http://www.auscope.org</url>
+        <name>Geoscience Australia</name>
+        <url>http://www.ga.gov.au</url>
     </organization>
-    <!-- Project properties -->
     <properties>
-        <!-- stupid PMD plugin work around... -->
         <targetJdk>1.7</targetJdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty.version>6.1.25</jetty.version>
@@ -39,6 +35,13 @@
         <portal.core.version>1.4.0-SNAPSHOT</portal.core.version>
     </properties>
     <build>    
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
         <plugins>        
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -187,7 +190,7 @@
                 </property>         
             </activation>        
             <build>
-                <finalName>AuScope-Portal</finalName>                
+                <finalName>geoscience-portal</finalName>                
                 <plugins>                                 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -248,7 +251,7 @@
                 </property>
             </activation>
             <build>
-                <finalName>AuScope-Portal</finalName>               
+                <finalName>geoscience-portal</finalName>               
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -310,7 +313,7 @@
                 </property>         
             </activation>        
             <build>
-                <finalName>AuScope-Portal</finalName>                
+                <finalName>geoscience-portal</finalName>                
                 <plugins>
                     <plugin>
                     <!-- https://github.com/klieber/phantomjs-maven-plugin
@@ -380,7 +383,6 @@
             </releases>
         </repository>
     </repositories>
-    <!-- Dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.auscope.portal</groupId>
@@ -388,4 +390,10 @@
             <version>${portal.core.version}</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <snapshotRepository>
+          <id>snapshots</id>
+          <url>http://maven-int.ga.gov.au/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
