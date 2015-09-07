@@ -3,7 +3,7 @@
 <!-- Credits for icons from http://www.fatcow.com/free-icons/ under http://creativecommons.org/licenses/by/3.0/us/-->
 <html xmlns:v="urn:schemas-microsoft-com:vml">
    <head>
-      <title>AuScope Discovery Portal</title>
+      <title>GA Discovery Portal</title>
 
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="description" content="Access geoscientific information from around Australia, via AuScopes national e-Research infrastructure.">

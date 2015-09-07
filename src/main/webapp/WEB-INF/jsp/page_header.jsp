@@ -9,7 +9,7 @@
             <li><a id="help-button">Help</a></li>
             <li><a href="http://www.auscope.org">AuScope.org</a></li>
             <li><a href="mailto:cg-portal@csiro.au">Contact Us</a></li>
-            <li><a href="gmap.html">AuScope Discovery Portal</a></li>
+            <li><a href="gmap.html">GA Discovery Portal</a></li>
 
             <li><a id="hh-userGuide" href="static/user-guide/ug.htm" target="new">User Guide<span></span></a></li>
 

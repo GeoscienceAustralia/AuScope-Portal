@@ -77,7 +77,10 @@ Ext.define('auscope.layer.filterer.AuScopeFormFactory', {
                 return this._generateResult(baseFilterForm, true); 
             case 'tima-geosample':
                 baseFilterForm = Ext.create('auscope.layer.filterer.forms.TimaGeoSampleFilterForm', baseFilterFormCfg);
-                return this._generateResult(baseFilterForm, true);     
+                return this._generateResult(baseFilterForm, true);
+            case 'geologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__ALL_filter':	// GPT-40
+            	baseFilterForm = Ext.create('auscope.layer.filterer.forms.GALayersConjunction', baseFilterFormCfg);
+                return this._generateResult(baseFilterForm, true);
             }
         }
         

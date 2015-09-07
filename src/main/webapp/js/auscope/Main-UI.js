@@ -91,11 +91,9 @@ Ext.application({
         })
         var layersGrouper = new Ext.util.Grouper({
             groupFn: function(item) {
-                console.log("layersGrouper - groupFn: ",item.data.group)
                 return item.data.group;
             },
             sorterFn: function(record1, record2) {
-                console.log("layersGrouper - sorterFn rec1: ",record1.data.name, ", rec2: ",record2.data.name);
                 var order1 = record1.data.order;
                     order2 = record2.data.order;
                 return order1 > order2 ? 1 : (order1 < order2 ? -1 : 0);
