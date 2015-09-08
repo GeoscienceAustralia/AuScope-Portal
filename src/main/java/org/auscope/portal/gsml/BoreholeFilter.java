@@ -72,7 +72,7 @@ public class BoreholeFilter extends AbstractFilter {
         if (dateOfDrilling != null && !dateOfDrilling.isEmpty()) {
             parameterFragments.add(this.generatePropertyIsLikeFragment(
                     "gsml:indexData/gsml:BoreholeDetails/gsml:dateOfDrilling",
-                    this.dateOfDrilling));
+                    "*" +  this.dateOfDrilling + "*"));
         }
 
         if (this.restrictToIDList != null && !this.restrictToIDList.isEmpty()) {

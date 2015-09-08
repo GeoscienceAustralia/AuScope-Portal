@@ -62,7 +62,7 @@ public class SF0BoreholeFilter extends BoreholeFilter {
         if (dateOfDrilling != null && !dateOfDrilling.isEmpty()) {
             parameterFragments.add(this.generatePropertyIsLikeFragment(
                     "gsmlp:drillStartDate",
-                    this.dateOfDrilling));
+                    "*" +  this.dateOfDrilling + "*"));
         }
 
         if (this.restrictToIDList != null && !this.restrictToIDList.isEmpty()) {
