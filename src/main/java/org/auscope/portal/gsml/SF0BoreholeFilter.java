@@ -48,7 +48,7 @@ public class SF0BoreholeFilter extends BoreholeFilter {
         List<String> parameterFragments = new ArrayList<String>();
         if (boreholeName != null && !boreholeName.isEmpty()) {
             parameterFragments.add(this.generatePropertyIsLikeFragment(
-                    "gsmlp:name", this.boreholeName));
+                    "gsmlp:name", "*" + this.boreholeName + "*"));
         }
 
         if (custodian != null && !custodian.isEmpty()) {
