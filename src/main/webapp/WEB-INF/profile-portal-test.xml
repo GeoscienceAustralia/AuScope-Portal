@@ -12,64 +12,65 @@
     <bean id="knownTypes" class="java.util.ArrayList">
         <constructor-arg>
             <list>                
-                <ref bean="knownTypehydrogeochem" />
-                <ref bean="knownTypeMine" />
-                <ref bean="knownTypeMineralOccurrence" />
-                <ref bean="knownTypeMiningActivity" />
-                <ref bean="knownTypeMineralTenements" />
-                <ref bean="knownTypeRemanentAnomalies" />
-                <ref bean="knownTypeRemanentAnomaliesTMI" />
-                <ref bean="knownTypeRemanentAnomaliesAutoSearch" />
-                <ref bean="knownTypeEMAGRemanentAnomalies" />
-                <ref bean="knownTypeEMAGRemanentAnomaliesTMI" />
-                <ref bean="knownTypeMineralOccurrenceView" />
-                <ref bean="knownTypeBoreholeNvcl" />
-                <ref bean="knownTypeBoreholePressureDB" />
-                <ref bean="knownTypeGSMLBorehole" />
-                <ref bean="knownTypeReports" />
-                <ref bean="knownTypeInSarReports" />
-                <ref bean="knownTypeGeotransects" />
-                <ref bean="knownTypeTimaGeoSample" />
-                <ref bean="knownTypeYilgarnGeochemistry"/>
-                <ref bean="knownTypeSamplingPoint"/>
-                <ref bean="knownTypeFeatureCollection"/>
-                <ref bean="knownTypeLateriteYilgarnGeoChem"/>
-                <ref bean="knownTypeHighPSiteFeatureType"/>
-                <ref bean="knownTypeHighPFeatureType"/>
-                <ref bean="knownTypeHighPREIronLayer"/>
-                <ref bean="knownTypeHighPREPhosLayer"/>
-                <ref bean="knownTypeHighPSiteIronLayer"/>
-                <ref bean="knownTypeHighPSitePhosLayer"/>
-                <ref bean="knownTypePortals"/>
-                <ref bean="knownTypeGeoNetworks"/>
-                <ref bean="knownTypeGeologicalProvinceContact" />
-                <ref bean="knownTypeGeologicalProvinceMetallogenic" />
-                <ref bean="knownTypeAster" />
-                <ref bean="knownTypeAsterAloh" />
-                <ref bean="knownTypeAsterFerrous" />
-                <ref bean="knownTypeAsterOpaque" />
-                <ref bean="knownTypeAsterFerricOxideContent" />
-                <ref bean="knownTypeAsterFeoh" />
-                <ref bean="knownTypeFerricOxideComp" />
-                <ref bean="knownTypeAsterChileSandToClay" />
-                <ref bean="knownTypeAsterChileWaterIndex" />
-                <ref bean="knownTypeAsterChileAlOHComp" />
-                <ref bean="knownTypeAsterChileFalseColour" />
-                <ref bean="knownTypeGroupIndex" />
-                <ref bean="knownTypeQuartzIndex" />
-                <ref bean="knownTypeMgohContent" />
-                <ref bean="knownTypeGreenVeg" />
-                <ref bean="knownTypeFerrCarb" />
-                <ref bean="knownTypeMgohGroupComp" />
-                <ref bean="knownTypeFalseColor" />
-                <ref bean="knownTypeRegolithRatios" />
-                <ref bean="knownTypeAlohGroupContent" />
-                <ref bean="knownTypeGypsumContent" />
-                <ref bean="knownTypeSilicaContent" />
-                <ref bean="knownTypeBoreholeMSCL" />
-                <ref bean="knownTypeSeismologyInSchool" />
+<!--                 <ref bean="knownTypehydrogeochem" /> -->
+<!--                 <ref bean="knownTypeMine" /> -->
+<!--                 <ref bean="knownTypeMineralOccurrence" /> -->
+<!--                 <ref bean="knownTypeMiningActivity" /> -->
+<!--                 <ref bean="knownTypeMineralTenements" /> -->
+<!--                 <ref bean="knownTypeRemanentAnomalies" /> -->
+<!--                 <ref bean="knownTypeRemanentAnomaliesTMI" /> -->
+<!--                 <ref bean="knownTypeRemanentAnomaliesAutoSearch" /> -->
+<!--                 <ref bean="knownTypeEMAGRemanentAnomalies" /> -->
+<!--                 <ref bean="knownTypeEMAGRemanentAnomaliesTMI" /> -->
+<!--                 <ref bean="knownTypeMineralOccurrenceView" /> -->
+<!--                 <ref bean="knownTypeBoreholeNvcl" /> -->
+<!--                 <ref bean="knownTypeBoreholePressureDB" /> -->
+<!--                 <ref bean="knownTypeGSMLBorehole" /> -->
+<!--                 <ref bean="knownTypeReports" /> -->
+<!--                 <ref bean="knownTypeInSarReports" /> -->
+<!--                 <ref bean="knownTypeGeotransects" /> -->
+<!--                 <ref bean="knownTypeTimaGeoSample" /> -->
+<!--                 <ref bean="knownTypeYilgarnGeochemistry"/> -->
+<!--                 <ref bean="knownTypeSamplingPoint"/> -->
+<!--                 <ref bean="knownTypeFeatureCollection"/> -->
+<!--                 <ref bean="knownTypeLateriteYilgarnGeoChem"/> -->
+<!--                 <ref bean="knownTypeHighPSiteFeatureType"/> -->
+<!--                 <ref bean="knownTypeHighPFeatureType"/> -->
+<!--                 <ref bean="knownTypeHighPREIronLayer"/> -->
+<!--                 <ref bean="knownTypeHighPREPhosLayer"/> -->
+<!--                 <ref bean="knownTypeHighPSiteIronLayer"/> -->
+<!--                 <ref bean="knownTypeHighPSitePhosLayer"/> -->
+<!--                 <ref bean="knownTypePortals"/> -->
+<!--                 <ref bean="knownTypeGeoNetworks"/> -->
+<!--                 <ref bean="knownTypeGeologicalProvinceContact" /> -->
+<!--                 <ref bean="knownTypeGeologicalProvinceMetallogenic" /> -->
+<!--                 <ref bean="knownTypeAster" /> -->
+<!--                 <ref bean="knownTypeAsterAloh" /> -->
+<!--                 <ref bean="knownTypeAsterFerrous" /> -->
+<!--                 <ref bean="knownTypeAsterOpaque" /> -->
+<!--                 <ref bean="knownTypeAsterFerricOxideContent" /> -->
+<!--                 <ref bean="knownTypeAsterFeoh" /> -->
+<!--                 <ref bean="knownTypeFerricOxideComp" /> -->
+<!--                 <ref bean="knownTypeAsterChileSandToClay" /> -->
+<!--                 <ref bean="knownTypeAsterChileWaterIndex" /> -->
+<!--                 <ref bean="knownTypeAsterChileAlOHComp" /> -->
+<!--                 <ref bean="knownTypeAsterChileFalseColour" /> -->
+<!--                 <ref bean="knownTypeGroupIndex" /> -->
+<!--                 <ref bean="knownTypeQuartzIndex" /> -->
+<!--                 <ref bean="knownTypeMgohContent" /> -->
+<!--                 <ref bean="knownTypeGreenVeg" /> -->
+<!--                 <ref bean="knownTypeFerrCarb" /> -->
+<!--                 <ref bean="knownTypeMgohGroupComp" /> -->
+<!--                 <ref bean="knownTypeFalseColor" /> -->
+<!--                 <ref bean="knownTypeRegolithRatios" /> -->
+<!--                 <ref bean="knownTypeAlohGroupContent" /> -->
+<!--                 <ref bean="knownTypeGypsumContent" /> -->
+<!--                 <ref bean="knownTypeSilicaContent" /> -->
+<!--                 <ref bean="knownTypeBoreholeMSCL" /> -->
+<!--                 <ref bean="knownTypeSeismologyInSchool" /> -->
                 <ref bean="knownTypeSF0BoreholeNVCL" />             
-                <ref bean="knownTypeSurfaceAftershock" />
+<!--                 <ref bean="knownTypeSurfaceAftershock" /> -->
+                
                 <!-- Analytics -->
                 <!-- ref bean="knownTypeBouguerGeodetic" />
                 <ref bean="knownTypeGravAnomalyGeodetic" />
@@ -90,6 +91,21 @@
                 <ref bean="knownTypeWesternAreaAem" />
                 <ref bean="knownTypeAshburtonAem" /-->
                 <!-- End Analytics -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__AUS_GA_1M_GUPoly_Lithostratigraphy" /> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__AUS_GA_1M_GUPoly_Age" /> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__AUS_GA_1M_GUPoly_Lithology" /> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_ContactsFaultsMakerBeds__AUS_GA_1M_MiscLines" /> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_ContactsFaultsMakerBeds__AUS_GA_1M_Faults" /> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_ContactsFaultsMakerBedss__AUS_GA_1M_Contacts" /> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_ContactsFaultsMakerBeds__AUS_GA_1M_GULine" /> -->
+                <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to25M_ContactsFaultsMakerBeds__ALL" />
+                <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to25M_GeologicalUnits__ALL" />
+                <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_ContactsFaultsMakerBeds__ALL" />
+                <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__ALL" />
+                
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__AUS_GA_1M_GUPoly_Lithology"/> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__AUS_GA_1M_GUPoly_Age"/> -->
+<!--                 <ref bean="knownTypeGeologicalMaps_SurfaceGeology__1to1M_GeologicalUnits__AUS_GA_1M_GUPoly_Lithostratigraphy"/> -->
             </list>
         </constructor-arg>
     </bean>
@@ -97,13 +113,13 @@
     <bean id="cswServiceList" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                <!-- <ref bean="cswGeoscienceLocal" /> -->
+                <ref bean="cswGeoscienceLocal" />
                 <ref bean="cswGeoscienceDev" />
                 <ref bean="cswAuscopeTest" />
-                <ref bean="cswInSarProduction" />
+                <!--  ref bean="cswInSarProduction" />
                 <ref bean="cswMDUTest" />
-                <ref bean="cswAsterProduction" />
-                <!-- ref bean="cswVeglProduction" /-->
+                <ref bean="cswAsterProduction" / -->
+                <!-- ref bean="cswVeglProduction" / -->
             </list>
         </constructor-arg>
     </bean>
