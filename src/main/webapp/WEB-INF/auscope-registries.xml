@@ -17,8 +17,8 @@
     <bean id="cswGeoscienceDev" class="org.auscope.portal.core.services.csw.CSWServiceItem">
         <constructor-arg name="id" value="cswGeoscienceDev"/>
         <constructor-arg name="title" value="Geoscience Dev Geonetwork"/>
-        <constructor-arg name="serviceUrl" value="http://54.206.17.34:8080/geonetwork/srv/eng/csw"/>
-        <constructor-arg name="recordInformationUrl" value="http://54.206.17.34:8080/geonetwork/srv/eng/main.home?uuid=%1$s"/>
+        <constructor-arg name="serviceUrl" value="http://localhost:8080/geonetwork/srv/eng/csw"/>
+        <constructor-arg name="recordInformationUrl" value="http://localhost:8080/geonetwork/srv/eng/main.home?uuid=%1$s"/>
     </bean>
     
     <bean id="cswAuscopeTest" class="org.auscope.portal.core.services.csw.CSWServiceItem">
