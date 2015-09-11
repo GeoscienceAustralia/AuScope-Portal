@@ -495,8 +495,20 @@ Ext.define('auscope.widgets.GAOnlineResourcesPanel', {
                   layout : 'fit',
                   width : 600,
                   height : 300,
+<<<<<<< HEAD
                   autoScroll : true,
                   html : '<div class="layerabstractpopupbody">' +  data + '</div>'
+=======
+                  items : [ {                        
+                      xtype: 'panel', 
+                      layout : 'column',
+                      maxHeight : 300,
+                      autoScroll : true,
+                      items : [{
+                        html : data
+                      }]   
+                  }] 
+>>>>>>> GPT-37 Refactored the GA changes to the online resources panel into a new widget. The widget that a portal uses can now be injected by the portal proper.
               }).show();
           };
           
