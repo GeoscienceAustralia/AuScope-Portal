@@ -6,7 +6,7 @@
  */
 Ext.define('auscope.widgets.GAOnlineResourcesPanel', {
     extend : 'Ext.grid.Panel',
-    alias : 'widget.gaonlineresourcepanel',
+    alias : 'widget.gaonlineresourcespanel',
 
     //Array of portal.csw.CSWRecord objects
     cswRecords : null, 
