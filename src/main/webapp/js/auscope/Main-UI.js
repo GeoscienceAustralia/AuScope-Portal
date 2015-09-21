@@ -154,7 +154,7 @@ Ext.application({
         var map = null;
 
         map = Ext.create('portal.map.openlayers.OpenLayersMap', mapCfg);
-
+        
         var layerFactory = Ext.create('portal.layer.LayerFactory', {
             map : map,
             formFactory : Ext.create('auscope.layer.filterer.AuScopeFormFactory', {map : map}),
@@ -280,6 +280,100 @@ Ext.application({
         });
 
         /**
+         * Add panel for the Active Layers and Controls (GPT-40)
+         */
+        var body = Ext.getBody();
+
+        // Render Active Layers into divId
+        var renderActiveLayers = function(divId) {
+            console.log("renderActiveLayers - divId: "+divId);
+        }
+
+        // Create the Ext widget to display the Active Layers in the activeLayersPanel
+        var activeLayerDisplay = Ext.create('auscope.widgets.panel.ActiveLayersDisplayPanel', {
+            id : 'activeLayers',
+            renderTo : Ext.getBody(),    //'activeLayers',
+            height: 200,
+            width: 400,
+            store : layerStore,
+            html : '<div id="activeLayers">Active Layers</div>',
+            tooltip : {
+                title : 'Active Layers tooltip',
+                text : '<p1>The layers in this panel are the active layers that have chosen to be displayed.</p1>',
+                showDelay : 100,
+                dismissDelay : 30000
+            },
+            listeners: {
+                afterrender: function () {
+                    renderActiveLayers('activeLayers');
+                }
+            }
+        });
+        
+        activeLayerDisplay.fireEvent('addlayer',activeLayerDisplay);
+        activeLayerDisplay.fireEvent('noevent',activeLayerDisplay);
+        
+        var mpc = Ext.create('Ext.panel.Panel', {
+            id : 'activeLayersPanel',
+            title : 'Active Layers',
+            layout: {
+                type: 'vbox',       // Arrange child items vertically
+                align: 'stretch',    // Each takes up full width
+                padding: 1
+            },
+            renderTo: body,
+            items : [
+                     activeLayerDisplay,
+//                {   
+//                    xtype : 'label',
+//                    id : 'activeLayers',
+//                    html : '<div id="activeLayers">Active Layers</div>',
+//                    listeners: {
+//                        afterrender: function () {
+//                            renderActiveLayers('activeLayers');
+//                        }
+//                    }
+//                },
+//                {
+//                  xtype : 'panel.activelayersdisplaypanel',
+//                  id : 'activeLayers',
+//                  height: 200,
+//                  width: 400,
+//                  store : knownLayerStore,
+//                  html : "<div>Hello</div>",
+//                  listeners : {
+//                      addlayer : function(layer){
+//                          console.log("ActiveLayersDisplayPanel - listener - Added layer: ", layer);
+//                      },
+//                      removelayer : function(layer){
+//                          console.log("ActiveLayersDisplayPanel - listener - Removed layer: ", layer);
+//                      }
+//                  }
+//                },
+                {
+                    xtype : 'label',
+                    id : 'baseMap',
+                    html : '<div id="baseMap"></div>',
+                    listeners: {
+                        afterrender: function (view) {
+                            map.renderBaseMap('baseMap');
+                        }
+                    }
+                }
+            ],
+            height: 500,
+            width: 500,
+            collapsible: true,
+            animCollapse : true,
+            collapseDirection : 'top',
+            collapsed : false,
+        });
+
+        mpc.show();
+        mpc.setZIndex(40000);
+        mpc.anchorTo(body, 'tr-tr', [0, 100], true);
+        
+        /**
          * Add all the panels to the viewport
          */
         var viewport = Ext.create('Ext.container.Viewport', {
@@ -357,7 +451,5 @@ Ext.application({
             });
 
         }
-
-
-    }
+    },
 });
