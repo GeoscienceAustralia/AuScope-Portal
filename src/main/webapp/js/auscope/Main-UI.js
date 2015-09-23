@@ -1,3 +1,12 @@
+Ext.Loader.setConfig({
+    enabled: true,
+//    paths: {
+//        'AM': 'app'
+//    }
+});
+
+Ext.require('portal.events.AppEvents');
+
 Ext.application({
     name : 'portal',
 
@@ -289,84 +298,63 @@ Ext.application({
             console.log("renderActiveLayers - divId: "+divId);
         }
 
+//        var simpsonsStore = Ext.create('Ext.data.Store', {
+//            storeId: 'simpsonsStore',
+//            fields:[ 'name', 'email', 'phone'],
+//            data: [
+//                { name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
+//                { name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
+//                { name: 'Homer', email: 'homer@simpsons.com', phone: '555-222-1244' },
+//                { name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
+//            ]
+//        });
+        
         // Create the Ext widget to display the Active Layers in the activeLayersPanel
         var activeLayerDisplay = Ext.create('auscope.widgets.panel.ActiveLayersDisplayPanel', {
             id : 'activeLayers',
-            renderTo : Ext.getBody(),    //'activeLayers',
+            //renderTo : 'activeLayers',  // Ext.getBody(),    //
             height: 200,
             width: 400,
-            store : layerStore,
+            //xxx activeLayerStore : layerStore,
             html : '<div id="activeLayers">Active Layers</div>',
-            tooltip : {
-                title : 'Active Layers tooltip',
-                text : '<p1>The layers in this panel are the active layers that have chosen to be displayed.</p1>',
-                showDelay : 100,
-                dismissDelay : 30000
-            },
-            listeners: {
-                afterrender: function () {
-                    renderActiveLayers('activeLayers');
-                }
-            }
+//            tooltip : {
+//                title : 'Active Layers tooltip',
+//                text : '<p1>The layers in this panel are the active layers that have chosen to be displayed.</p1>',
+//                showDelay : 100,
+//                dismissDelay : 30000
+//            }
         });
         
-        activeLayerDisplay.fireEvent('addlayer',activeLayerDisplay);
-        activeLayerDisplay.fireEvent('noevent',activeLayerDisplay);
-        
+        portal.events.AppEvents.addListener(activeLayerDisplay);
+
         var mpc = Ext.create('Ext.panel.Panel', {
             id : 'activeLayersPanel',
             title : 'Active Layers',
-            layout: {
-                type: 'vbox',       // Arrange child items vertically
-                align: 'stretch',    // Each takes up full width
-                padding: 1
-            },
-            renderTo: body,
-            items : [
-                     activeLayerDisplay,
-//                {   
-//                    xtype : 'label',
-//                    id : 'activeLayers',
-//                    html : '<div id="activeLayers">Active Layers</div>',
-//                    listeners: {
-//                        afterrender: function () {
-//                            renderActiveLayers('activeLayers');
-//                        }
-//                    }
-//                },
-//                {
-//                  xtype : 'panel.activelayersdisplaypanel',
-//                  id : 'activeLayers',
-//                  height: 200,
-//                  width: 400,
-//                  store : knownLayerStore,
-//                  html : "<div>Hello</div>",
-//                  listeners : {
-//                      addlayer : function(layer){
-//                          console.log("ActiveLayersDisplayPanel - listener - Added layer: ", layer);
-//                      },
-//                      removelayer : function(layer){
-//                          console.log("ActiveLayersDisplayPanel - listener - Removed layer: ", layer);
-//                      }
-//                  }
-//                },
-                {
-                    xtype : 'label',
-                    id : 'baseMap',
-                    html : '<div id="baseMap"></div>',
-                    listeners: {
-                        afterrender: function (view) {
-                            map.renderBaseMap('baseMap');
-                        }
-                    }
-                }
-            ],
-            height: 500,
-            width: 500,
-            collapsible: true,
-            animCollapse : true,
-            collapseDirection : 'top',
-            collapsed : false,
+             layout: {
+                 type: 'vbox',         // Arrange child items vertically
+                 align: 'stretch',     // Each takes up full width
+                 padding: 1
+             },
+             renderTo: body,
+             items : [
+                  activeLayerDisplay,
+                  {
+                     xtype : 'label',
+                     id : 'baseMap',
+                     html : '<div id="baseMap"></div>',
+                     listeners: {
+                         afterrender: function (view) {
+                             map.renderBaseMap('baseMap');
+                         }
+                     }
+                  }
+             ],
+             height: 500,
+             width: 500,
+             collapsible: true,
+             animCollapse : true,
+             collapseDirection : 'top',
+             collapsed : false,
         });
 
         mpc.show();
