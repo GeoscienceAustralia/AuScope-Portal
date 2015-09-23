@@ -114,3 +114,7 @@
     .x-grid3-dirty-cell {
         background-image:none ! important;
     }
+    
+    .layerabstractpopupbody {
+        padding: 10px; border: none;
+    }
