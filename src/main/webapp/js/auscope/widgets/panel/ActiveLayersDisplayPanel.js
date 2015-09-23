@@ -6,86 +6,52 @@
 Ext.define('auscope.widgets.panel.ActiveLayersDisplayPanel', {
     extend : 'Ext.grid.Panel',
     alias: 'widget.panel.activelayersdisplaypanel',
-    title: 'Active Layers widget',
-    map : null, //instance of portal.util.gmap.GMapWrapper
-    allowDebugWindow : false, //whether this panel will show the debug window if clicked by the user
+//    title: 'Active Layers widget',
+//    map : null, //instance of portal.util.gmap.GMapWrapper
+//    allowDebugWindow : false, //whether this panel will show the debug window if clicked by the user
+    height: 200,
+    width: 400,
+    store : Ext.data.ArrayStore({
+        //autoDestroy : true,
+        storeId : 'activelayerstore',
+        fields : [
+                  { name : 'name' },
+                  { name : 'layer'}]
+    }),
+    layersArray : [],
+    
+//    constructor : function(config) {
+//        layers = [];
+//  //xxx         this.activeLayerStore=config.activeLayerStore;
+//    },
 
-    constructor : function(cfg) {
-        var me = this;
-        this.callParent(cfg);
-
-        this.map = cfg.map;
-        this.allowDebugWindow = cfg.allowDebugWindow ? true : false;
-        console.log('auscope.widgets.panel.ActiveLayersDisplayPanel constructor');
-    },
+//    columns: [
+//              { text: 'Name', dataIndex: 'name' },
+//              { text: 'Email', dataIndex: 'email', flex: 1 },
+//              { text: 'Phone', dataIndex: 'phone' }
+//          ],
     columns : [{
-        //legend column
-        xtype : 'clickcolumn',
-        dataIndex : 'renderer',
-        renderer : this._legendIconRenderer,
-        width : 32,
-        listeners : {
-            columnclick : Ext.bind(this._legendClickHandler, this)
-        }
-    },{
-        //Loading icon column
-        xtype : 'clickcolumn',
-        dataIndex : 'loading',
-        renderer : this._loadingRenderer,
-        hasTip : true,
-        tipRenderer : Ext.bind(this._loadingTipRenderer, this),
-        width: 32,
-        listeners : {
-            columnclick : Ext.bind(this._serviceInformationClickHandler, this)
-        }
-    },{
-        //Layer name column
-        xtype : 'clickcolumn',
+        //xtype : 'clickcolumn',
         text : 'Layer Name',
         dataIndex : 'name',
         flex : 1,
         listeners : {
             columnclick : Ext.bind(this._nameClickHandler, this)
         }
-    },{
-        //Visibility column
-        xtype : 'renderablecheckcolumn',
-        text : 'Visible',
-        dataIndex : 'renderer',
-        getCustomValueBool : function(header, renderer, layer) {
-            return renderer.getVisible();
-        },
-        setCustomValueBool : function(header, renderer, checked, layer) {
-            //update our bbox silently before updating visibility
-            if (checked) {
-                var filterer = layer.get('filterer');
-                filterer.setSpatialParam(me.map.getVisibleMapBounds(), true);
-            }
-
-            return renderer.setVisible(checked);
-        },
-        width : 40
-    },{
-        //Download column
-        xtype : 'clickcolumn',
-        dataIndex : 'renderer',
-        width : 32,
-        renderer : this._downloadRenderer,
-        listeners : {                                                            
-            columnclick : function( column, record, recordIndex, cellIndex, e){
-                var menu = Ext.create('Ext.menu.Menu', {
-                    items: [
-                            me.removeAction,
-                            me.downloadLayerAction
-                            ]                
-                });
-                menu.showAt(e.getXY());
-            }
-        }
+    }, {
+        text : 'Moves',
+        dataIndex : 'layer'
     }],
     listeners : {
-        addlayer : function(layer){
+        addlayer : function(layerArray){
+            var layer = layerArray[0];
             console.log("ActiveLayersDisplayPanel - listener - Added layer: ", layer);
+            var newlayer = {name:layer.get('name'), layer:"Boogie woogie"};
+            this.getStore().loadData([newlayer],true);
+            this.layersArray.push(newLayer);
+            //newlayer = ["Another name", "Disco King"];//layer];
+//            this.getStore().loadData(this.layersArray,false);
+            console.log("  Store now: ", this.getStore().getData());
         },
         removelayer : function(layer){
             console.log("ActiveLayersDisplayPanel - listener - Removed layer: ", layer);
