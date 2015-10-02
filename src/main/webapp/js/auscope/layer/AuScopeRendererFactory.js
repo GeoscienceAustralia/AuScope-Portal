@@ -44,6 +44,7 @@ Ext.define('auscope.layer.AuScopeRendererFactory', {
 
         // GPT-40 - Layers within Layers - OR/Disjunction case
         if (knownLayer != undefined
+                && knownLayer.get('id').match(/^layers-disjunction/) != null
                 && (knownLayer.get('id').match(/^layers-disjunction/).length > 0)
                 && knownLayer.get('layerMode') === 'OR') {
             return Ext.create('portal.layer.renderer.wms.DisjunctionLayerRenderer', {map : this.map});
