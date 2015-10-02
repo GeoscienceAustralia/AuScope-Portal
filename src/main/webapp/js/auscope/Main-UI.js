@@ -1,3 +1,12 @@
+Ext.Loader.setConfig({
+    enabled: true,
+//    paths: {
+//        'AM': 'app'
+//    }
+});
+
+Ext.require('portal.events.AppEvents');
+
 Ext.application({
     name : 'portal',
 
@@ -154,7 +163,7 @@ Ext.application({
         var map = null;
 
         map = Ext.create('portal.map.openlayers.OpenLayersMap', mapCfg);
-
+        
         var layerFactory = Ext.create('portal.layer.LayerFactory', {
             map : map,
             formFactory : Ext.create('auscope.layer.filterer.AuScopeFormFactory', {map : map}),
@@ -163,9 +172,6 @@ Ext.application({
             rendererFactory : Ext.create('auscope.layer.AuScopeRendererFactory', {map: map})
         });
 
-
-
-
         var knownLayersPanel = Ext.create('portal.widgets.panel.KnownLayerPanel', {
             title : 'Featured',
             menuFactory : Ext.create('auscope.layer.AuscopeFilterPanelMenuFactory',{map : map}),
@@ -173,6 +179,7 @@ Ext.application({
             activelayerstore : layerStore,
             map : map,
             layerFactory : layerFactory,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             tooltip : {
                 anchor : 'top',
                 title : 'Featured Layers',
@@ -181,13 +188,14 @@ Ext.application({
                 icon : 'img/information.png',
                 dismissDelay : 30000
             }
-
+        
         });
 
         var unmappedRecordsPanel = Ext.create('portal.widgets.panel.CSWRecordPanel', {
             title : 'Registered',
             store : unmappedCSWRecordStore,
             activelayerstore : layerStore,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             tooltip : {
                 title : 'Registered Layers',
                 text : 'The layers that appear here are the data services that were discovered in a remote registry but do not belong to any of the Featured Layers groupings.',
@@ -204,6 +212,7 @@ Ext.application({
             itemId : 'org-auscope-custom-record-panel',
             store : customRecordStore,
             activelayerstore : layerStore,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             enableBrowse : true,//VT: if true browse catalogue option will appear
             tooltip : {
                 title : 'Custom Data Layers',
@@ -223,6 +232,7 @@ Ext.application({
             enableBrowse : false,//VT: if true browse catalogue option will appear
             map : map,
             layerFactory : layerFactory,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             tooltip : {
                 title : 'Research Data Layers',
                 text : '<p1>The layers in this tab represent past/present research activities and may contain partial or incomplete information.</p1>',
@@ -278,6 +288,79 @@ Ext.application({
             }
         });
 
+        /**
+         * Add panel for the Active Layers and Controls (GPT-40)
+         */
+        var body = Ext.getBody();
+
+        // Render Active Layers into divId
+        var renderActiveLayers = function(divId) {
+            console.log("renderActiveLayers - divId: "+divId);
+        }
+
+//        var simpsonsStore = Ext.create('Ext.data.Store', {
+//            storeId: 'simpsonsStore',
+//            fields:[ 'name', 'email', 'phone'],
+//            data: [
+//                { name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
+//                { name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
+//                { name: 'Homer', email: 'homer@simpsons.com', phone: '555-222-1244' },
+//                { name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
+//            ]
+//        });
+        
+        // Create the Ext widget to display the Active Layers in the activeLayersPanel
+        var activeLayerDisplay = Ext.create('auscope.widgets.panel.ActiveLayersDisplayPanel', {
+            id : 'activeLayers',
+            //renderTo : 'activeLayers',  // Ext.getBody(),    //
+            height: 200,
+            width: 400,
+            //xxx activeLayerStore : layerStore,
+            html : '<div id="activeLayers">Active Layers</div>',
+//            tooltip : {
+//                title : 'Active Layers tooltip',
+//                text : '<p1>The layers in this panel are the active layers that have chosen to be displayed.</p1>',
+//                showDelay : 100,
+//                dismissDelay : 30000
+//            }
+        });
+        
+        portal.events.AppEvents.addListener(activeLayerDisplay);
+
+        var mpc = Ext.create('Ext.panel.Panel', {
+            id : 'activeLayersPanel',
+            title : 'Active Layers',
+             layout: {
+                 type: 'vbox',         // Arrange child items vertically
+                 align: 'stretch',     // Each takes up full width
+                 padding: 1
+             },
+             renderTo: body,
+             items : [
+                  activeLayerDisplay,
+                  {
+                     xtype : 'label',
+                     id : 'baseMap',
+                     html : '<div id="baseMap"></div>',
+                     listeners: {
+                         afterrender: function (view) {
+                             map.renderBaseMap('baseMap');
+                         }
+                     }
+                  }
+             ],
+             height: 500,
+             width: 500,
+             collapsible: true,
+             animCollapse : true,
+             collapseDirection : 'top',
+             collapsed : false,
+        });
+
+        mpc.show();
+        mpc.setZIndex(40000);
+        mpc.anchorTo(body, 'tr-tr', [0, 100], true);
+        
         /**
          * Add all the panels to the viewport
          */
@@ -356,7 +439,5 @@ Ext.application({
             });
 
         }
-
-
-    }
+    },
 });

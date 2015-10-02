@@ -48,7 +48,7 @@ public class SF0BoreholeFilter extends BoreholeFilter {
         List<String> parameterFragments = new ArrayList<String>();
         if (boreholeName != null && !boreholeName.isEmpty()) {
             parameterFragments.add(this.generatePropertyIsLikeFragment(
-                    "gsmlp:name", this.boreholeName));
+                    "gsmlp:name", "*" + this.boreholeName + "*"));
         }
 
         if (custodian != null && !custodian.isEmpty()) {
@@ -62,7 +62,7 @@ public class SF0BoreholeFilter extends BoreholeFilter {
         if (dateOfDrilling != null && !dateOfDrilling.isEmpty()) {
             parameterFragments.add(this.generatePropertyIsLikeFragment(
                     "gsmlp:drillStartDate",
-                    this.dateOfDrilling));
+                    "*" +  this.dateOfDrilling + "*"));
         }
 
         if (this.restrictToIDList != null && !this.restrictToIDList.isEmpty()) {

@@ -1,6 +1,7 @@
 package org.auscope.portal.server.web.controllers;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.methodmakers.filter.SimpleBBoxFilter;
 import org.auscope.portal.core.services.methodmakers.filter.SimplePropertyFilter;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
+import org.auscope.portal.core.services.responses.wfs.WFSGetCapabilitiesResponse;
 import org.auscope.portal.core.services.responses.wfs.WFSTransformedResponse;
 import org.auscope.portal.server.web.service.WFSService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -215,4 +217,70 @@ public class WFSController extends BasePortalController {
             response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
+    
+    /**
+     * Gets the Abstract  from the getCapabilities record if it is defined there.    
+     * The version is currently hardcoded in the WFSGetFeaturemethodMaker class.
+     * 
+     * @param serviceUrl The WMS URL to query
+     * @param version the version of the WFS to request
+     * @param name the name of the feature
+     */
+    @RequestMapping("/getWFSFeatureAbstract.do")
+    public ModelAndView getWFSFeatureAbstract(
+            @RequestParam("serviceUrl") String serviceUrl,
+            @RequestParam("version") String version,
+            @RequestParam("name") String name) throws Exception {
+
+        try {
+            String decodedServiceURL = URLDecoder.decode(serviceUrl, "UTF-8");
+            
+            WFSGetCapabilitiesResponse getCapabilitiesRecord = 
+                    wfsService.getCapabilitiesResponse(decodedServiceURL);           
+            
+            String featureAbstract = getCapabilitiesRecord.getFeatureAbstracts().get(name);
+            
+            return generateJSONResponseMAV(true, featureAbstract, "");
+
+        } catch (Exception e) {
+            log.warn(String.format("Unable to download WFS Feature Abstract for '%1$s'", serviceUrl));
+            log.debug(e);
+            return generateJSONResponseMAV(false, "", null);
+        }
+    }   
+    
+    /**
+     * Gets the MetadataURL  from the getCapabilities record if it is defined there.    
+     * The version is currently hardcoded in the WFSGetFeaturemethodMaker class.
+     * 
+     * @param serviceUrl The WMS URL to query
+     * @param version the version of the WFS to request
+     * @param name the name of the feature
+     */
+    @RequestMapping("/getWFSFeatureMetadataURL.do")
+    public ModelAndView getWFSFeatureMetadataURL(
+            @RequestParam("serviceUrl") String serviceUrl,
+            @RequestParam("version") String version,
+            @RequestParam("name") String name) throws Exception {
+
+        try {
+            /* 
+             * It might be preferable to create a nicer way of getting the data for the specific layer
+             * This implementation just loops through the whole capabilities document looking for the layer.
+             */
+            String decodedServiceURL = URLDecoder.decode(serviceUrl, "UTF-8");
+            
+            WFSGetCapabilitiesResponse getCapabilitiesRecord = 
+                    wfsService.getCapabilitiesResponse(decodedServiceURL);           
+            
+            String featureMetadataURL = getCapabilitiesRecord.getMetadataURLs().get(name);
+            
+            return generateJSONResponseMAV(true, featureMetadataURL, "");
+
+        } catch (Exception e) {
+            log.warn(String.format("Unable to download WFS Feature metadataURL for '%1$s'", serviceUrl));
+            log.debug(e);
+            return generateJSONResponseMAV(false, "", null);
+        }
+    }   
 }

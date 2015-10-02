@@ -601,7 +601,7 @@
         </property>
         <property name="order" value="53" />
     </bean>
-
+    
     <bean id="knownTypeGeologicalProvinceContact" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
         <constructor-arg name="id" value="geologicalProvinceContacts"/>
         <constructor-arg name="knownLayerSelector">
@@ -631,6 +631,310 @@
         <property name="proxyUrl" value=""/>
         <property name="proxyCountUrl" value=""/>
         <property name="order" value="311" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsCenozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsCenozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-Cenozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Cenozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Cenozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="312" />
+    </bean>
+    
+    <bean id="knownTypeSedimentaryBasinsMesozoicCenozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsMesozoicCenozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-MesozoicCenozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Mesozoic to Cenozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Mesozoic to Cenozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="313" />
+    </bean>
+    
+    <bean id="knownTypeSedimentaryBasinsMesozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsMesozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-Mesozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Mesozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Mesozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="314" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsPaleozoicCenozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsPaleozoicCenozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-PaleozoicCenozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Paleozoic to Cenozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Paleozoic to Cenozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="315" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsPaleozoicMesozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsPaleozoicMesozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-PaleozoicMesozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Paleozoic to Mesozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Paleozoic to Mesozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="316" />
+    </bean>
+    
+    <bean id="knownTypeSedimentaryBasinsLatePaleozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsLatePaleozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-LatePaleozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Late Paleozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Late Paleozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="317" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsEarlyToLatePaleozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsEarlyToLatePaleozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-EarlyToLatePaleozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Early To Late Paleozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Early to Late Paleozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="318" />
+    </bean>
+    
+    <bean id="knownTypeSedimentaryBasinsEarlyPaleozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsEarlyPaleozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-EarlyPaleozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Early Paleozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Early Paleozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="319" />
+    </bean>
+    
+    <bean id="knownTypeTectonicProvincesPaleozoicMesozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="tectonicProvincesPaleozoicMesozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="TectonicProvinces-PaleozoicMesozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Tectonic Provinces - Paleozoic to Mesozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Paleozoic to Mesozoic tectonic provinces of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="320" /> 
+    </bean>
+
+    <bean id="knownTypeTectonicProvincesNeoproterozoicPaleozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="tectonicProvincesNeoproterozoicPaleozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="TectonicProvinces-NeoproterozoicPaleozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Tectonic Provinces - Neoproterozoic to Paleozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Neoproterozoic to Paleozoic tectonic provinces of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="321" />
+    </bean>
+    
+    <bean id="knownTypeSedimentaryBasinsNeoproterozoicPaleozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsNeoproterozoicPaleozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-NeoproterozoicPaleozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Neoproterozoic to Paleozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Neoproterozoic to Paleozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="322" />
+    </bean> 
+
+    <bean id="knownTypeIgneousProvincesProterozoicPaleozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="igneousProvincesProterozoicPaleozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="IgneousProvinces-ProterozoicPaleozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Igneous Provinces - Proterozoic to Paleozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Proterozoic to Paleozoic igneous provinces of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="323" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsMesoproterozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsMesoproterozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-Mesoproterozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Mesoproterozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Mesoproterozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="324" />
+    </bean>
+
+    <bean id="knownTypeTectonicProvincesProterozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="tectonicProvincesProterozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="TectonicProvinces-Proterozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Tectonic Provinces - Proterozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Proterozoic tectonic provinces of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="325" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsPaleoproterozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsPaleoproterozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-Paleoproterozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Paleoproterozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Paleoproterozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="326" />
+    </bean>
+
+    <bean id="knownTypeSedimentaryBasinsArcheanPaleoproterozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="sedimentaryBasinsArcheanPaleoproterozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="SedimentaryBasins-ArcheanPaleoproterozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Sedimentary Basins - Archean to Paleoproterozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Archean to Paleoproterozoic sedimentary basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="327" />
+    </bean>
+
+    <bean id="knownTypeTectonicProvincesArcheanProterozoic" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="tectonicProvincesArcheanProterozoic"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="TectonicProvinces-ArcheanProterozoic"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Tectonic Provinces - Archean to Proterozoic"/>
+        <property name="description" value="Descriptions and spatial extents of Archean to Proterozoic tectonic provinces basins of the Australian continent and offshore surrounds. 
+        The full 2D spatial extent of provinces (ie, including the extent of a province under any overlying cover material) has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="328" />
+    </bean>
+
+    <bean id="knownTypeCrustalElements" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="crustalElements"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="CrustalElements"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Crustal Elements"/>
+        <property name="description" value="The Australian Crustal Elements data layer delineates major upper crustal elements, primarily based on composite geophysical domains, each of which shows a distinctive pattern of magnetic and gravity anomalies. 
+        These elements generally relate to older basement, rather than the younger sedimentary basins."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="329" />
+    </bean>
+
+    <bean id="knownTypeAllGeologicalProvinces" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="allGeologicalProvinces"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="AllProvinces"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="All Provinces"/>
+        <property name="description" value="Descriptions and spatial extents of the fundamental geological elements of the Australian continent and offshore surrounds. Province types include sedimentary basins, tectonic provinces such as cratons and orogens, igneous provinces, and metallogenic provinces. 
+        The full 2D spatial extent (ie, including the extent of a province under any overlying cover material) of provinces has been captured."/>
+        <property name="group" value="Geological Provinces"/>
+        <property name="proxyUrl" value=""/>
+        <property name="proxyCountUrl" value=""/>
+        <property name="order" value="330" />
     </bean>
 
    <bean id="knownTypeAster" class="org.auscope.portal.core.view.knownlayer.KnownLayer">

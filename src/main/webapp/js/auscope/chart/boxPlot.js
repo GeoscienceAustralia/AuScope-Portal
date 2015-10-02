@@ -108,7 +108,7 @@ Ext.define('auscope.chart.boxPlot', {
                 if (rowMin < min) min = rowMin; 
             });
           
-            var chart = d3.box()
+            var chart = d3_box()
                 .whiskers(iqr(1.5))
                 .height(height) 
                 .domain([min, max])
