@@ -191,6 +191,27 @@ Ext.application({
         
         });
 
+        //Create our store for holding the set of active layers that have been added to the map
+        var activeLayerStore = Ext.create('auscope.layer.ActiveLayerStore', {});
+
+        var activeLayersPanel = Ext.create('portal.widgets.panel.ActiveLayerPanel', {
+            //title : 'Featured2',
+            menuFactory : Ext.create('auscope.layer.AuscopeFilterPanelMenuFactory',{map : map}),
+            store : activeLayerStore,
+            //activelayerstore : layerStore,
+            map : map,
+            layerFactory : layerFactory,
+            tooltip : {
+                anchor : 'top',
+                title : 'Featured Layers',
+                text : '<p1>This is where the portal groups data services with a common theme under a layer. This allows you to interact with multiple data providers using a common interface.</p><br><p>The underlying data services are discovered from a remote registry. If no services can be found for a layer, it will be disabled.</p1>',
+                showDelay : 100,
+                icon : 'img/information.png',
+                dismissDelay : 30000
+            }
+        
+        });
+
         var unmappedRecordsPanel = Ext.create('portal.widgets.panel.CSWRecordPanel', {
             title : 'Registered',
             store : unmappedCSWRecordStore,
@@ -310,22 +331,22 @@ Ext.application({
 //        });
         
         // Create the Ext widget to display the Active Layers in the activeLayersPanel
-        var activeLayerDisplay = Ext.create('auscope.widgets.panel.ActiveLayersDisplayPanel', {
-            id : 'activeLayers',
-            //renderTo : 'activeLayers',  // Ext.getBody(),    //
-            height: 200,
-            width: 400,
-            //xxx activeLayerStore : layerStore,
-            html : '<div id="activeLayers">Active Layers</div>',
+//        var activeLayerDisplay = Ext.create('auscope.widgets.panel.ActiveLayersDisplayPanel', {
+//            id : 'activeLayers',
+//            //renderTo : 'activeLayers',  // Ext.getBody(),    //
+//            height: 200,
+//            width: 400,
+//            //xxx activeLayerStore : layerStore,
+//            html : '<div id="activeLayers">Active Layers</div>',
 //            tooltip : {
 //                title : 'Active Layers tooltip',
 //                text : '<p1>The layers in this panel are the active layers that have chosen to be displayed.</p1>',
 //                showDelay : 100,
 //                dismissDelay : 30000
 //            }
-        });
+//        });
         
-        portal.events.AppEvents.addListener(activeLayerDisplay);
+//        portal.events.AppEvents.addListener(activeLayerDisplay);
 
         var mpc = Ext.create('Ext.panel.Panel', {
             id : 'activeLayersPanel',
@@ -337,7 +358,7 @@ Ext.application({
              },
              renderTo: body,
              items : [
-                  activeLayerDisplay,
+                  activeLayersPanel,     //activeLayerDisplay,
                   {
                      xtype : 'label',
                      id : 'baseMap',
