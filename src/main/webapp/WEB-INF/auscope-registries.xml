@@ -10,8 +10,8 @@
     <bean id="cswGeoscienceLocal" class="org.auscope.portal.core.services.csw.CSWServiceItem">
         <constructor-arg name="id" value="cswGeoscienceLocal"/>
         <constructor-arg name="title" value="Geoscience developer Geonetwork"/>
-        <constructor-arg name="serviceUrl" value="http://localhost:8080/geonetwork/srv/eng/csw"/>
-        <constructor-arg name="recordInformationUrl" value="http://localhost:8080/geonetwork/srv/eng/main.home?uuid=%1$s"/>
+        <constructor-arg name="serviceUrl" value="http://localhost:8090/geonetwork/srv/eng/csw"/>
+        <constructor-arg name="recordInformationUrl" value="http://localhost:8090/geonetwork/srv/eng/main.home?uuid=%1$s"/>
     </bean>
 
     <bean id="cswGeoscienceDev" class="org.auscope.portal.core.services.csw.CSWServiceItem">

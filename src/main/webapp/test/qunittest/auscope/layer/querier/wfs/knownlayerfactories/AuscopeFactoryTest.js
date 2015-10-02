@@ -44,7 +44,7 @@ test( "Test AuScopeParser", function() {
         name : 'test',
     })
 
-   equal(auscopeParser.factoryNames.length,13, 'Count Number of factories configured ');
+    equal(auscopeParser.factoryNames.length,15, 'Count Number of factories configured ');
 
     var auscopeklParser = new auscope.layer.querier.wfs.AuScopeKnownLayerParser({
         name : 'test',

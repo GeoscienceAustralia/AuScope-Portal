@@ -496,6 +496,17 @@ Ext.define('auscope.widgets.GAOnlineResourcesPanel', {
                   width : 600,
                   height : 300,
                   autoScroll : true,
+                  html : '<div class="layerabstractpopupbody">' +  data + '</div>',
+                  items : [ {                        
+                      xtype: 'panel', 
+                      layout : 'column',
+                      maxHeight : 300,
+                      autoScroll : true,
+                      items : [{
+                        html : data
+                      }]   
+                  }],
+                  autoScroll : true,
                   html : '<div class="layerabstractpopupbody">' +  data + '</div>'
               }).show();
           };
