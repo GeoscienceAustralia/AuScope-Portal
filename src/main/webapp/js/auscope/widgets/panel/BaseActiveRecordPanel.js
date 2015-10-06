@@ -14,6 +14,7 @@
  * functions of this class
  *
  */
+
 Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
     extend : 'Ext.grid.Panel',
     alias: 'widget.baseactiverecordpanel',
@@ -39,7 +40,7 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
 
         Ext.apply(cfg, {
             cls : 'auscope-dark-grid',
-            hideHeaders : false,
+            hideHeaders : true,
             features : [groupingFeature],
             viewConfig : {
                 emptyText : '<p class="centeredlabel">No records match the current filter.</p>',
@@ -83,70 +84,71 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
                 sortable: false,
                 menuDisabled: true,
              },{
-                    text : 'Name',
-                    dataIndex : 'name',
-                    flex : 1,
-                    renderer : this._titleRenderer
-                },{
-                    text : 'info',
-                    xtype : 'actioncolumn',
-                    dataIndex : 'info',
-                    width: 32,
-                    align: 'center',
-                    icon : 'portal-core/img/information.png',
-                    //tooltip: 'Legend',// Tooltip.  Click for detailed information about the web services this layer utilises.',
-                    getTip: function(value, metadata, record, row, col, store) {
-                        return 'Legend';
-                    },
-                    tooltipType: 'title',
-                    sortable: false,
-                    menuDisabled: true,
-                    handler : function(view, rowIndex, colIndex, item, event, record, row) {
-                        me._serviceInformationClickHandler(record);
-                    }
-                 },{
-                    text : 'legend',
-                    xtype : 'actioncolumn',
-                    dataIndex : 'legend',
-                    width: 32,
-                    align: 'center',
-                    icon : 'portal-core/img/key.png',
-                    //tooltip: 'Legend',// Tooltip.  Click for detailed information about the web services this layer utilises.',
-                    getTip: function(value, metadata, record, row, col, store) {
-                        return 'Legend';
-                    },
-                    tooltipType: 'title',
-                    sortable: false,
-                    menuDisabled: true,
-                    handler : function(view, rowIndex, colIndex, item, event, layer, row) {
-                        me._getLegendAction(layer).execute();
-                    }
-                },{
-                    text : 'Visible',
-                    xtype : 'actioncolumn',
-                    dataIndex : 'visible',
-                    width: 32,
-                    align: 'center',
-                    icon : 'portal-core/img/eye.png',
-                    tooltip: 'Visible',// Tooltip.  Click for detailed information about the web services this layer utilises.',
-                    sortable: false,
-                    menuDisabled: true,
-                    handler : function(view, rowIndex, colIndex, item, event, layer, row) {
-                        me._setVisibilityAction(layer).execute();
-                    }
-                },{
-                    text : 'Remove',
-                    xtype : 'actioncolumn',
-                    dataIndex : 'remove',
-                    width: 32,
-                    align: 'center',
-                    icon : 'portal-core/img/cross.png',
-                    tooltip: 'Remove',// Tooltip.  Click for detailed information about the web services this layer utilises.',
-                    sortable: false,
-                    menuDisabled: true,
-                    handler : function(view, rowIndex, colIndex, item, event, layer, row) {
-                        AppEvents.broadcast('removelayer', {layer:layer, rowIdx:rowIndex});
-                    }
+                text : 'Name',
+                dataIndex : 'name',
+                flex : 1,
+                renderer : this._titleRenderer
+            },{
+                text : 'info',
+                id : 'infoBLAHBLAH',
+                xtype : 'actioncolumn',
+                dataIndex : 'info',
+                width: 32,
+                align: 'center',
+                icon : 'portal-core/img/information.png',
+//                tooltip: 'Legend',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+//                getTip: function(value, metadata, record, row, col, store) {
+//                    return 'Legend';
+//                },
+//                tooltipType: 'qtip',
+                sortable: false,
+                menuDisabled: true,
+                handler : function(view, rowIndex, colIndex, item, event, record, row) {
+                    me._serviceInformationClickHandler(record);
+                }
+             },{
+                text : 'legend',
+                xtype : 'actioncolumn',
+                dataIndex : 'legend',
+                width: 32,
+                align: 'center',
+                icon : 'portal-core/img/key.png',
+                //tooltip: 'Legend',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+                getTip: function(value, metadata, record, row, col, store) {
+                    return 'Legend';
+                },
+                tooltipType: 'title',
+                sortable: false,
+                menuDisabled: true,
+                handler : function(view, rowIndex, colIndex, item, event, layer, row) {
+                    me._getLegendAction(layer).execute();
+                }
+            },{
+                text : 'Visible',
+                xtype : 'actioncolumn',
+                dataIndex : 'visible',
+                width: 32,
+                align: 'center',
+                icon : 'portal-core/img/eye.png',
+                tooltip: 'Visible',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+                sortable: false,
+                menuDisabled: true,
+                handler : function(view, rowIndex, colIndex, item, event, layer, row) {
+                    me._setVisibilityAction(layer).execute();
+                }
+            },{
+                text : 'Remove',
+                xtype : 'actioncolumn',
+                dataIndex : 'remove',
+                width: 32,
+                align: 'center',
+                icon : 'portal-core/img/cross.png',
+                tooltip: 'Remove',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+                sortable: false,
+                menuDisabled: true,
+                handler : function(view, rowIndex, colIndex, item, event, layer, row) {
+                    AppEvents.broadcast('removelayer', {layer:layer, rowIdx:rowIndex});
+                }
               }],
               plugins:[{                
                   ptype : 'rowexpandercontainer',
@@ -876,3 +878,5 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
         win.show();
     }
 });
+
+var tip = Ext.create('Ext.tip.ToolTip', {target : 'infoBLAHBLAH', html : 'simple tooltip for info'});

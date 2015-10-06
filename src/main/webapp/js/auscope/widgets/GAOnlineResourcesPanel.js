@@ -6,11 +6,7 @@
  */
 Ext.define('auscope.widgets.GAOnlineResourcesPanel', {
     extend : 'Ext.grid.Panel',
-<<<<<<< HEAD
     alias : 'widget.gaonlineresourcespanel',
-=======
-    alias : 'widget.gaonlineresourcepanel',
->>>>>>> GPT-37 Refactored the GA changes to the online resources panel into a new widget. The widget that a portal uses can now be injected by the portal proper.
 
     //Array of portal.csw.CSWRecord objects
     cswRecords : null, 
