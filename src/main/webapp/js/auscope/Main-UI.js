@@ -319,35 +319,6 @@ Ext.application({
             console.log("renderActiveLayers - divId: "+divId);
         }
 
-//        var simpsonsStore = Ext.create('Ext.data.Store', {
-//            storeId: 'simpsonsStore',
-//            fields:[ 'name', 'email', 'phone'],
-//            data: [
-//                { name: 'Lisa', email: 'lisa@simpsons.com', phone: '555-111-1224' },
-//                { name: 'Bart', email: 'bart@simpsons.com', phone: '555-222-1234' },
-//                { name: 'Homer', email: 'homer@simpsons.com', phone: '555-222-1244' },
-//                { name: 'Marge', email: 'marge@simpsons.com', phone: '555-222-1254' }
-//            ]
-//        });
-        
-        // Create the Ext widget to display the Active Layers in the activeLayersPanel
-//        var activeLayerDisplay = Ext.create('auscope.widgets.panel.ActiveLayersDisplayPanel', {
-//            id : 'activeLayers',
-//            //renderTo : 'activeLayers',  // Ext.getBody(),    //
-//            height: 200,
-//            width: 400,
-//            //xxx activeLayerStore : layerStore,
-//            html : '<div id="activeLayers">Active Layers</div>',
-//            tooltip : {
-//                title : 'Active Layers tooltip',
-//                text : '<p1>The layers in this panel are the active layers that have chosen to be displayed.</p1>',
-//                showDelay : 100,
-//                dismissDelay : 30000
-//            }
-//        });
-        
-//        portal.events.AppEvents.addListener(activeLayerDisplay);
-
         var mpc = Ext.create('Ext.panel.Panel', {
             id : 'activeLayersPanel',
             title : 'Active Layers',

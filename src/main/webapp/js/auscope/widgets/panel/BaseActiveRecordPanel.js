@@ -50,30 +50,6 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
                     dragText: 'Drag and drop to reorganize'
                 }
             },          
-//            dockedItems : [{
-//                xtype : 'toolbar',
-//                dock : 'top',
-//                portalName : 'search-bar', //used for distinguishing this toolbar
-//                items : [{
-//                    xtype : 'label',
-//                    text : 'Search: '
-//                },{
-//                    xtype : 'clientsearchfield',
-//                    id : 'hh-searchfield-' + cfg.title.replace(' ',''),
-//                    width : 200,
-//                    fieldName: 'name',
-//                    store : cfg.store
-//                },{
-//                    xtype : 'button',
-//                    id : 'hh-filterDisplayedLayer-' + cfg.title.replace(' ',''),
-//                    text : 'View by',
-//                    iconCls : 'filter',
-//                    tooltip: 'Provide more options for filtering layer\'s view',
-//                    arrowAlign : 'right',
-//                    menu : menuItems
-//                   
-//                }]
-//            }], 
             columns : [{
                 text : 'Drag',
                 xtype : 'actioncolumn',
@@ -96,6 +72,7 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
                 width: 32,
                 align: 'center',
                 icon : 'portal-core/img/information.png',
+                // Still trying to get tooltips going and also investigating crating 'Ext.tip.Tooltip' objects (at bottom of this)
 //                tooltip: 'Legend',// Tooltip.  Click for detailed information about the web services this layer utilises.',
 //                getTip: function(value, metadata, record, row, col, store) {
 //                    return 'Legend';
@@ -113,7 +90,7 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
                 width: 32,
                 align: 'center',
                 icon : 'portal-core/img/key.png',
-                //tooltip: 'Legend',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+                //tooltip: 'Legend',
                 getTip: function(value, metadata, record, row, col, store) {
                     return 'Legend';
                 },
@@ -130,7 +107,7 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
                 width: 32,
                 align: 'center',
                 icon : 'portal-core/img/eye.png',
-                tooltip: 'Visible',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+                tooltip: 'Visible',
                 sortable: false,
                 menuDisabled: true,
                 handler : function(view, rowIndex, colIndex, item, event, layer, row) {
@@ -143,7 +120,7 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
                 width: 32,
                 align: 'center',
                 icon : 'portal-core/img/cross.png',
-                tooltip: 'Remove',// Tooltip.  Click for detailed information about the web services this layer utilises.',
+                tooltip: 'Remove',
                 sortable: false,
                 menuDisabled: true,
                 handler : function(view, rowIndex, colIndex, item, event, layer, row) {
@@ -293,17 +270,6 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
             detachOnRemove : false,
             map         : this.map,
             renderTo    : parentElId,
-//            listeners : {
-//                addlayer : function(layer){
-//                    me.activelayerstore.suspendEvents(true);
-//                    me.activelayerstore.insert(0,layer); //this adds the layer to our store
-//                    me.activelayerstore.resumeEvents();
-//                    console.log("Added layer: ", layer);
-//                },
-//                removelayer : function(layer){
-//                    me.activelayerstore.remove(layer);
-//                }
-//            }
         });   
         
         return panel
@@ -329,8 +295,9 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
             iconCls : 'tick',
             tooltip: 'Display only active layer',
             handler : function(){
-//                var rowExpander = me.getPlugin('maingrid_rowexpandercontainer');
-//                rowExpander.closeAllContainers();          
+                                // TODO: Do I need this but using the new id for rowexpandercontainer?
+                                // var rowExpander = me.getPlugin('maingrid_rowexpandercontainer');
+                                //                rowExpander.closeAllContainers();          
                 
                 //function to check if layer is active on map
                 var filterFn = function(rec) {
@@ -351,8 +318,9 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
             iconCls : 'data',
             tooltip: 'Display layer with data service',
             handler : function(){
-//                var rowExpander = me.getPlugin('maingrid_rowexpandercontainer');
-//                rowExpander.closeAllContainers();          
+                                // TODO: Do I need this but using the new id for rowexpandercontainer?
+                                // var rowExpander = me.getPlugin('maingrid_rowexpandercontainer');
+                                //                rowExpander.closeAllContainers();          
                 
                 //function to if layer contains data service
                 var filterFn = function(rec) {
@@ -384,8 +352,9 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
             iconCls : 'portrayal',
             tooltip: 'Display layers with image service',
             handler : function(){
-//                var rowExpander = me.getPlugin('maingrid_rowexpandercontainer');
-//                rowExpander.closeAllContainers();          
+                                // TODO: Do I need this but using the new id for rowexpandercontainer?
+                                // var rowExpander = me.getPlugin('maingrid_rowexpandercontainer');
+                                //                rowExpander.closeAllContainers();          
                 
                 //function to if layer contains image service
                 var filterFn = function(rec) {           
@@ -879,4 +848,5 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
     }
 });
 
+// An attempt to get tooltips working.  Also trying in-line ones.
 var tip = Ext.create('Ext.tip.ToolTip', {target : 'infoBLAHBLAH', html : 'simple tooltip for info'});
