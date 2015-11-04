@@ -143,28 +143,28 @@
                 <ref bean="cswGaDev" />
                 <ref bean="cswGswaDev" />
                 <ref bean="cswMineralResourcesTasmaniaDev" />
-<!--                 <ref bean="cswGeoscienceLocal" /> -->
+                <!-- <ref bean="cswGeoscienceLocal" /> -->
 <!--                 <ref bean="darwinDev" /> -->
-<!-- 				<ref bean="cswAuscopeTest" /> -->
-<!--       			<ref bean="cswAuscopeProduction"/> -->
-<!--       			<ref bean="cswMDUTest"/>	 -->
-<!-- 				<ref bean="cswMDUProduction"/> -->
-<!-- 				<ref bean="cswAsterProduction"/> -->
-<!-- 				<ref bean="cswInSarProduction" /> -->
-				<!--  try below -->
-<!-- 				<ref bean="cswGswaDev" />  -->
-<!--  				<ref bean="cswMineralResourcesTasmaniaDev" /> -->
-<!-- 				<ref bean="cswAuscopeTest" />  -->
-<!-- 				<ref bean="cswAuscopeProduction" />  -->
-<!-- 				<ref bean="cswMDUTest" /> -->
-<!-- 				<ref bean="cswMDUProduction" /> -->
-<!-- 				<ref bean="cswSissANUProduction" /> -->
-<!-- 				<ref bean="cswGAPetroleumTest" /> -->
-<!-- 				<ref bean="cswInSarTest" /> -->
-<!-- 				<ref bean="cswInSarProduction" /> -->
-<!-- 				<ref bean="cswMRTTest" /> -->
-<!-- 				<ref bean="cswMRTProduction" /> -->
-<!-- 				<ref bean="cswVeglProduction" /> -->
+                <!-- <ref bean="cswAuscopeTest" /> -->
+                <!-- <ref bean="cswAuscopeProduction"/> -->
+                <!-- <ref bean="cswMDUTest"/>     -->
+<!--                <ref bean="cswMDUProduction"/> -->
+<!--                <ref bean="cswAsterProduction"/> -->
+<!--                <ref bean="cswInSarProduction" /> -->
+                <!--  try below -->
+<!--                <ref bean="cswGswaDev" />  -->
+<!--                <ref bean="cswMineralResourcesTasmaniaDev" /> -->
+<!--                <ref bean="cswAuscopeTest" />  -->
+<!--                <ref bean="cswAuscopeProduction" />  -->
+<!--                <ref bean="cswMDUTest" /> -->
+<!--                <ref bean="cswMDUProduction" /> -->
+<!--                <ref bean="cswSissANUProduction" /> -->
+<!--                <ref bean="cswGAPetroleumTest" /> -->
+<!--                <ref bean="cswInSarTest" /> -->
+<!--                <ref bean="cswInSarProduction" /> -->
+<!--                <ref bean="cswMRTTest" /> -->
+<!--                <ref bean="cswMRTProduction" /> -->
+<!--                <ref bean="cswVeglProduction" /> -->
             </list>
         </constructor-arg>
     </bean>
