@@ -119,6 +119,12 @@
                 <ref bean="knownTypeOil" />             
                 <ref bean="knownTypeGas" />             
                 <ref bean="knownTypeMajorPorts" />              
+                <ref bean="knownTypeProtectedAreasCapid2014Marine" />              
+                <ref bean="knownTypeProtectedAreasCapid2014Terrestrial" />              
+                <ref bean="knownTypeWorld_Heritage_Areas_2007" />              
+                <ref bean="knownTypeDefence_Prohibited_Areas" />              
+                <ref bean="knownTypeDefence_Practice_Areas" />              
+                <ref bean="knownTypeDefence_Training_Areas" />              
             </list>
         </constructor-arg>
     </bean>

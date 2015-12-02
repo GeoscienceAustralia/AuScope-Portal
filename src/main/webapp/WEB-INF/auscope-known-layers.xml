@@ -1680,5 +1680,89 @@
         <property name="order" value="535" />
     </bean>
     <!-- END: GPT-74 - Topology and Infrastructure -->
-
+    <!-- GPT-106 - Restricted Areas -->
+    <bean id="knownTypeProtectedAreasCapid2014Marine" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="protectedAreasCapid2014Marine"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="Protected_Areas_CAPAD_2014_Marine"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Protected Areas Capid 2014 - Marine"/>
+        <property name="description" value="The Collaborative Australian Protected Areas Database (CAPAD) 2014 is published by the Australian Commonwealth Department of Environment, and provides both spatial and text information about government, Indigenous and privately protected areas for continental Australia. State and Territory conservation agencies supplied data current to 30 June 2014. The terrestrial component of the database has been previously released in 1997, 2000, 2002, 2004, 2006, 2008 2010 and 2012.
+This version, provides both spatial and text information about off-shore protected areas in both state and Commonwealth waters. State and Territory conservation agencies supplied data current for 30 June 2014. This is the seventh version of the CAPAD- Marine database, with previous versions published in 1997, 2002, 2004, 2008 2010 and 2012. 
+CAPAD provides a snapshot of protected areas that meet the IUCN definition of a protected area:
+'A protected area is an area of land and/or sea especially dedicated to the protection and maintenance of biological diversity, and of natural and associated cultural resources, and managed through legal or other effective means' (IUCN 1994).
+The Australian Government Department of the Environment (DOE) publishes a summary of the CAPAD data biennially on its website at http://www.environment.gov.au/capad
+This version of CAPAD 2014-Marine is a public / downloadable dataset available for use through the CC-BY licencing model.  "/>
+        <property name="group" value="Restricted Areas"/>
+        <property name="order" value="600" />
+    </bean>
+    <bean id="knownTypeProtectedAreasCapid2014Terrestrial" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="protectedAreasCapid2014Terrestrial"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="Protected_Areas_CAPAD_2014_Terrestrial"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Protected Areas Capid 2014 - Terrestrial"/>
+        <property name="description" value="The Collaborative Australian Protected Areas Database (CAPAD) 2014 is published by the Australian Commonwealth Department of Environment, and provides both spatial and text information about government, indigenous and privately protected areas for continental Australia. State and Territory conservation agencies supplied data current to 30 June 2014. This is the ninth version of the database, with previous versions released in 1997, 2000, 2002, 2004, 2006, 2008, 2010 and 2012. 
+The Department also publishes protected areas data for the marine environment. 'CAPAD 2014-marine' contains spatial and text information about offshore protected areas, for both State and Commonwealth waters. Previous versions of CAPAD marine information have been published in 1997, 2002, 2004, 2008, 2010 and 2012. 
+CAPAD provides a snapshot of protected areas that meet the IUCN definition of a protected area."/>
+        <property name="group" value="Restricted Areas"/>
+        <property name="order" value="605" />
+    </bean>
+    <bean id="knownTypeWorld_Heritage_Areas_2007" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="World_Heritage_Areas_2007"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="World_Heritage_Areas_2007"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="World Heritage Areas 2007"/>
+        <property name="description" value="There are currently fifteen (15) Australian properties on the World Heritage List, as of January 2004. (This dataset was acquired from Department of Environment in 2007) 
+The Great Barrier Reef, the Tasmanian Wilderness, the Wet Tropics of Queensland and Shark Bay meet all four World Heritage criteria for natural heritage, with Kakadu National Park, Uluru-Kata Tjuta National Park, Willandra Lakes Region and the Tasmanian Wilderness being listed for both natural and cultural criteria. 
+The Australian Fossil Mammal Sites (Naracoorte/Riversleigh), Lord Howe Island Group, Central Eastern Rainforest Reserves of Australia, Fraser Island, Macquarie Island, Heard and McDonald Islands, the Greater Blue Mountains Area and Purnululu National Park are listed under the World Heritage criteria for natural heritage. 
+A single Australian World Heritage Areas database has been created by combining data which was historically stored as a separate set of data for each property. All data are GDA compliant and use the WGS84 spheroid and datum.
+The coastal boundary for the Great Barrier Reef World Heritage Area is interim. This line is only INDICATIVE of 'mean low tide', as stated in the World Heritage inscription. An appropriate caveat must accompany this data when used for analysis or map production."/>
+        <property name="group" value="Restricted Areas"/>
+        <property name="order" value="610" />
+    </bean>
+    <bean id="knownTypeDefence_Prohibited_Areas" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="Defence_Prohibited_Areas"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="Defence_Prohibited_Areas"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Defence Prohibited Areas"/>
+        <property name="description" value="Defence prohibited areas are defined under the Defence Act 1903 and the Defence Force Regulations 1952 and are Defence premises used for testing of war materiel under the control of the Royal Australian Air Force or Australian Army."/>
+        <property name="group" value="Restricted Areas"/>
+        <property name="order" value="610" />
+    </bean>
+    <bean id="knownTypeDefence_Practice_Areas" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="Defence_Practice_Areas"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="Defence_Practice_Areas"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Defence Practice Areas"/>
+        <property name="description" value="Defence Practice Areas are public safety exclusion zones located over areas to protect the public. The public safety exclusion zones are enforced to protect the public in the unlikely event of weapon system malfunction. It is very dangerous to be on land at any time, or on the water inside the Defence Practice Area public safety exclusion zones when aircraft are using the range for bombing or air-to-ground gunnery. Data included in this layer is indicative only and should not be used for detailed planning."/>
+        <property name="group" value="Restricted Areas"/>
+        <property name="order" value="615" />
+    </bean>
+    <bean id="knownTypeDefence_Training_Areas" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+        <constructor-arg name="id" value="Defence_Training_Areas"/>
+        <constructor-arg name="knownLayerSelector">
+            <bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+                <constructor-arg name="layerName" value="Defence_Training_Areas"/>
+            </bean>
+        </constructor-arg>
+        <property name="name" value="Defence Training Areas"/>
+        <property name="description" value="Defence Training Areas are used for the maintenance of combat skills through continuous individual and collective capability training."/>
+        <property name="group" value="Restricted Areas"/>
+        <property name="order" value="620" />
+    </bean>
+    <!-- END: GPT-106 - Restricted Areas -->
 </beans>
