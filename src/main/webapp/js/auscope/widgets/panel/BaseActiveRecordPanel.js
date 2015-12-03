@@ -35,10 +35,20 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
             hideHeaders : true,
             viewConfig : {
                 emptyText : '<p class="centeredlabel">No records match the current filter.</p>',
-                preserveScrollOnRefresh: true    ,
+                preserveScrollOnRefresh: true,
                 plugins: {
                     ptype: 'gridviewdragdrop',
-                    dragText: 'Drag and drop to reorganize'
+                    dragText: 'Drag and drop to reorganize',
+                    dragZone: {
+                        onBeforeDrag: function(data, e) {
+                            draggedCell = Ext.get(e.target);    //.parentNode);
+                            if (draggedCell.hasCls('isDraggable')) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
                 },
                 listeners: {
                     drop: function(node, data, overModel, dropPosition,  dropFunction,  eOpts ){
@@ -50,17 +60,21 @@ Ext.define('portal.widgets.panel.BaseActiveRecordPanel', {
             },          
             columns : [{
                 text : 'Drag',
-                xtype : 'actioncolumn',
+                renderer : this._dragIconRenderer,  //  icon : 'img/play_blue.png'
                 width: 32,
                 align: 'center',
-                icon : 'img/play_blue.png',
                 sortable: false,
-                menuDisabled: true,
+                menuDisabled: false,
+                draggable: true,
+                tdCls: 'isDraggable',
+                tooltip: 'Drag to re-order layers'
              },{
                 text : 'Name',
                 dataIndex : 'name',
                 flex : 1,
-                renderer : this._titleRenderer
+                renderer : this._titleRenderer,
+                menuDisabled: true,
+                tooltip: 'Click for more options',
             },{
                 text : 'info',
                 id : 'info',
