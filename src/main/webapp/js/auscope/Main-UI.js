@@ -307,7 +307,6 @@ Ext.application({
             enableTabScroll : true,
             items:[
                 knownLayersPanel,
-                unmappedRecordsPanel,
                 customRecordsPanel,
                 researchDataPanel
             ]
