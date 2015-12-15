@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletResponse;
+
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
@@ -66,11 +68,12 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam("mineName") String mineName,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
+                    throws Exception {
 
-        //The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
-        //This will in turn limit the number of points returned to 200
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
+        // This will in turn limit the number of points returned to 200
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         try {
             WFSTransformedResponse response = this.mineralOccurrenceService.getMinesGml(serviceUrl, mineName, bbox,
@@ -103,11 +106,12 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam("mineName") String mineName,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
+                    throws Exception {
 
-        //The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
-        //This will in turn limit the number of points returned to 200
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
+        // This will in turn limit the number of points returned to 200
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         try {
             WFSCountResponse response = this.mineralOccurrenceService.getMinesCount(serviceUrl, mineName, bbox,
@@ -147,13 +151,14 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(value = "minCommodityAmountUOM", required = false) String minCommodityAmountUOM,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-        //The presence of a bounding box causes us to assume we will be using this GML for visualising on a map
-        //This will in turn limit the number of points returned to 200
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+                    throws Exception {
+        // The presence of a bounding box causes us to assume we will be using this GML for visualising on a map
+        // This will in turn limit the number of points returned to 200
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         try {
-            //get the mineral occurrences
+            // get the mineral occurrences
             WFSTransformedResponse response = this.mineralOccurrenceService.getMineralOccurrenceGml(
                     serviceUrl,
                     commodityName,
@@ -201,13 +206,14 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(value = "minCommodityAmountUOM", required = false) String minCommodityAmountUOM,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-        //The presence of a bounding box causes us to assume we will be using this GML for visualising on a map
-        //This will in turn limit the number of points returned to 200
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+                    throws Exception {
+        // The presence of a bounding box causes us to assume we will be using this GML for visualising on a map
+        // This will in turn limit the number of points returned to 200
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         try {
-            //get the mineral occurrences
+            // get the mineral occurrences
             WFSCountResponse response = this.mineralOccurrenceService.getMineralOccurrenceCount(
                     serviceUrl,
                     commodityName,
@@ -255,24 +261,16 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(required = false, value = "production", defaultValue = "") String production,
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception
-    {
-        //The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
-        //This will in turn limit the number of points returned to 200
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+                    throws Exception {
+        // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
+        // This will in turn limit the number of points returned to 200
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         try {
             // Get the mining activities
-            WFSTransformedResponse response = this.mineralOccurrenceService.getMiningActivityGml(serviceUrl
-                    , mineName
-                    , startDate
-                    , endDate
-                    , oreProcessed
-                    , producedMaterial
-                    , cutOffGrade
-                    , production
-                    , maxFeatures
-                    , bbox);
+            WFSTransformedResponse response = this.mineralOccurrenceService.getMiningActivityGml(serviceUrl, mineName,
+                    startDate, endDate, oreProcessed, producedMaterial, cutOffGrade, production, maxFeatures, bbox);
 
             return generateJSONResponseMAV(true, response.getGml(), response.getTransformed(), response.getMethod());
         } catch (Exception e) {
@@ -309,24 +307,17 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(required = false, value = "production", defaultValue = "") String production,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
+                    throws Exception {
 
-        //The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
-        //This will in turn limit the number of points returned to 200
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
+        // This will in turn limit the number of points returned to 200
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         try {
             // Get the mining activities
-            WFSCountResponse response = this.mineralOccurrenceService.getMiningActivityCount(serviceUrl
-                    , mineName
-                    , startDate
-                    , endDate
-                    , oreProcessed
-                    , producedMaterial
-                    , cutOffGrade
-                    , production
-                    , maxFeatures
-                    , bbox);
+            WFSCountResponse response = this.mineralOccurrenceService.getMiningActivityCount(serviceUrl, mineName,
+                    startDate, endDate, oreProcessed, producedMaterial, cutOffGrade, production, maxFeatures, bbox);
 
             return generateJSONResponseMAV(true, new Integer(response.getNumberOfFeatures()), "");
         } catch (Exception e) {
@@ -361,8 +352,8 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(required = false, value = "production", defaultValue = "") String production,
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-        //FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
+                    throws Exception {
+        // FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
         FilterBoundingBox bbox = null;
         // Get the mining activities
         // VT: Currently not working as GeoServer is returning strange error for this filer
@@ -400,8 +391,8 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(required = false, value = "mineName", defaultValue = "") String mineName,
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-        //FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
+                    throws Exception {
+        // FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
         FilterBoundingBox bbox = null;
         // Get the mining activities
         String filter = this.mineralOccurrenceService.getMineFilter(mineName,
@@ -436,8 +427,8 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(value = "commodityName", required = false) String commodityName,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-        //FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
+                    throws Exception {
+        // FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
         FilterBoundingBox bbox = null;
         // Get the mining activities
         String unescapeCommodityName = "";
@@ -480,8 +471,8 @@ public class EarthResourcesFilterController extends BasePortalController {
             @RequestParam(required = false, value = "minResources") String minResources,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-        //FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
+                    throws Exception {
+        // FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(URLDecoder.decode(bboxJson,"UTF-8"));
         FilterBoundingBox bbox = null;
         // Get the mining activities
         String unescapeCommodityName = "";
@@ -506,7 +497,7 @@ public class EarthResourcesFilterController extends BasePortalController {
     }
 
     public String getStyle(String filter, String name, String color) {
-        //VT : This is a hack to get around using functions in feature chaining
+        // VT : This is a hack to get around using functions in feature chaining
         // https://jira.csiro.au/browse/SISS-1374
         // there are currently no available fix as wms request are made prior to
         // knowing app-schema mapping.

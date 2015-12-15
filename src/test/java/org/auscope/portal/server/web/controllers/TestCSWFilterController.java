@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.auscope.portal.core.services.CSWFilterService;
 import org.auscope.portal.core.services.csw.CSWServiceItem;
-import org.auscope.portal.core.services.csw.custom.CustomRegistry;
 import org.auscope.portal.core.services.csw.custom.CustomRegistryInt;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
+import org.auscope.portal.core.services.methodmakers.filter.csw.CSWGetDataRecordsFilter;
 import org.auscope.portal.core.services.methodmakers.filter.csw.CSWGetDataRecordsFilter.KeywordMatchType;
 import org.auscope.portal.core.services.responses.csw.CSWGetRecordResponse;
 import org.auscope.portal.core.services.responses.csw.CSWRecord;
@@ -54,36 +54,27 @@ public class TestCSWFilterController extends PortalTestClass {
     }
 
     private static CSWGetDataRecordsFilterMatcher aCSWFilter(FilterBoundingBox spatialBounds,
-            String[] keywords, String capturePlatform, String sensor, KeywordMatchType matchType) {
-        return new CSWGetDataRecordsFilterMatcher(spatialBounds, keywords, capturePlatform, sensor, matchType);
+            String[] keywords, String capturePlatform, String sensor, KeywordMatchType matchType, String titleOrAbstract,
+            String authorSurname, String publicationDateFrom, String publicationDateTo) {
+        return new CSWGetDataRecordsFilterMatcher(spatialBounds, keywords, capturePlatform, sensor, matchType, titleOrAbstract, authorSurname, publicationDateFrom, publicationDateTo);
     }
 
+    
     /**
-     * Tests that requesting filtered records relies correctly on all dependencies
-     * 
+     * Tests that requesting filtered records relies correctly on all dependencies  
      * @throws Exception
      */
     @Test
     public void testGetFilteredRecords() throws Exception {
-        final String anyText = "any-text";
         final String cswServiceId = "my-csw-service-id";
-        final double east = 0.1;
-        final double west = 5.5;
-        final double north = 4.8;
-        final double south = 8.6;
-        final String[] keywords = new String[] {"kw1", "kw2"};
-        final String capturePlatform = "capturePlatform";
-        final String sensor = "sensor";
+
         final Integer maxRecords = 123;
 
         String[] key = {"anyText", "cswServiceId", "east", "west", "north", "south", "keywords", "capturePlatform",
-                "sensor"};
+                "sensor", "titleOrAbstract", "authorSurname", "publicationDateFrom", "publicationDateTo"};
         String[] value = {"any-text", "my-csw-service-id", "0.1", "5.5", "4.8", "8.6", "kw1,kw2", "capturePlatform",
-                "sensor"};
+                "sensor", null, null, null, null};
 
-        final FilterBoundingBox expectedBBox = new FilterBoundingBox("",
-                new double[] {east, south},
-                new double[] {west, north});
         final CSWRecord[] filteredRecs = new CSWRecord[] {
                 context.mock(CSWRecord.class, "cswRecord1"),
                 context.mock(CSWRecord.class, "cswRecord2"),
@@ -95,13 +86,13 @@ public class TestCSWFilterController extends PortalTestClass {
         final ModelMap mockViewRec2 = context.mock(ModelMap.class, "mockViewRec2");
         final ModelMap mockViewRec3 = context.mock(ModelMap.class, "mockViewRec3");
         final int response1RecordsMatched = 442;
-        final KeywordMatchType matchType = null;
+        
         final Integer startPosition = 3;
 
         context.checking(new Expectations() {
             {
                 oneOf(mockService).getFilteredRecords(with(equal(cswServiceId)),
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)),
+                        with(any(CSWGetDataRecordsFilter.class)),
                         with(equal(maxRecords)), with(equal(startPosition + 1)));
                 will(returnValue(filteredResponse));
 
@@ -148,33 +139,23 @@ public class TestCSWFilterController extends PortalTestClass {
      */
     @Test
     public void testGetFilteredRecordsError() throws Exception {
-        final String anyText = "any-text";
-        final String cswServiceId = "my-csw-service-id";
-        final double east = 0.1;
-        final double west = 5.5;
-        final double north = 4.8;
-        final double south = 8.6;
-        final String[] keywords = new String[] {"kw1", "kw2"};
-        final String capturePlatform = "capturePlatform";
-        final String sensor = "sensor";
 
-        String[] key = {"keywordMatchType", "anyText", "cswServiceId", "east", "west", "north", "south", "keywords",
-                "capturePlatform", "sensor"};
-        String[] value = {"any", "any-text", "my-csw-service-id", "0.1", "5.5", "4.8", "8.6", "kw1,kw2",
-                "capturePlatform", "sensor"};
+        final String cswServiceId = "my-csw-service-id";
+
+        String[] key = {"anyText", "cswServiceId", "east", "west", "north", "south", "keywords", "capturePlatform",
+                "sensor", "titleOrAbstract", "authorSurname", "publicationDateFrom", "publicationDateTo"};
+        String[] value = {"any-text", "my-csw-service-id", "0.1", "5.5", "4.8", "8.6", "kw1,kw2", "capturePlatform",
+                "sensor", null, null, null, null};
 
         final Integer maxRecords = 123;
-        final FilterBoundingBox expectedBBox = new FilterBoundingBox("",
-                new double[] {east, south},
-                new double[] {west, north});
-        final KeywordMatchType matchType = KeywordMatchType.Any;
+
         final Integer startPosition = 0;
 
         context.checking(new Expectations() {
             {
                 //Throw an error
                 oneOf(mockService).getFilteredRecords(with(equal(cswServiceId)),
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)),
+                        with(any(CSWGetDataRecordsFilter.class)),
                         with(equal(maxRecords)), with(equal(startPosition + 1)));
                 will(throwException(new Exception()));
             }
@@ -221,7 +202,8 @@ public class TestCSWFilterController extends PortalTestClass {
         context.checking(new Expectations() {
             {
                 oneOf(mockService).getFilteredRecords(with(equal(cswServiceId)),
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)),
+                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType, 
+                        		null, null, null, null)),
                         with(equal(maxRecords)), with(equal(startPosition + 1)));
                 will(returnValue(filteredResponse));
 
@@ -352,7 +334,8 @@ public class TestCSWFilterController extends PortalTestClass {
         context.checking(new Expectations() {
             {
                 oneOf(mockService).getFilteredRecordsCount(with(equal(cswServiceId)),
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)),
+                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType, 
+                        		null, null, null, null)),
                         with(equal(maxRecords)));
                 will(returnValue(expectedCount));
             }
@@ -391,7 +374,8 @@ public class TestCSWFilterController extends PortalTestClass {
         context.checking(new Expectations() {
             {
                 oneOf(mockService).getFilteredRecordsCount(
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)),
+                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType, 
+                        		null, null, null, null)),
                         with(equal(maxRecords)));
                 will(returnValue(expectedCount));
             }
@@ -428,7 +412,8 @@ public class TestCSWFilterController extends PortalTestClass {
         context.checking(new Expectations() {
             {
                 oneOf(mockService).getFilteredRecordsCount(
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)), with(equal(0)));
+                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType, 
+                        		null, null, null, null)), with(equal(0)));
                 will(returnValue(expectedCount));
             }
         });
@@ -465,7 +450,8 @@ public class TestCSWFilterController extends PortalTestClass {
         context.checking(new Expectations() {
             {
                 oneOf(mockService).getFilteredRecordsCount(with(equal(cswServiceId)),
-                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType)),
+                        with(aCSWFilter(expectedBBox, keywords, capturePlatform, sensor, matchType, 
+                        		null, null, null, null)),
                         with(equal(maxRecords)));
                 will(throwException(new Exception()));
             }

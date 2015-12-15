@@ -81,12 +81,20 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
             handler: function(btn) {
                 //VT: TODO use BrowserWindowWithWarning.js
                 if(me.browseCatalogueDNSMessage==true){
-                    var cswFilterWindow = new portal.widgets.window.CSWFilterWindow({
+                	
+                	// make sure there is no duplicate component
+                    var cswFilterWindow = Ext.getCmp('cswFilterWindow');
+                    if (cswFilterWindow) {
+                        cswFilterWindow.destroy();
+                    }
+                    cswFilterWindow = new portal.widgets.window.CSWFilterWindow({
                         name : 'CSW Filter',
+                        id : 'cswFilterWindow',
                         listeners : {
                             filterselectcomplete : Ext.bind(me.handleFilterSelectComplete, me)
                         }
-                    });
+                    });                	
+                    
                     cswFilterWindow.show();
                 }else{
                     Ext.MessageBox.show({
@@ -99,12 +107,20 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
                                 if (Ext.get('do_not_show_again').dom.checked == true){
                                     me.browseCatalogueDNSMessage=true;
                                 }
-                                var cswFilterWindow = new portal.widgets.window.CSWFilterWindow({
+                                
+                                // make sure there is no duplicate component
+                                var cswFilterWindow = Ext.getCmp('cswFilterWindow');
+                                if (cswFilterWindow) {
+                                	cswFilterWindow.destroy();
+                                }
+                                cswFilterWindow = new portal.widgets.window.CSWFilterWindow({
                                     name : 'CSW Filter',
+                                    id : 'cswFilterWindow',
                                     listeners : {
                                         filterselectcomplete : Ext.bind(me.handleFilterSelectComplete, me)
                                     }
                                 });
+                                
                                 cswFilterWindow.show();
                             }
                         }

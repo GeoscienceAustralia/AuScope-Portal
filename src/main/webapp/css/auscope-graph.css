@@ -68,3 +68,12 @@ polyline{
     fill: none;
 }
 
+#activeLayers {
+	color: white;
+	background-color: blue;
+}
+
+#baseMap {
+	color: black;
+	background-color: white;
+}

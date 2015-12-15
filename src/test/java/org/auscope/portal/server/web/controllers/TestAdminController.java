@@ -8,7 +8,6 @@ import org.auscope.portal.core.server.PortalPropertyPlaceholderConfigurer;
 import org.auscope.portal.core.services.admin.AdminDiagnosticResponse;
 import org.auscope.portal.core.services.admin.EndpointAndSelector;
 import org.auscope.portal.core.services.csw.CSWServiceItem;
-import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.test.PortalTestClass;
 import org.auscope.portal.server.web.service.AuScopeAdminService;
 import org.jmock.Expectations;
@@ -89,7 +88,7 @@ public class TestAdminController extends PortalTestClass {
 
         context.checking(new Expectations() {
             {
-                oneOf(mockService).wfsConnectivity(with(equal(expected)), with(any(FilterBoundingBox.class)));
+                oneOf(mockService).wfsConnectivity(with(equal(expected)), with(any(String.class)));
                 will(returnValue(response));
             }
         });
@@ -121,7 +120,7 @@ public class TestAdminController extends PortalTestClass {
 
         context.checking(new Expectations() {
             {
-                oneOf(mockService).wmsConnectivity(with(equal(expected)), with(any(FilterBoundingBox.class)));
+                oneOf(mockService).wmsConnectivity(with(equal(expected)), with(any(String.class)));
                 will(returnValue(response));
             }
         });

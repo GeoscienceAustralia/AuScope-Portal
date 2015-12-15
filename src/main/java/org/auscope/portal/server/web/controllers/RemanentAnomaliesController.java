@@ -6,6 +6,7 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.util.FileIOUtil;
@@ -34,7 +35,8 @@ public class RemanentAnomaliesController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             HttpServletResponse response) throws Exception {
 
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
         String filter = this.remanentAnomaliesService.getRemanentAnomaliesFilter(name, bbox);
 
         response.setContentType("text/xml");
@@ -61,11 +63,11 @@ public class RemanentAnomaliesController extends BasePortalController {
             @RequestParam(required = false, value = "name") String name,
             HttpServletResponse response) throws Exception {
 
-        //Vt: wms shouldn't need the bbox because it is tiled.
+        // Vt: wms shouldn't need the bbox because it is tiled.
         FilterBoundingBox bbox = null;
-        //String stylefilter=this.remanentAnomaliesService.getRemanentAnomaliesWithStyling(name); //VT:get filter from service
+        // String stylefilter=this.remanentAnomaliesService.getRemanentAnomaliesWithStyling(name); //VT:get filter from service
 
-        String filter = this.remanentAnomaliesService.getRemanentAnomaliesFilter(name, bbox); //VT:get filter from service
+        String filter = this.remanentAnomaliesService.getRemanentAnomaliesFilter(name, bbox); // VT:get filter from service
 
         String style = this.getStyle(filter, "#0000FF");
 

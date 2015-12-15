@@ -106,6 +106,47 @@ public class TestSF0BoreholeService extends PortalTestClass {
     }
 
     /**
+     * Test get all boreholes no bbox and with year only in the date of drilling field.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    public void testGetAllBoreholesNoBboxDrillYearOnly() throws Exception {
+        final FilterBoundingBox bbox = null;
+        final String serviceURL = "http://example.com";
+        final int maxFeatures = 45;
+        final String boreholeName = "borehole-name";
+        final String custodian = "custodian";
+        final String dateOfDrilling = "2011";
+        final String gmlString = "xmlString";
+        final String kmlString = "kmlString";
+
+        context.checking(new Expectations() {
+            {
+
+                oneOf(mockMethodMaker).makePostMethod(with(equal(serviceURL)), with(equal("gsmlp:BoreholeView")),
+                        with(any(String.class)), with(equal(maxFeatures)), with(any(String.class)),
+                        with(equal(ResultType.Results)), with(equal((String) null)), with(equal((String) null)));
+                will(returnValue(mockMethod));
+
+                oneOf(mockHttpServiceCaller).getMethodResponseAsString(with(any(HttpRequestBase.class)));
+                will(returnValue(gmlString));
+
+                oneOf(mockGmlToKml).convert(gmlString, serviceURL);
+                will(returnValue(kmlString));
+            }
+        });
+
+        WFSTransformedResponse result = service.getAllBoreholes(serviceURL, boreholeName, custodian, dateOfDrilling,
+                maxFeatures, bbox);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(gmlString, result.getGml());
+        Assert.assertEquals(kmlString, result.getTransformed());
+        Assert.assertSame(mockMethod, result.getMethod());
+    }    
+    
+    /**
      * Test that SF0 filter style will return a style layer descriptor with correct feature type name
      */
     @Test

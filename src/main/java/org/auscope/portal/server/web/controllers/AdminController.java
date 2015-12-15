@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.PortalPropertyPlaceholderConfigurer;
 import org.auscope.portal.core.services.admin.AdminDiagnosticResponse;
 import org.auscope.portal.core.services.admin.EndpointAndSelector;
@@ -173,7 +174,8 @@ public class AdminController {
             @RequestParam("bbox") String bboxJson) throws URISyntaxException {
 
         //No point in proceeding with test without a valid bbox
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType dummyOgcServiceProviderType = OgcServiceProviderType.ArcGis;
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson,dummyOgcServiceProviderType);
         if (bbox == null) {
             AdminDiagnosticResponse error = new AdminDiagnosticResponse();
             error.addError(String.format(
@@ -185,7 +187,7 @@ public class AdminController {
         List<EndpointAndSelector> endpoints = parseEndpointAndSelectors(serviceUrls, typeNames);
 
         //Do the diagnostics
-        AdminDiagnosticResponse response = adminService.wfsConnectivity(endpoints, bbox);
+        AdminDiagnosticResponse response = adminService.wfsConnectivity(endpoints, bboxJson);
         return generateTestResponse(response);
     }
 
@@ -203,7 +205,8 @@ public class AdminController {
             @RequestParam("bbox") String bboxJson) throws URISyntaxException {
 
         //No point in proceeding with test without a valid bbox
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType dummyOgcServiceProviderType = OgcServiceProviderType.ArcGis;
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson,dummyOgcServiceProviderType);
         if (bbox == null) {
             AdminDiagnosticResponse error = new AdminDiagnosticResponse();
             error.addError(String.format(
@@ -215,7 +218,7 @@ public class AdminController {
         List<EndpointAndSelector> endpoints = parseEndpointAndSelectors(serviceUrls, layerNames);
 
         //Do the diagnostics
-        AdminDiagnosticResponse response = adminService.wmsConnectivity(endpoints, bbox);
+        AdminDiagnosticResponse response = adminService.wmsConnectivity(endpoints, bboxJson);
         return generateTestResponse(response);
     }
 }

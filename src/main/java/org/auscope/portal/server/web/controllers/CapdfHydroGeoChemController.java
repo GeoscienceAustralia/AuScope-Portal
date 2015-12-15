@@ -7,17 +7,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -25,13 +18,13 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.PortalServiceException;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.methodmakers.filter.IFilter;
 import org.auscope.portal.core.util.CSVUtil;
 import org.auscope.portal.core.util.FileIOUtil;
-import org.auscope.portal.server.domain.nvcldataservice.CSVDownloadResponse;
 import org.auscope.portal.server.web.service.CapdfHydroGeoChemService;
 import org.auscope.portal.service.colorcoding.CapdfHydroChemColorCoding;
 import org.auscope.portal.service.colorcoding.ColorCodingConfig;
@@ -41,7 +34,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.w3c.dom.Node;
+
+import net.sf.json.JSONArray;
 
 /**
  * Controller for Capricorn distal footprint layer
@@ -95,7 +89,8 @@ public class CapdfHydroGeoChemController extends BasePortalController {
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
             HttpServletResponse response) throws Exception {
 
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         String filter = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, bbox);
 
@@ -142,8 +137,9 @@ public class CapdfHydroGeoChemController extends BasePortalController {
 
         FilterBoundingBox bbox = null;
         if (!(north.isEmpty() && south.isEmpty() && east.isEmpty() && west.isEmpty())) {
+            OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
             bbox = FilterBoundingBox.parseFromValues("EPSG:4326", Double.parseDouble(north), Double.parseDouble(south),
-                    Double.parseDouble(east), Double.parseDouble(west));
+                    Double.parseDouble(east), Double.parseDouble(west), ogcServiceProviderType);
         }
 
         String filter = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, bbox);
@@ -171,11 +167,11 @@ public class CapdfHydroGeoChemController extends BasePortalController {
     public ModelAndView doGetGroupOfInterest(@RequestParam("serviceUrl") String serviceUrl) {
         JSONArray dataItems = new JSONArray();
 
-        //Turn our map of urns -> labels into an array of arrays for the view
+        // Turn our map of urns -> labels into an array of arrays for the view
         for (String group : this.AOI_TITLE_TO_LAYER_MAP.keySet()) {
             JSONArray tableRow = new JSONArray();
-            tableRow.add(group);//VT:display
-            tableRow.add(this.AOI_TITLE_TO_LAYER_MAP.get(group));//VT:value
+            tableRow.add(group);// VT:display
+            tableRow.add(this.AOI_TITLE_TO_LAYER_MAP.get(group));// VT:value
             dataItems.add(tableRow);
         }
 
@@ -257,8 +253,9 @@ public class CapdfHydroGeoChemController extends BasePortalController {
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
             HttpServletResponse response) throws Exception {
 
-        FilterBoundingBox obbox = FilterBoundingBox.attemptParseFromJSON(obboxJson);
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox obbox = FilterBoundingBox.attemptParseFromJSON(obboxJson, ogcServiceProviderType);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         String filter = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, obbox);
         String filterWithBbox = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, bbox);
@@ -337,8 +334,9 @@ public class CapdfHydroGeoChemController extends BasePortalController {
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
             HttpServletResponse response) throws Exception {
 
-        FilterBoundingBox obbox = FilterBoundingBox.attemptParseFromJSON(obboxJson);
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox obbox = FilterBoundingBox.attemptParseFromJSON(obboxJson, ogcServiceProviderType);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         String filter = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, obbox);
         String filterWithBbox = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, bbox);
@@ -364,7 +362,7 @@ public class CapdfHydroGeoChemController extends BasePortalController {
 
         for (int i = 0; i < x1Value.size(); i++) {
             relatedValues = new ModelMap();
-            //VT: set x1 value
+            // VT: set x1 value
             if (i < x1Value.size() && !x1Value.get(i).isEmpty()) {
                 relatedValues.put("x1", x1Value.get(i));
                 series.add(relatedValues);
@@ -373,7 +371,7 @@ public class CapdfHydroGeoChemController extends BasePortalController {
                 series.add(relatedValues);
             }
 
-            //VT: set y1 value
+            // VT: set y1 value
             if (i < y1Value.size() && !y1Value.get(i).isEmpty()) {
                 relatedValues.put("y1", y1Value.get(i));
                 series.add(relatedValues);
@@ -382,7 +380,7 @@ public class CapdfHydroGeoChemController extends BasePortalController {
                 series.add(relatedValues);
             }
 
-            //VT: set x2 value
+            // VT: set x2 value
             if (i < x2Value.size() && !x2Value.get(i).isEmpty()) {
                 relatedValues.put("x2", x2Value.get(i));
                 series.add(relatedValues);
@@ -390,7 +388,7 @@ public class CapdfHydroGeoChemController extends BasePortalController {
                 relatedValues.put("x2", 2147483646);
                 series.add(relatedValues);
             }
-            //VT: set y2 value
+            // VT: set y2 value
             if (i < y2Value.size() && !y2Value.get(i).isEmpty()) {
                 relatedValues.put("y2", y2Value.get(i));
                 series.add(relatedValues);
@@ -425,7 +423,7 @@ public class CapdfHydroGeoChemController extends BasePortalController {
             @RequestParam(required = false, value = "minMax") String minMax,
             HttpServletResponse response) throws Exception {
 
-        //Vt: wms shouldn't need the bbox because it is tiled.
+        // Vt: wms shouldn't need the bbox because it is tiled.
         FilterBoundingBox bbox = null;
 
         String style = "";
@@ -435,10 +433,10 @@ public class CapdfHydroGeoChemController extends BasePortalController {
             CapdfHydroChemColorCoding ccq = new CapdfHydroChemColorCoding(poi, Double.parseDouble(splitMinMAx[0]),
                     Double.parseDouble(splitMinMAx[1]));
             List<IFilter> stylefilterRules = this.capdfHydroGeoChemService.getHydroGeoChemFilterWithColorCoding(
-                    batchid, ccq); //VT:get filter from service
+                    batchid, ccq); // VT:get filter from service
             style = this.getColorCodedStyle(stylefilterRules, ccq.getColorCodingConfig(), featureType);
         } else {
-            String stylefilterRules = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, bbox); //VT:get filter from service
+            String stylefilterRules = this.capdfHydroGeoChemService.getHydroGeoChemFilter(batchid, bbox); // VT:get filter from service
             style = this.getStyle(stylefilterRules, CAPDF_HYDROGEOCHEMTYPE, "#DB70B8");
         }
 

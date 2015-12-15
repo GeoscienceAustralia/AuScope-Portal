@@ -1,3 +1,12 @@
+Ext.Loader.setConfig({
+    enabled: true,
+//    paths: {
+//        'AM': 'app'
+//    }
+});
+
+Ext.require('portal.events.AppEvents');
+
 Ext.application({
     name : 'portal',
 
@@ -25,6 +34,7 @@ Ext.application({
         //IF END
 
 
+        var currentExtent = map
         var urlParams = Ext.Object.fromQueryString(window.location.search.substring(1));
         var isDebugMode = urlParams.debug;
 
@@ -42,6 +52,21 @@ Ext.application({
             },
             autoLoad : true
         });
+
+        // data store for service endpoints available for searching for CSW records
+        var cswServiceItemStore = new Ext.data.Store({
+            model   : 'portal.widgets.model.CSWServices',
+            proxy : {
+                type : 'ajax',
+                url : 'getCSWServices.do',
+                reader : {
+                    type : 'json',
+                    rootProperty : 'data'
+                }
+            },
+            autoLoad : true
+        });
+
 
         //Our custom record store holds layers that the user has
         //added to the map using a OWS URL entered through the
@@ -80,11 +105,28 @@ Ext.application({
         });
 
 
-
         //Create our KnownLayer store
+        var layersSorter = new Ext.util.Sorter({
+            sorterFn: function(record1, record2) {
+                var order1 = record1.data.order;
+                    order2 = record2.data.order;
+                return order1 > order2 ? 1 : (order1 < order2 ? -1 : 0);
+            },
+            direction: 'ASC'
+        })
+        var layersGrouper = new Ext.util.Grouper({
+            groupFn: function(item) {
+                return item.data.group;
+            },
+            sorterFn: function(record1, record2) {
+                var order1 = record1.data.order;
+                    order2 = record2.data.order;
+                return order1 > order2 ? 1 : (order1 < order2 ? -1 : 0);
+            },
+            direction: 'ASC'
+        })
         var knownLayerStore = Ext.create('Ext.data.Store', {
             model : 'portal.knownlayer.KnownLayer',
-            groupField: 'group',
             proxy : {
                 type : 'ajax',
                 url : 'getKnownLayers.do',
@@ -93,8 +135,11 @@ Ext.application({
                     rootProperty : 'data'
                 }
             },
+            sorters: [layersSorter],
+            grouper: layersGrouper,
             autoLoad : true
         });
+
 
         // Create the ResearchDataLayer store
         var researchDataLayerStore = Ext.create('Ext.data.Store', {
@@ -143,34 +188,49 @@ Ext.application({
             rendererFactory : Ext.create('auscope.layer.AuScopeRendererFactory', {map: map})
         });
 
-
-
-
-        var knownLayersPanel = Ext.create('portal.widgets.panel.KnownLayerPanel', {
-            title : 'Featured',
+        var activeLayersPanel = Ext.create('portal.widgets.panel.ActiveLayerPanel', {
             menuFactory : Ext.create('auscope.layer.AuscopeFilterPanelMenuFactory',{map : map}),
-            store : knownLayerStore,
-            activelayerstore : layerStore,
+            store : layerStore,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             map : map,
             layerFactory : layerFactory,
             tooltip : {
                 anchor : 'top',
                 title : 'Featured Layers',
-                text : '<p1>This is where the portal groups data services with a common theme under a layer. This allows you to interact with multiple data providers using a common interface.</p><br><p>The underlying data services are discovered from a remote registry. If no services can be found for a layer, it will be disabled.</p1>',
+                text : '<p>This is where the portal groups data services with a common theme under a layer. This allows you to interact with multiple data providers using a common interface.</p><br><p>The underlying data services are discovered from a remote registry. If no services can be found for a layer, it will be disabled.</p>',
                 showDelay : 100,
                 icon : 'img/information.png',
                 dismissDelay : 30000
             }
-
+        });
+        
+        var knownLayersPanel = Ext.create('portal.widgets.panel.KnownLayerPanel', {
+            title : 'Featured',
+            id: 'knownLayersPanel',
+            menuFactory : Ext.create('auscope.layer.AuscopeFilterPanelMenuFactory',{map : map}),
+            store : knownLayerStore,
+            activelayerstore : layerStore,
+            map : map,
+            layerFactory : layerFactory,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
+            tooltip : {
+                anchor : 'top',
+                title : 'Featured Layers',
+                text : '<p>This is where the portal groups data services with a common theme under a layer. This allows you to interact with multiple data providers using a common interface.</p><br><p>The underlying data services are discovered from a remote registry. If no services can be found for a layer, it will be disabled.</p>',
+                showDelay : 100,
+                icon : 'img/information.png',
+                dismissDelay : 30000
+            }
         });
 
         var unmappedRecordsPanel = Ext.create('portal.widgets.panel.CSWRecordPanel', {
             title : 'Registered',
             store : unmappedCSWRecordStore,
             activelayerstore : layerStore,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             tooltip : {
                 title : 'Registered Layers',
-                text : 'The layers that appear here are the data services that were discovered in a remote registry but do not belong to any of the Featured Layers groupings.',
+                text : '<p>The layers that appear here are the data services that were discovered in a remote registry but do not belong to any of the Featured Layers groupings.</p>',
                 showDelay : 100,
                 dismissDelay : 30000
             },
@@ -184,10 +244,11 @@ Ext.application({
             itemId : 'org-auscope-custom-record-panel',
             store : customRecordStore,
             activelayerstore : layerStore,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             enableBrowse : true,//VT: if true browse catalogue option will appear
             tooltip : {
                 title : 'Custom Data Layers',
-                text : 'This tab allows you to create your own layers from remote data services.',
+                text : '<p>This tab allows you to create your own layers from remote data services.</p>',
                 showDelay : 100,
                 dismissDelay : 30000
             },
@@ -203,19 +264,41 @@ Ext.application({
             enableBrowse : false,//VT: if true browse catalogue option will appear
             map : map,
             layerFactory : layerFactory,
+            onlineResourcePanelType : 'gaonlineresourcespanel',
             tooltip : {
                 title : 'Research Data Layers',
-                text : '<p1>The layers in this tab represent past/present research activities and may contain partial or incomplete information.</p1>',
+                text : '<p>The layers in this tab represent past/present research activities and may contain partial or incomplete information.</p>',
                 showDelay : 100,
                 dismissDelay : 30000
             }
 
         });
 
+        // header
+        var northPanel = {
+            layout: 'fit',
+            region:'north',
+            items:[{
+                xtype: 'gaheader',
+                map: map,
+                layerStore: layerStore,
+                registryStore: cswServiceItemStore,
+                layerFactory: layerFactory
+            }]
+        };
+
+        // footer
+        var southPanel = {
+            layout: 'fit',
+            region:'south',
+            items:[{
+                xtype: 'gafooter'
+            }]
+        };
+        
         // basic tabs 1, built from existing content
         var tabsPanel = Ext.create('Ext.TabPanel', {
             id : 'auscope-tabs-panel',
-            title : 'Layers',
             activeTab : 0,
             region : 'center',
             split : true,
@@ -229,7 +312,7 @@ Ext.application({
                 researchDataPanel
             ]
         });
-
+        
         /**
          * Used as a placeholder for the tree and details panel on the left of screen
          */
@@ -259,11 +342,55 @@ Ext.application({
         });
 
         /**
+         * Add panel for the Active Layers and Controls (GPT-40)
+         */
+        var body = Ext.getBody();
+
+        // Render Active Layers into divId
+        var renderActiveLayers = function(divId) {
+            console.log("renderActiveLayers - divId: "+divId);
+        }
+
+        var activeLayersPanel = Ext.create('Ext.panel.Panel', {
+            id : 'activeLayersPanel',
+            title : 'Active Layers',
+             layout: {
+                 type: 'vbox',         // Arrange child items vertically
+                 align: 'stretch',     // Each takes up full width
+                 padding: 1
+             },
+             renderTo: body,
+             items : [
+                  activeLayersPanel,     //activeLayerDisplay,
+                  {
+                     xtype : 'label',
+                     id : 'baseMap',
+                     html : '<div id="baseMap"></div>',
+                     listeners: {
+                         afterrender: function (view) {
+                             map.renderBaseMap('baseMap');
+                         }
+                     }
+                  }
+             ],
+             minHeight: 170,
+             width: 500,
+             collapsible: true,
+             animCollapse : true,
+             collapseDirection : 'top',
+             collapsed : false,
+        });
+
+        activeLayersPanel.show();
+        activeLayersPanel.setZIndex(1000);
+        activeLayersPanel.anchorTo(body, 'tr-tr', [0, 100], true);
+        
+        /**
          * Add all the panels to the viewport
          */
         var viewport = Ext.create('Ext.container.Viewport', {
             layout:'border',
-            items:[westPanel, centerPanel]
+            items:[northPanel, westPanel, centerPanel, southPanel]
         });
 
         if(urlParams.kml){
@@ -282,9 +409,9 @@ Ext.application({
                        var tabpanel =  Ext.getCmp('auscope-tabs-panel');
                        var customPanel = tabpanel.getComponent('org-auscope-custom-record-panel')
                        tabpanel.setActiveTab(customPanel);
-                       var cswRecord = customPanel.addKMLtoPanel(responseObj.data.name,responseObj.data.file);                            
+                       var cswRecord = customPanel.addKMLtoPanel(responseObj.data.name,responseObj.data.file);
                        var newLayer = layerFactory.generateLayerFromCSWRecord(cswRecord);
-                       cswRecord.set('layer',newLayer);            
+                       cswRecord.set('layer',newLayer);
                        var filterForm = newLayer.get('filterForm');
                        filterForm.setLayer(newLayer);
                        layerStore.insert(0,newLayer);
@@ -298,29 +425,11 @@ Ext.application({
 
         }
 
-
-        //Create our permalink generation handler
-        var permalinkHandler = function() {
-            var mss = Ext.create('portal.util.permalink.MapStateSerializer');
-
-            mss.addMapState(map);
-            mss.addLayers(layerStore);
-
-            mss.serialize(function(state, version) {
-                var popup = Ext.create('portal.widgets.window.PermanentLinkWindow', {
-                    state : state,
-                    version : version
-                });
-
-                popup.show();
-            });
-        };
-        Ext.get('permalink').on('click', permalinkHandler);
-        Ext.get('permalinkicon').on('click', permalinkHandler);
-
         //Handle deserialisation -- ONLY if we have a uri param called "state".
         var deserializationHandler;
-        var urlParams = Ext.Object.fromQueryString(window.location.search.substring(1));
+        var searchStart = window.location.href.indexOf('?');
+        
+        var urlParams = Ext.Object.fromQueryString(window.location.href.substring(searchStart + 1));
         if (urlParams && (urlParams.state || urlParams.s)) {
             var decodedString = urlParams.state ? urlParams.state : urlParams.s;
             var decodedVersion = urlParams.v;
@@ -336,7 +445,6 @@ Ext.application({
             });
 
         }
-
-
     }
+
 });

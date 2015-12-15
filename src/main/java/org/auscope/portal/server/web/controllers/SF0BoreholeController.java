@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.CSWCacheService;
-import org.auscope.portal.core.services.csw.CSWRecordsHostFilter;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSTransformedResponse;
 import org.auscope.portal.core.util.FileIOUtil;
@@ -55,7 +55,8 @@ public class SF0BoreholeController extends BasePortalController {
             String dateOfDrilling, int maxFeatures, String bbox) throws Exception {
 
         try {
-            FilterBoundingBox box = FilterBoundingBox.attemptParseFromJSON(bbox);
+            OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+            FilterBoundingBox box = FilterBoundingBox.attemptParseFromJSON(bbox, ogcServiceProviderType);
             WFSTransformedResponse response = this.boreholeService.getAllBoreholes(serviceUrl, boreholeName, custodian,
                     dateOfDrilling, maxFeatures, box);
             return generateJSONResponseMAV(true, response.getGml(), response.getTransformed(), response.getMethod());
@@ -85,29 +86,29 @@ public class SF0BoreholeController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "serviceFilter", defaultValue = "") String serviceFilter,
             @RequestParam(required = false, value = "color", defaultValue = "") String color)
-            throws Exception {
+                    throws Exception {
 
         FilterBoundingBox bbox = null;
-        //				FilterBoundingBox
-        //				.attemptParseFromJSON(bboxJson);
+        // FilterBoundingBox
+        // .attemptParseFromJSON(bboxJson);
 
         List<String> hyloggerBoreholeIDs = null;
         // AUS-2445
         // RA: we can't show WMS for NVCL for now because the way GeoServer filter WMS isn't very efficient and
-        // it will cause services with a lot of scanned boreholes (e.g. SA) to run out of memory!		
-        //		try {
-        //			// don't get hylogger IDs if this is only to populate the legend
-        //			if (!serviceUrl.isEmpty()) {
-        //				hyloggerBoreholeIDs = this.boreholeService
-        //						.discoverHyloggerBoreholeIDs(this.cswService,
-        //								new CSWRecordsHostFilter(serviceUrl));
-        //			}
-        //		} catch (Exception e) {
-        //			log.warn(String
-        //					.format("Error requesting list of hylogger borehole ID's from %1$s: %2$s",
-        //							serviceUrl, e));
-        //			log.debug("Exception:", e);
-        //		}
+        // it will cause services with a lot of scanned boreholes (e.g. SA) to run out of memory!
+        // try {
+        // // don't get hylogger IDs if this is only to populate the legend
+        // if (!serviceUrl.isEmpty()) {
+        // hyloggerBoreholeIDs = this.boreholeService
+        // .discoverHyloggerBoreholeIDs(this.cswService,
+        // new CSWRecordsHostFilter(serviceUrl));
+        // }
+        // } catch (Exception e) {
+        // log.warn(String
+        // .format("Error requesting list of hylogger borehole ID's from %1$s: %2$s",
+        // serviceUrl, e));
+        // log.debug("Exception:", e);
+        // }
 
         String filter = this.boreholeService.getFilter(boreholeName,
                 custodian, dateOfDrilling, maxFeatures, bbox,

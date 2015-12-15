@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
@@ -57,7 +58,7 @@ public class YilgarnGeochemistryController extends BasePortalController {
     public ModelAndView doLocatedSpecimenFeature(@RequestParam("serviceUrl") final String serviceUrl,
             @RequestParam("featureId") final String featureId) throws Exception {
 
-        //Let the underlying service do all the heavy lifting
+        // Let the underlying service do all the heavy lifting
         YilgarnLocatedSpecimenRecord locSpecimenRecord = null;
         try {
             locSpecimenRecord = geochemService.getLocatedSpecimens(serviceUrl, featureId);
@@ -72,7 +73,7 @@ public class YilgarnGeochemistryController extends BasePortalController {
             return generateJSONResponseMAV(false);
         }
 
-        //Transform our response for the view
+        // Transform our response for the view
         String[] specName = null;
         String[] uniqueSpecName = null;
         YilgarnObservationRecord[] observations = locSpecimenRecord.getRelatedObservations();
@@ -81,7 +82,7 @@ public class YilgarnGeochemistryController extends BasePortalController {
             for (int j = 0; j < observations.length; j++) {
                 specName[j] = observations[j].getAnalyteName();
             }
-            //specName has duplicate values so this is to get Unique values.
+            // specName has duplicate values so this is to get Unique values.
             Arrays.sort(specName);
             int k = 0;
             for (int i = 0; i < specName.length; i++) {
@@ -122,10 +123,13 @@ public class YilgarnGeochemistryController extends BasePortalController {
     /**
      * Utility function for generating an OGC filter for a geologicUnit based on the specified params
      * 
+     * @param serviceUrl
+     * 
      * @return
      */
-    private String generateGeologicUnitFilter(String name, String bboxString) {
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxString);
+    private String generateGeologicUnitFilter(String name, String bboxString, String serviceUrl) {
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxString, ogcServiceProviderType);
         YilgarnGeochemistryFilter yilgarnGeochemistryFilter = new YilgarnGeochemistryFilter(name);
         if (bbox == null) {
             return yilgarnGeochemistryFilter.getFilterStringAllRecords();
@@ -154,12 +158,12 @@ public class YilgarnGeochemistryController extends BasePortalController {
             @RequestParam(required = false, value = "geologicName") String geologicName,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
+                    throws Exception {
 
-        //Build our filter details
-        String filterString = generateGeologicUnitFilter(geologicName, bboxJson);
+        // Build our filter details
+        String filterString = generateGeologicUnitFilter(geologicName, bboxJson, serviceUrl);
 
-        //Make our request and get it transformed
+        // Make our request and get it transformed
         WFSTransformedResponse response = null;
         try {
             response = wfsService.getWfsResponseAsKml(serviceUrl, "gsml:GeologicUnit", filterString, maxFeatures, null);
@@ -194,12 +198,12 @@ public class YilgarnGeochemistryController extends BasePortalController {
             @RequestParam(required = false, value = "geologicName") String geologicName,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
+                    throws Exception {
 
-        //Build our filter details
-        String filterString = generateGeologicUnitFilter(geologicName, bboxJson);
+        // Build our filter details
+        String filterString = generateGeologicUnitFilter(geologicName, bboxJson, serviceUrl);
 
-        //Make our request and get it transformed
+        // Make our request and get it transformed
         WFSCountResponse response = null;
         try {
             response = wfsService.getWfsFeatureCount(serviceUrl, "gsml:GeologicUnit", filterString, maxFeatures, null);

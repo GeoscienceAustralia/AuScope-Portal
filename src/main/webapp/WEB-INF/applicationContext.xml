@@ -138,13 +138,14 @@
         <constructor-arg name="serviceCaller" ref="httpServiceCaller"/>
     </bean>    
 
-        <!-- Registries to be listed on Custom registry handler but not in feature or register tab -->
-    <!--bean id="cswVeglProduction" class="org.auscope.portal.core.services.csw.custom.CustomRegistry">
+    <!-- Registries to be listed on Custom registry handler but not in feature or register tab -->
+    <!-- TODO: remove custom registry beans
+    <bean id="cswVeglProduction" class="org.auscope.portal.core.services.csw.custom.CustomRegistry">
         <constructor-arg name="id" value="cswVeglProduction" />
         <constructor-arg name="title" value="Virtual Geophysics Laboratory Registry" />
         <constructor-arg name="serviceUrl" value="http://vgl-reg.auscope.org/geonetwork/srv/eng/csw" />
         <constructor-arg name="recordInformationUrl" value="http://vgl-reg.auscope.org/geonetwork/srv/eng/main.home?uuid=%1$s" />
-    </bean-->
+    </bean
     
     <bean id="cswSARegistry" class="org.auscope.portal.core.services.csw.custom.CustomRegistry">
         <constructor-arg name="id" value="cswSARegistry" />
@@ -159,13 +160,19 @@
         <constructor-arg name="serviceUrl" value="http://geology.data.nt.gov.au/geonetwork/srv/eng/csw" />
         <constructor-arg name="recordInformationUrl" value="http://geology.data.nt.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s" />
     </bean>
+    -->
+
+    <bean id="cswGARegistry" class="org.auscope.portal.core.services.csw.custom.CustomRegistry">
+        <constructor-arg name="id" value="cswGARegistry" />
+        <constructor-arg name="title" value="Geoscience Australia" />
+        <constructor-arg name="serviceUrl" value="http://www.ga.gov.au/darwin-geonetwork/srv/en/csw" />
+        <constructor-arg name="recordInformationUrl" value="http://www.ga.gov.au/darwin-geonetwork/srv/en/main.home?uuid=%1$s" />
+    </bean>
 
     <bean id="customRegistryList" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                <!--ref bean="cswVeglProduction" /-->
-                <ref bean="cswSARegistry" />
-                <ref bean="cswNTRegistry" />
+                <ref bean="cswGARegistry"/>
             </list>
         </constructor-arg>
     </bean>

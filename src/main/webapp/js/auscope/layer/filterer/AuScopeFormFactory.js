@@ -75,9 +75,21 @@ Ext.define('auscope.layer.filterer.AuScopeFormFactory', {
             case 'capdf-hydrogeochem':
                 baseFilterForm = Ext.create('auscope.layer.filterer.forms.CapdfHydroGeoChemFilterForm', baseFilterFormCfg);
                 return this._generateResult(baseFilterForm, true); 
+
             case 'tima-geosample':
-                baseFilterForm = Ext.create('auscope.layer.filterer.forms.TimaGeoSampleFilterForm', baseFilterFormCfg);
-                return this._generateResult(baseFilterForm, true);     
+                baseFilterForm = Ext.create('auscope.layer.filterer.forms.TimaGeoSampleFilterForm',baseFilterFormCfg);
+                return this._generateResult(baseFilterForm, true);
+            case 'layers-disjunction1m': // GPT-40
+            case 'layers-disjunction2500k': // GPT-40
+                if (layer.get('source').get('layerMode') === 'OR') {
+                    baseFilterForm = Ext.create('auscope.layer.filterer.forms.DisjunctedLayersForm',baseFilterFormCfg);
+                    return this._generateResult(baseFilterForm, true);
+                } else {
+                    baseFilterForm = Ext.create('portal.layer.filterer.forms.WMSLayerFilterForm', baseFilterFormCfg);
+                    //VT: Filtering is support but for WMS, we want the image to be displayed immediately after it has been added and
+                    //the opacity can be adjusted from there on
+                    return this._generateResult(baseFilterForm, false);
+                }
             }
         }
         

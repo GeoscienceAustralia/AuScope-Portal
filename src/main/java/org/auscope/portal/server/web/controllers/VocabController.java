@@ -1,21 +1,28 @@
 package org.auscope.portal.server.web.controllers;
 
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
+import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.server.web.service.ErmlVocabService;
 import org.auscope.portal.server.web.service.NvclVocabService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import net.sf.json.JSONArray;
 
 /**
  * Controller that enables access to vocabulary services.
@@ -27,6 +34,9 @@ public class VocabController extends BasePortalController {
     private NvclVocabService nvclVocabService;
     private ErmlVocabService ermlVocabService;
 
+    @Inject
+    private ResourceLoader resourceLoader;
+    
     /**
      * Construct
      * 
@@ -115,5 +125,32 @@ public class VocabController extends BasePortalController {
         }
 
         return generateJSONResponseMAV(true, dataItems, "");
+    }
+    
+    /**
+     * Get all Area Maps.
+     * Ideally this would call a service to get the data from a vocabulary service 
+     * @return Spring ModelAndView containing the JSON
+     */
+    @RequestMapping("getAreaMaps.do")
+    public @ResponseBody String getAreaMaps() throws Exception {
+
+        String jsonData = null;
+        
+        //Attempt to locate the resource containing the area maps and parse it into a String
+        try {
+            Resource resource = resourceLoader.getResource("classpath:/localdatastore/AreaMaps.json");
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(resource.getInputStream(), writer, "UTF-8");
+            jsonData = writer.toString();            
+        } catch (Exception ex) {
+            //On error, just return failure JSON (and the response string if any)
+            log.error("Error accessing 1:250k area maps: " + ex.getMessage());
+            log.debug("Exception: ", ex);
+            return null;
+        }
+
+        // got the data, generate a response
+        return jsonData;
     }
 }

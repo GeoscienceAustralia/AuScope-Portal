@@ -6,10 +6,10 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.util.FileIOUtil;
-import org.auscope.portal.server.web.service.MineralOccurrenceService;
 import org.auscope.portal.server.web.service.MineralTenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +39,10 @@ public class MineralTenementController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             HttpServletResponse response) throws Exception {
 
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
         String filter = this.mineralTenementService.getMineralTenementFilter(name, tenementType, owner, size, endDate,
-                bbox); //VT:get filter from service
+                bbox); // VT:get filter from service
 
         response.setContentType("text/xml");
         OutputStream outputStream = response.getOutputStream();
@@ -73,13 +74,13 @@ public class MineralTenementController extends BasePortalController {
             @RequestParam(required = false, value = "endDate") String endDate,
             HttpServletResponse response) throws Exception {
 
-        //Vt: wms shouldn't need the bbox because it is tiled.
+        // Vt: wms shouldn't need the bbox because it is tiled.
         FilterBoundingBox bbox = null;
         String stylefilter = this.mineralTenementService.getMineralTenementWithStyling(name, tenementType, owner, size,
-                endDate); //VT:get filter from service
+                endDate); // VT:get filter from service
 
         String filter = this.mineralTenementService.getMineralTenementFilter(name, tenementType, owner, size, endDate,
-                bbox); //VT:get filter from service
+                bbox); // VT:get filter from service
 
         String style = this.getPolygonStyle(stylefilter, filter, MINERAL_TENEMENT_TYPE, "#00FF00", "#00FF00");
 
@@ -128,22 +129,22 @@ public class MineralTenementController extends BasePortalController {
                 "</Stroke>" +
                 "</PolygonSymbolizer>" +
                 "</Rule>" +
-                //                        "<Rule>" +
-                //                        "<Name>Polygon for mineral tenement</Name>" +
-                //                        "<Title>Active Tenement</Title>" +
-                //                        "<Abstract>50% transparent green fill with a red outline 1 pixel in width</Abstract>" +
-                //                         stylefilter +
-                //                        "<PolygonSymbolizer>" +
-                //                        "<Fill>" +
-                //                        "<CssParameter name=\"fill\">" + color + "</CssParameter>" +
-                //                        "<CssParameter name=\"fill-opacity\">0.6</CssParameter>" +
-                //                        "</Fill>" +
-                //                        "<Stroke>" +
-                //                        "<CssParameter name=\"stroke\">" + borderColor + "</CssParameter>" +
-                //                        "<CssParameter name=\"stroke-width\">1</CssParameter>" +
-                //                        "</Stroke>" +
-                //                        "</PolygonSymbolizer>" +
-                //                        "</Rule>" +
+                // "<Rule>" +
+                // "<Name>Polygon for mineral tenement</Name>" +
+                // "<Title>Active Tenement</Title>" +
+                // "<Abstract>50% transparent green fill with a red outline 1 pixel in width</Abstract>" +
+                // stylefilter +
+                // "<PolygonSymbolizer>" +
+                // "<Fill>" +
+                // "<CssParameter name=\"fill\">" + color + "</CssParameter>" +
+                // "<CssParameter name=\"fill-opacity\">0.6</CssParameter>" +
+                // "</Fill>" +
+                // "<Stroke>" +
+                // "<CssParameter name=\"stroke\">" + borderColor + "</CssParameter>" +
+                // "<CssParameter name=\"stroke-width\">1</CssParameter>" +
+                // "</Stroke>" +
+                // "</PolygonSymbolizer>" +
+                // "</Rule>" +
                 "</FeatureTypeStyle>" +
                 "</UserStyle>" +
                 "</NamedLayer>" +

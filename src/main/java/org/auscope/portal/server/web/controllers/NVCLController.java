@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.io.IOUtils;
+import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.CSWCacheService;
 import org.auscope.portal.core.services.csw.CSWRecordsHostFilter;
@@ -90,7 +91,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "onlyHylogger") String onlyHyloggerString,
             @RequestParam(required = false, value = "serviceFilter", defaultValue = "") String serviceFilter)
-            throws Exception {
+                    throws Exception {
 
         String[] serviceFilterArray = serviceFilter.split(",");
 
@@ -107,7 +108,8 @@ public class NVCLController extends BasePortalController {
             }
         }
 
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
         return doBoreholeFilter(serviceUrl, boreholeName, custodian, dateOfDrilling, maxFeatures, bbox, onlyHylogger);
     }
@@ -133,7 +135,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "onlyHylogger") String onlyHyloggerString,
             @RequestParam(required = false, value = "serviceFilter", defaultValue = "") String serviceFilter)
-            throws Exception {
+                    throws Exception {
 
         String[] serviceFilterArray = serviceFilter.split(",");
 
@@ -150,7 +152,8 @@ public class NVCLController extends BasePortalController {
             }
         }
 
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
+        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
         // show all NVCL boreholes
         return doBoreholeFilter(serviceUrl, boreholeName, custodian, dateOfDrilling, -1, bbox, onlyHylogger);
     }
@@ -283,7 +286,7 @@ public class NVCLController extends BasePortalController {
         InputStream serviceInputStream = serviceResponse.getResponse();
         OutputStream responseOutput = null;
 
-        //write our response
+        // write our response
         try {
             servletResponse.setContentType(serviceResponse.getContentType());
             responseOutput = servletResponse.getOutputStream();
@@ -313,7 +316,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam(required = false, value = "endSampleNo") Integer endSampleNo,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         MosaicResponse serviceResponse = null;
         try {
             serviceResponse = dataService.getMosaic(serviceUrl, logId, width, startSampleNo, endSampleNo);
@@ -345,7 +348,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam(required = false, value = "endSampleNo") Integer endSampleNo,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         TrayThumbNailResponse serviceResponse = null;
         try {
             serviceResponse = this.dataService2_0.getTrayThumbNail(dataSetId, serviceUrl, logId, width, startSampleNo,
@@ -358,8 +361,8 @@ public class NVCLController extends BasePortalController {
         }
 
         response.setContentType(serviceResponse.getContentType());
-        //vt:we have to hack the response because the html response has relative url and when
-        //the result is proxied, the service url becomes portal's url.
+        // vt:we have to hack the response because the html response has relative url and when
+        // the result is proxied, the service url becomes portal's url.
         String stringResponse = IOUtils.toString(serviceResponse.getResponse());
         stringResponse = stringResponse.replace("./Display_Tray_Thumb.html", serviceUrl + "Display_Tray_Thumb.html");
         if (!stringResponse.contains("style=\"max-width: 33%")) {
@@ -393,7 +396,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam(value = "legend", defaultValue = "0") Integer legend,
             HttpServletResponse response) throws Exception {
 
-        //Parse our graph type
+        // Parse our graph type
         NVCLDataServiceMethodMaker.PlotScalarGraphType graphType = null;
         if (graphTypeInt != null) {
             switch (graphTypeInt) {
@@ -413,7 +416,7 @@ public class NVCLController extends BasePortalController {
             }
         }
 
-        //Make our request
+        // Make our request
         PlotScalarResponse serviceResponse = null;
         try {
             serviceResponse = dataService.getPlotScalar(serviceUrl, logId, startDepth, endDepth, width, height,
@@ -443,7 +446,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam("datasetId") String datasetId,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         CSVDownloadResponse serviceResponse = null;
         try {
             serviceResponse = dataService.getCSVDownload(serviceUrl, datasetId);
@@ -473,7 +476,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam("logIds") String[] logIds,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         CSVDownloadResponse serviceResponse = null;
         try {
             serviceResponse = dataService2_0.getNVCL2_0_CSVDownload(serviceUrl, logIds);
@@ -540,11 +543,11 @@ public class NVCLController extends BasePortalController {
             @RequestParam(required = false, value = "mapPics") Boolean mapPics,
             HttpServletResponse response) throws Exception {
 
-        //It's likely that the GUI (due to its construction) may send multiple email parameters
-        //Spring condenses this into a single CSV string (which is bad)
+        // It's likely that the GUI (due to its construction) may send multiple email parameters
+        // Spring condenses this into a single CSV string (which is bad)
         email = email.split(",")[0];
 
-        //Make our request
+        // Make our request
         TSGDownloadResponse serviceResponse = null;
         try {
             serviceResponse = dataService.getTSGDownload(serviceUrl, email, datasetId, matchString, lineScan, spectra,
@@ -584,7 +587,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam("email") String email,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         TSGStatusResponse serviceResponse = null;
         try {
             serviceResponse = dataService.checkTSGStatus(serviceUrl, email);
@@ -608,7 +611,7 @@ public class NVCLController extends BasePortalController {
         FileIOUtil.writeInputToOutputStream(new ByteArrayInputStream(stringResponse.getBytes()),
                 response.getOutputStream(), BUFFERSIZE, true);
 
-        //writeStreamResponse(response, serviceResponse);
+        // writeStreamResponse(response, serviceResponse);
     }
 
     /**
@@ -634,7 +637,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam("typeName") String typeName,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         WFSDownloadResponse serviceResponse = null;
         try {
             serviceResponse = dataService.getWFSDownload(serviceUrl, email, boreholeId, omUrl, typeName);
@@ -669,7 +672,7 @@ public class NVCLController extends BasePortalController {
             @RequestParam("email") String email,
             HttpServletResponse response) throws Exception {
 
-        //Make our request
+        // Make our request
         WFSStatusResponse serviceResponse = null;
         try {
             serviceResponse = dataService.checkWFSStatus(serviceUrl, email);
