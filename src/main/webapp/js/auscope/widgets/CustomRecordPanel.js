@@ -18,7 +18,6 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
 
         var me = this;
         if(this.enableBrowse){
-            //var menuItems = [this._getRegistryAction(),this._getHandleKMLAction()];
             this.addDocked({
                 xtype: 'toolbar',
                 dock: 'top',
