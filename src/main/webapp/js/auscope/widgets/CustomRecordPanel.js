@@ -18,30 +18,25 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
 
         var me = this;
         if(this.enableBrowse){
-            var menuItems = [this._getRegistryAction(),this._getHandleKMLAction()];
+            //var menuItems = [this._getRegistryAction(),this._getHandleKMLAction()];
             this.addDocked({
                 xtype: 'toolbar',
                 dock: 'top',
                 items: [{
                     xtype : 'label',
-                    text : 'WMS Url:'
+                    text : 'WMS Url:',
+                    width: 56
                 },{
                     xtype : 'wmscustomsearchfield',
                     store : this.getStore(),
-                    width : 190,
+                    width : 286,
                     name : 'STTField',
                     paramName: 'service_URL',
                     emptyText : 'http://'
-                },{
-                    xtype:'tbseparator'
-                },{
-                    xtype : 'button',
-                    text      : 'More',
-                    iconCls    :   'setting fa-spin',
-                    arrowAlign: 'right',
-                    menu      : menuItems
                 }]
             });
+            this.addDocked(this._getKMLURL());
+            this.addDocked(this._getKMLFile());
         }else{
             this.addDocked({
                 xtype: 'toolbar',
@@ -52,7 +47,7 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
                 },{
                     xtype : 'searchfield',
                     store : this.getStore(),
-                    width : 243,
+                    width : 286,
                     name : 'STTField',
                     paramName: 'service_URL',
                     emptyText : 'http://'
@@ -61,86 +56,8 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
         }
 
     },
+    
 
-    _getRegistryAction : function(){
-        var baseform = this.filterForm;
-
-        var me = this;
-
-        return new Ext.Action({
-            xtype : 'button',
-            text:'Registry',
-            iconCls : 'magglass',
-            itemId: 'browseCatalogue',
-            tooltip:'Browse and filter through the available catalogue',
-            scope:me,
-            handler: function(btn) {
-                //VT: TODO use BrowserWindowWithWarning.js
-                if(me.browseCatalogueDNSMessage==true){
-                	
-                	// make sure there is no duplicate component
-                    var cswFilterWindow = Ext.getCmp('cswFilterWindow');
-                    if (cswFilterWindow) {
-                        cswFilterWindow.destroy();
-                    }
-                    cswFilterWindow = new portal.widgets.window.CSWFilterWindow({
-                        name : 'CSW Filter',
-                        id : 'cswFilterWindow',
-                        listeners : {
-                            filterselectcomplete : Ext.bind(me.handleFilterSelectComplete, me)
-                        }
-                    });                	
-                    
-                    cswFilterWindow.show();
-                }else{
-                    Ext.MessageBox.show({
-                        title:    'Browse Catalogue',
-                        msg:      'Select the filters across the tabs and once you are happy with the result, click on OK to apply all the filters<br><br><input type="checkbox" id="do_not_show_again" value="true" checked/>Do not show this message again',
-                        buttons:  Ext.MessageBox.OK,
-                        scope : me,
-                        fn: function(btn) {
-                            if( btn == 'ok') {
-                                if (Ext.get('do_not_show_again').dom.checked == true){
-                                    me.browseCatalogueDNSMessage=true;
-                                }
-                                
-                                // make sure there is no duplicate component
-                                var cswFilterWindow = Ext.getCmp('cswFilterWindow');
-                                if (cswFilterWindow) {
-                                	cswFilterWindow.destroy();
-                                }
-                                cswFilterWindow = new portal.widgets.window.CSWFilterWindow({
-                                    name : 'CSW Filter',
-                                    id : 'cswFilterWindow',
-                                    listeners : {
-                                        filterselectcomplete : Ext.bind(me.handleFilterSelectComplete, me)
-                                    }
-                                });
-                                
-                                cswFilterWindow.show();
-                            }
-                        }
-                    });
-                }
-
-            }//VT:End handler
-
-        })
-
-    },
-
-    _getHandleKMLAction : function(){
-        var baseform = this.filterForm;
-        var me = this;
-        return new Ext.Action({
-            text : 'Add KML ',
-            iconCls : 'fa fa-file-code-o fa-gray-icon',
-            handler : function(){
-                me._getKMLFileDialog().show();
-            }
-        })
-
-    },
 
     addKMLtoPanel : function(name,file){
         var csw = Ext.create('portal.csw.CSWRecord',{
@@ -163,75 +80,28 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
         return csw;
     },
 
-
-    /**
-     * This returns a file window download box to allow users to add or point to a kml file.
-     */
-    _getKMLFileDialog : function(){
-        var me = this;
-        var panel1 = Ext.create('Ext.form.Panel', {
-            title : 'KML File',
-            bodyPadding: 15,
-            frame: true,
-            items: [{
-                xtype: 'filefield',
-                name: 'file',
-                fieldLabel: 'KML',
-                labelWidth: 50,
-                msgTarget: 'side',
-                allowBlank: false,
-                anchor: '100%',
-                buttonText: 'Select KML...'
-            }],
-
-            buttons: [{
-                text: 'Add KML',
-                handler: function() {
-                    var form = this.up('form').getForm();
-                    if(form.isValid()){
-                        form.submit({
-                            url: 'addKMLLayer.do',
-                            waitMsg: 'Adding KML Layer...',
-                            success: function(fp, o) {
-
-                               var tabpanel =  Ext.getCmp('auscope-tabs-panel');
-                               var customPanel = me.ownerCt.getComponent('org-auscope-custom-record-panel');
-                               tabpanel.setActiveTab(customPanel);
-
-                               customPanel.addKMLtoPanel(o.result.name,o.result.file);
-
-                               this.form.owner.up('window').close();
-
-                            },
-                            failure : function(fp,action){
-                                Ext.Msg.alert('Status', 'Unable to parse file. Make sure the file is a valid KML file.');
-                            }
-                        });
-                    }
-                }
-            }]
-        });
-
-        var panel2 = Ext.create('Ext.form.Panel', {
-            bodyPadding: 15,
-            title : 'KML URL',
-            frame: true,
-            items: [{
-                xtype: 'textfield',
-                value : 'https://capdf-dev.csiro.au/gs-hydrogeochem/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:hydrogeochem&maxFeatures=50&outputFormat=application/vnd.google-earth.kml+xml',
-                name: 'file',
-                fieldLabel: 'URL',
-                labelWidth: 50,
-                msgTarget: 'side',
-                allowBlank: false,
-                anchor: '100%'
-            }],
-
-            buttons: [{
-                text: 'Add KML',
-                handler: function() {
-                    var form = this.up('form').getForm();
-                    if(form.isValid()){
+  
+    
+    _getKMLURL : function() {
+    	var baseform = this.filterForm;
+    	var me = this;
+		var panel = Ext.create('Ext.form.Panel', {
+			bodyPadding : 8,
+			items : [ {
+				 xtype: 'textfield',
+	                value : 'https://capdf-dev.csiro.au/gs-hydrogeochem/public/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=public:hydrogeochem&maxFeatures=50&outputFormat=application/vnd.google-earth.kml+xml',
+	                name: 'url',
+	                fieldLabel: 'KML URL',
+	                labelWidth: 58,
+	                msgTarget: 'side',
+	                allowBlank: false,
+	                anchor: '100%'
+			} ],
+			buttons : [ {
+			text : 'Add KML',
+				handler : function() {
+					var form = this.up('form').getForm();
+					if(form.isValid()){
                         form.submit({
                             url: 'addKMLUrl.do',
                             params:{
@@ -246,7 +116,6 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
 
                                customPanel.addKMLtoPanel(o.result.data.name,o.result.data.file);
 
-                               this.form.owner.up('window').close();
 
                             },
                             failure : function(fp,action){
@@ -254,24 +123,60 @@ Ext.define('auscope.widgets.CustomRecordPanel', {
                             }
                         });
                     }
+				}
+			} ]
+		});
+		return panel;
+	},
+    
+    _getKMLFile : function() {
+    	var baseform = this.filterForm;
+    	var me = this;
+    	var panel = Ext.create('Ext.form.Panel',{
+    		bodyPadding: 8,
+            // title : 'KML URL',
+            items: [{
+                    xtype: 'filefield',
+                    name: 'file',
+                    fieldLabel: 'KML File',
+                    labelWidth: 58,
+                    msgTarget: 'side',
+                    allowBlank: false,
+                    anchor: '100%',
+                    buttonText: 'Select KML...'
+                }],
+                buttons: [{
+                    text: 'Add KML',
+                    handler: function() {
+                    	var form = this.up('form').getForm();
+                    	if(form.isValid()){
+                            form.submit({
+                                url: 'addKMLLayer.do',
+                                waitMsg: 'Adding KML Layer...',
+                                success: function(fp, o) {
+
+                                   var tabpanel =  Ext.getCmp('auscope-tabs-panel');
+                                   var customPanel = me.ownerCt.getComponent('org-auscope-custom-record-panel');
+                                   tabpanel.setActiveTab(customPanel);
+
+                                   customPanel.addKMLtoPanel(o.result.name,o.result.file);
+
+
+                                },
+                                failure : function(fp,action){
+                                    Ext.Msg.alert('Status', 'Unable to parse file. Make sure the file is a valid KML file.');
+                                }
+                            });
+                        }
+                    }
                 }
-            }]
-        });
+                ]
+    		}
+    	);
+    	return panel;
+    },
 
 
-        var tabpanel = Ext.create('Ext.tab.Panel', {
-            items: [panel1,panel2]
-        });
-
-        return Ext.create('Ext.window.Window', {
-            title: 'KML Input',
-            height: 190,
-            width: 400,
-            frameHeader : false,
-            layout: 'fit',
-            items: tabpanel
-        })
-    }
 
 
 
