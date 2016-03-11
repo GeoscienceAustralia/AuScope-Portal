@@ -2002,4 +2002,150 @@ The coastal boundary for the Great Barrier Reef World Heritage Area is interim. 
         <property name="group" value="National Geophysical Datasets"/>
         <property name="order" value="90 National Geophysical Datasets 200" />
     </bean>
+	<!-- GPT-113 Add Rock Properties Layers -->
+	<!-- Add description -->
+	<bean id="knownTypeRockPropertiesBulkDensity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="bulk-density" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="bulk_density" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Bulk Density" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 000" />
+	</bean>
+	<bean id="knownTypeRockPropertiesChargeability" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="chargeability" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="chargeability" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Chargeability" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 010" />
+	</bean>
+	<bean id="knownTypeRockPropertiesElectricalConductivity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="electrical-conductivity" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="electrical_conductivity" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Electrical Conductivity" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 020" />
+	</bean>
+	<bean id="knownTypeRockPropertiesElectricalResistivity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="electrical-resistivity" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="electrical_resistivity" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Electrical Resistivity" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 030" />
+	</bean>
+	<bean id="knownTypeRockPropertiesGammaBulkDensity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="gamma-bulk-density" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="gamma_bulk_density" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Gamma Bulk Density" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 040" />
+	</bean>
+	<bean id="knownTypeRockPropertiesKoenigsbergerRatio" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="koenigsberger-ratio" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="koenigsberger_ratio" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Koenigsberger Ratio" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 050" />
+	</bean>
+	<bean id="knownTypeRockPropertiesMagneticSusceptibility" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="magnetic-susceptibility" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="magnetic_susceptibility" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Magnetic Susceptibility" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 060" />
+	</bean>
+	<bean id="knownTypeRockPropertiesNaturalGamma" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="natural-gamma" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="natural_gamma" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Natural Gamma" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 070" />
+	</bean>
+	<bean id="knownTypeRockPropertiesPorosity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="porosity" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="porosity" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Porosity" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 080" />
+	</bean>
+	<bean id="knownTypeRockPropertiesRemanentMagnetisation" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="remanent-magnetisation" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="remanent_magnetisation" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Remanent Magnetisation" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 090" />
+	</bean>
+	<bean id="knownTypeRockPropertiesSonicVelocity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="sonic-velocity" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="sonic_velocity" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Sonic Velocity" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 100" />
+	</bean>
+	<bean id="knownTypeRockPropertiesTemperature" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
+		<constructor-arg name="id" value="temperature" />
+		<constructor-arg name="knownLayerSelector">
+			<bean class="org.auscope.portal.core.view.knownlayer.WMSSelector">
+				<constructor-arg name="layerName" value="temperature" />
+			</bean>
+		</constructor-arg>
+		<property name="name" value="Temperature" />
+		<property name="description" value="" />
+		<property name="group" value="Rock Properties" />
+		<property name="order" value="95 Rock Properties 110" />
+	</bean>
 </beans>
