@@ -133,6 +133,19 @@
                 <ref bean="knownTypeRadiometrics2015FilteredUKRatio" />
                 <ref bean="knownTypeRadiometrics2015FilteredUThRatio" />
                 <ref bean="knownTypeRadiometrics2015FilteredU2ThRatio" />
+	<!-- Rock Properties -->
+	<ref bean="knownTypeRockPropertiesBulkDensity" />
+	<ref bean="knownTypeRockPropertiesChargeability" />
+	<ref bean="knownTypeRockPropertiesElectricalConductivity" />
+	<ref bean="knownTypeRockPropertiesElectricalResistivity" />
+	<ref bean="knownTypeRockPropertiesGammaBulkDensity" />
+	<ref bean="knownTypeRockPropertiesKoenigsbergerRatio" />
+	<ref bean="knownTypeRockPropertiesMagneticSusceptibility" />
+	<ref bean="knownTypeRockPropertiesNaturalGamma" />
+	<ref bean="knownTypeRockPropertiesPorosity" />
+	<ref bean="knownTypeRockPropertiesRemanentMagnetisation" />
+	<ref bean="knownTypeRockPropertiesSonicVelocity" />
+	<ref bean="knownTypeRockPropertiesTemperature" />
             </list>
         </constructor-arg>
     </bean>
