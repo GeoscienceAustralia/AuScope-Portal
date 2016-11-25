@@ -12,7 +12,7 @@ elif [ $TRAVIS_BRANCH = 'travis-master' ] ; then
   if [ $TRAVIS_PULL_REQUEST == 'false' ] ; then
     mvn clean 
   else
-    mvn -DdryRun=true release:prepare --settings $M2_SETTINGS 
+    mvn -B -DdryRun=true release:prepare --settings $M2_SETTINGS 
   fi
 fi
 
