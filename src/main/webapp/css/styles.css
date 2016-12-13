@@ -172,23 +172,88 @@
         width : 100%  !important;
         z-index: 99;
     }
-    
-    #footer-container {
-        height: 60px !important;
+    #center_region + div{
+        bottom:0 !important;
+        height:20px !important;
     }
+    #footer-container:before{
+       content: "Partnered By .......";
+        margin-left: 50%;
+        color: blue;
+        font-weight: 700;
+        font-size: larger;
+        line-height: 2em;
+    }
+     #footer-container:hover {
+        bottom:  0;
+    }
+     #footer-container{
+        background-color: lightgray;        
+        z-index: 10001;
+        position: fixed;
+        width: 100%;
+        bottom: -65px;
+        height: 96px !important;
+        -moz-animation: logoFlyout 7s linear;
+        -webkit-animation: logoFlyout 7s linear;
+        animation: logoFlyout 7s linear;
+        -moz-transition: all .5s ease-in-out;
+        -webkit-transition: all .5s ease-in-out;
+        -o-transition: all .5s ease-in-out;
+        transition: all .5s ease-in-out;
+    }
+    #footer-heading{  
+        position: fixed;
+        bottom: 50px;
+        left: 50%;
+    }
+    @-moz-keyframes logoFlyout {
+        0% {
+            bottom: 0;
+        }
+        80% {
+            bottom: 0;
+        }
+        100% {
+            bottom: -65px;
+        }
+    }
+    @-webkit-keyframes logoFlyout {
+        0% {
+            bottom: 0;
+        }
+        80% {
+            bottom: 0;
+        }
+        100% {
+            bottom: -65px;
+        }
+    }
+    @keyframes logoFlyout {
+        0% {
+            bottom: 0;
+        }
+        80% {
+            bottom: 0;
+        }
+        100% {
+            bottom: -65px;
+        }
+    }   
 
+   
     #footer-container div {
         border: none !important;
     }
     
     #footer-container-innerCt {
         width: 100%;
-        height: 50px !important;
+        /*height: 50px !important;*/
         background-color: #ffffff;
         line-height: 60px; 
         display: flex;
         justify-content: space-between;
-        padding: 5px 5px 5px 5px !important;
+        padding: 1em !important;
         border: none;
     }
     
