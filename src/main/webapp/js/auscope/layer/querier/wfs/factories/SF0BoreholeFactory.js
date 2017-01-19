@@ -198,41 +198,41 @@ Ext.define('auscope.layer.querier.wfs.factories.SF0BoreholeFactory', {
             layout : 'fit',
             items : [{
                 xtype : 'fieldset',
-                title : 'All Boreholes',
+                title : 'Portrayal Borehole View',
                 labelWidth : 120,
                 autoScroll : true,
                 items   : items
             }],
             buttonAlign : 'right',
-            // buttons : [{
-            //     text : 'Download XML',
-            //     iconCls : 'download',
-            //     handler : function() {
-            //         var getXmlUrl = bf._makeFeatureRequestUrl(wfsUrl, 'gsmlp:BoreholeView', gmlId);
-            //         var url = 'downloadGMLAsZip.do?serviceUrls=' + escape(getXmlUrl);
-            //         portal.util.FileDownloader.downloadFile(url);
-            //     }
-            // },{
-            //     text : 'Download CSV',
-            //     iconCls : 'download',
-            //     handler : function() {
-            //         var optionalParam1={
-            //           key : "outputFormat",
-            //           value : "csv"
-            //         };
+            buttons : [{
+                text : 'Download XML',
+                iconCls : 'download',
+                handler : function() {
+                    var getXmlUrl = bf._makeFeatureRequestUrl(wfsUrl, 'gsmlp:BoreholeView', gmlId);
+                    var url = 'downloadGMLAsZip.do?serviceUrls=' + escape(getXmlUrl);
+                    portal.util.FileDownloader.downloadFile(url);
+                }
+            },{
+                text : 'Download CSV',
+                iconCls : 'download',
+                handler : function() {
+                    var optionalParam1={
+                      key : "outputFormat",
+                      value : "csv"
+                    };
 
-            //         var optionalParam2={
-            //                 key : "srsName",
-            //                 value : "EPSG:4326"
-            //               };
+                    var optionalParam2={
+                            key : "srsName",
+                            value : "EPSG:4326"
+                          };
 
-            //         var optionalParams=[optionalParam1,optionalParam2];
+                    var optionalParams=[optionalParam1,optionalParam2];
 
-            //         var getXmlUrl = bf._makeWFSFeatureRequestUrl(wfsUrl, 'gsmlp:BoreholeView', gmlId,optionalParams);
-            //         var url = 'downloadDataAsZip.do?filename=csvdownloads.zip&serviceUrls=' + escape(getXmlUrl);
-            //         portal.util.FileDownloader.downloadFile(url);
-            //     }
-            // }]
+                    var getXmlUrl = bf._makeWFSFeatureRequestUrl(wfsUrl, 'gsmlp:BoreholeView', gmlId,optionalParams);
+                    var url = 'downloadDataAsZip.do?filename=csvdownloads.zip&serviceUrls=' + escape(getXmlUrl);
+                    portal.util.FileDownloader.downloadFile(url);
+                }
+            }]
         });
     }
 });

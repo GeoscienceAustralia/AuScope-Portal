@@ -273,7 +273,7 @@ Ext.define('ga.widgets.GAHeader', {
                 xtype: 'panel',
                 height: '30px',
                 layout: 'hbox',
-                items: [attributionPanel, searchPanel, linksPanel]
+                items: [searchPanel, linksPanel]
             };
         
         // south panel contains the menu bar
@@ -290,7 +290,7 @@ Ext.define('ga.widgets.GAHeader', {
                 xtype: 'panel',
                 height: '140px',
                 layout: 'vbox',
-                items: [northPanel, centerPanel, southPanel]
+                items: [northPanel, attributionPanel, centerPanel, southPanel]
             }],
         
             listeners: {

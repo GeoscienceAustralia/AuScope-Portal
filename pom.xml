@@ -1,25 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>au.gov.ga</groupId>
     <artifactId>geoscience-portal</artifactId>
     <packaging>war</packaging>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <name>Geoscience Portal</name>
-    <description />
+    <description></description>
     <url>http://portal.geoscience.gov.au</url>
     <issueManagement>
         <system>Jira</system>
-        <url>https://gaautobots.atlassian.net/projects/GPT</url>
+        <url>http://intranet.ga.gov.au/jira/browse/GPT</url>
     </issueManagement>
     <ciManagement>
         <system>Jenkins</system>
         <url>http://ci.prod.lan/</url>
     </ciManagement>
     <scm>
-        <connection>scm:git:git@github.com:GeoscienceAustralia/geoscience-portal.git</connection>
-        <developerConnection>scm:git:git@github.com:GeoscienceAustralia/geoscience-portal.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:https://github.com/GeoscienceAustralia/geoscience-portal.git</connection>
+        <developerConnection>scm:git:https://github.com/GeoscienceAustralia/geoscience-portal.git</developerConnection>
+    </scm>
     <organization>
         <name>Geoscience Australia</name>
         <url>http://www.ga.gov.au</url>
@@ -35,7 +35,6 @@
         <portal.core.version>1.7.0-SNAPSHOT</portal.core.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format> 
-        <additionalparam>-Xdoclint:none</additionalparam>
     </properties>
     <build>    
         <extensions>
@@ -72,17 +71,6 @@
                     <doUpdate>false</doUpdate>
                     <timestampFormat>{0,date,dd-MM-yyyy HH:mm}</timestampFormat>
                 </configuration>
-            </plugin>
-            <plugin>
-            <artifactId>maven-release-plugin</artifactId>
-            <version>2.4.2</version>
-            <dependencies>
-                <dependency>
-                    <groupId>org.apache.maven.scm</groupId>
-                    <artifactId>maven-scm-provider-gitexe</artifactId>
-                    <version>1.8.1</version>
-                </dependency>
-            </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -368,7 +356,7 @@
             <!-- Profile to run selenium tests -->
             <id>selenium</id>
             <build>
-                <finalName>Geoscience-Portal</finalName>                
+                <finalName>AuScope-Portal</finalName>                
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -437,7 +425,7 @@
         <dependency>
             <groupId>org.auscope.portal</groupId>
             <artifactId>portal-core</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>${portal.core.version}</version>
         </dependency>
         <!-- Selenium and testng are needed for automated UI testing -->
         <dependency>
@@ -454,14 +442,9 @@
         </dependency>
     </dependencies>
     <distributionManagement>
-        <repository>
-            <id>nexus.gadevs.releases</id>
-            <name>Internal nexus</name>
-            <url>https://nexus.gadevs.ga/repository/maven-releases</url>
-        </repository>
         <snapshotRepository>
-            <id>nexus.gadevs.snapshots</id>
-            <url>https://nexus.gadevs.ga/repository/maven-snapshots</url>
+          <id>nexus.gadevs</id>
+	  <url>https://nexus.gadevs.ga/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>

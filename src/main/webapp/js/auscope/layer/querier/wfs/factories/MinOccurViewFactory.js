@@ -117,19 +117,19 @@ Ext.define('auscope.layer.querier.wfs.factories.MinOccurViewFactory', {
                     fieldLabel : 'Specification URI',
                     value : this._makeWfsUriPopupHtml(earthResourceSpecification_uri, earthResourceSpecification_uri, 'Click here for more information about this feature.')
                 }]
+            }],
+            buttonAlign : 'right',
+            buttons : [{
+                text : 'Download Feature',
+                iconCls : 'download',
+                margin : '0 20 0 0',
+                handler : function() {
+                    var getXmlUrl = bf._makeFeatureRequestUrl(wfsUrl, domNode.nodeName, gmlId);
+                    portal.util.FileDownloader.downloadFile('downloadGMLAsZip.do',{
+                        serviceUrls : getXmlUrl
+                    });
+                }
             }]
-            // buttonAlign : 'right',
-            // buttons : [{
-            //     text : 'Download Feature',
-            //     iconCls : 'download',
-            //     margin : '0 20 0 0',
-            //     handler : function() {
-            //         var getXmlUrl = bf._makeFeatureRequestUrl(wfsUrl, domNode.nodeName, gmlId);
-            //         portal.util.FileDownloader.downloadFile('downloadGMLAsZip.do',{
-            //             serviceUrls : getXmlUrl
-            //         });
-            //     }
-            // }]
         });
     }
 });

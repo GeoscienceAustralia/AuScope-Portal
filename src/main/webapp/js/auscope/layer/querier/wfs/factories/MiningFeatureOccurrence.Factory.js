@@ -74,16 +74,16 @@ Ext.define('auscope.layer.querier.wfs.factories.MiningFeatureOccurrenceFactory',
                     fieldLabel : 'Location',
                     value : coordinateString
                 }],
-                // buttonAlign : 'right',
-                // buttons : [{
-                //     text : 'Download',
-                //     iconCls : 'download',
-                //     handler : function() {
-                //         var getXmlUrl = bf._makeFeatureRequestUrl(wfsUrl, 'er:MiningFeatureOccurrence', gmlId);
-                //         var url = 'downloadGMLAsZip.do?serviceUrls=' + escape(getXmlUrl);
-                //         portal.util.FileDownloader.downloadFile(url);
-                //     }
-                // }]
+                buttonAlign : 'right',
+                buttons : [{
+                    text : 'Download',
+                    iconCls : 'download',
+                    handler : function() {
+                        var getXmlUrl = bf._makeFeatureRequestUrl(wfsUrl, 'er:MiningFeatureOccurrence', gmlId);
+                        var url = 'downloadGMLAsZip.do?serviceUrls=' + escape(getXmlUrl);
+                        portal.util.FileDownloader.downloadFile(url);
+                    }
+                }]
             }],
         });
     }

@@ -224,7 +224,7 @@ Ext.application({
         var defaultLayerFactory = Ext.create('portal.layer.LayerFactory', {
             map : map,
             formFactory : Ext.create('auscope.layer.filterer.GAFormFactory', {map : map, showWMSFilter : false}),
-            downloaderFactory : Ext.create('auscope.layer.AuScopeDownloaderFactory', {map: map, enableDownload : false}),
+            downloaderFactory : Ext.create('auscope.layer.AuScopeDownloaderFactory', {map: map}),
             querierFactory : Ext.create('auscope.layer.AuScopeQuerierFactory', {map: map}),
             rendererFactory : Ext.create('auscope.layer.AuScopeRendererFactory', {map: map})
         });  
@@ -236,6 +236,16 @@ Ext.application({
             querierFactory : Ext.create('auscope.layer.AuScopeQuerierFactory', {map: map}),
             rendererFactory : Ext.create('auscope.layer.AuScopeRendererFactory', {map: map})
         });
+
+        var customLayerFactory = Ext.create('portal.layer.LayerFactory', {
+            map : map,
+            formFactory : Ext.create('auscope.layer.filterer.GAFormFactory', {map : map, showWMSFilter : true}),
+            //downloaderFactory : Ext.create('auscope.layer.AuScopeDownloaderFactory', {map: map}),
+            querierFactory : Ext.create('auscope.layer.AuScopeQuerierFactory', {map: map}),
+            rendererFactory : Ext.create('auscope.layer.AuScopeRendererFactory', {map: map})
+        });
+        
+
         
         var knownLayersPanel = Ext.create('auscope.widgets.panel.GAKnownLayerPanel', {
             title : 'Featured',
@@ -267,7 +277,6 @@ Ext.application({
             serviceInformationIcon: 'img/information.png',
             mapExtentIcon: 'img/extent3.png',
             enableBrowse : true,//VT: if true browse catalogue option will appear
-            enableDownload : false,//DC: if false 'Download Layer' will not be displayed
             tooltip : {
                 title : 'Custom Data Layers',
                 text : '<p>This tab allows you to create your own layers from remote data services.</p>',
@@ -277,8 +286,6 @@ Ext.application({
             map : map,
             layerFactory : defaultLayerFactory
         });
-        var  customLayersMenuFactory = Ext.create('auscope.layer.GAFilterPanelMenuFactory',{map : map, showFilter: false, addResetFormActionForWMS : false, recordPanel : customRecordsPanel, downloadable: false})
-        customRecordsPanel.menuFactory = customLayersMenuFactory;
 
         // header
         var northPanel = {
