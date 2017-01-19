@@ -358,10 +358,7 @@
         padding-right : 0 !important;
     }
     
-    #header-controls {
-        float: right;
-        width: 100%;
-        height: 20px;
+    #header-controls {      
         font-size: 10pt;
         display: inline;
         line-height: 17px;
@@ -414,7 +411,7 @@
     }
 
 
-    <!-- AUS-1466 - disable red triangles - they confuse people -->
+    /*<!-- AUS-1466 - disable red triangles - they confuse people -->*/
     .x-grid-dirty-cell {
         background-image:none ! important;
     }
@@ -434,10 +431,6 @@
         display: block;
     }
 	
-    .gasearchresult {
-        
-    }
-    
     .gasearchresult .x-panel-body {
         border: none;
     }
@@ -446,10 +439,6 @@
         font-weight: bold;
         background-color: #f3f3f3;
         width: 100%;
-    }
-    
-    .gasearchresult .description {
-        
     }
     
     .gasearchresult .x-box-inner {
@@ -485,7 +474,7 @@
     .pretendLinkDisabled {
        color: gray; 
        text-decoration: none;
-       pointer: default;
+       cursor: default;
     }
     
     .onlineresourcedetails {
@@ -590,7 +579,7 @@
     }
 
     table.featureInfo>th, table.featureInfo>td {
-       valign: top; text-align: left;
+       vertical-align: top; text-align: left;
     }
 
     table.featureInfo>th {
