@@ -21,7 +21,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 public class MineStatusVocabService extends SISSVoc3Service {
     
-    public static final String REPOSITORY_NAME = "cgi201211";
+    public static final String REPOSITORY_NAME = "ga/mine-status/v0-1";
     
     public MineStatusVocabService(HttpServiceCaller httpServiceCaller, SISSVoc3MethodMaker sissVocMethodMaker,
             String baseUrl) {
@@ -39,8 +39,8 @@ public class MineStatusVocabService extends SISSVoc3Service {
         int pageSize = this.getPageSize();
 
         do {
-            HttpRequestBase method = sissVocMethodMaker.getAllConceptsInScheme(getBaseUrl(), getRepository(),
-                    VocabularyLookup.MINE_STATUS.scheme(), Format.Rdf, View.description, pageSize, pageNumber);
+            HttpRequestBase method = sissVocMethodMaker.getAllConcepts(getBaseUrl(), getRepository(),
+                    Format.Rdf, View.description, pageSize, pageNumber);
             if (requestPageOfConcepts(method, model)) {
                 pageNumber++;
             } else {

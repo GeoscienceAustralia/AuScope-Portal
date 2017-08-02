@@ -23,7 +23,7 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 public class CommodityVocabService extends SISSVoc3Service {
 
-	public static final String REPOSITORY_NAME = "cgi201211";
+	public static final String REPOSITORY_NAME = "ga/commodity-code/v0-1";
 
 	public CommodityVocabService(HttpServiceCaller httpServiceCaller, SISSVoc3MethodMaker sissVocMethodMaker,
 			String baseUrl) {
@@ -40,8 +40,8 @@ public class CommodityVocabService extends SISSVoc3Service {
 
 		// Request each of the GA commodity names
 		do {
-			HttpRequestBase method = sissVocMethodMaker.getAllConceptsInScheme(getBaseUrl(), getRepository(),
-					VocabularyLookup.COMMODITY_CODE.scheme(), Format.Rdf, View.concept, pageSize, pageNumber);
+			HttpRequestBase method = sissVocMethodMaker.getAllConcepts(getBaseUrl(), getRepository(),
+					 Format.Rdf, View.concept, pageSize, pageNumber);
 			if (requestPageOfConcepts(method, model)) {
 				pageNumber++;
 			} else {
