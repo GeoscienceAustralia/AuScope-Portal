@@ -3,7 +3,7 @@
     <groupId>au.gov.ga</groupId>
     <artifactId>geoscience-portal</artifactId>
     <packaging>war</packaging>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.4.4</version>
     <name>Geoscience Portal</name>
     <description />
     <url>http://portal.geoscience.gov.au</url>
@@ -18,7 +18,7 @@
     <scm>
         <connection>scm:git:git@github.com:GeoscienceAustralia/geoscience-portal.git</connection>
         <developerConnection>scm:git:git@github.com:GeoscienceAustralia/geoscience-portal.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>geoscience-portal-1.4.4</tag>
   </scm>
     <organization>
         <name>Geoscience Australia</name>
@@ -442,7 +442,7 @@
         <dependency>
             <groupId>org.auscope.portal</groupId>
             <artifactId>portal-core</artifactId>
-            <version>1.7.0-SNAPSHOT</version>
+            <version>1.7.2.AUSGIN</version>
         </dependency>
         <!-- Selenium and testng are needed for automated UI testing -->
         <dependency>
