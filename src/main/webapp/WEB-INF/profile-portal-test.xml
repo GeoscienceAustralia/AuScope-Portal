@@ -17,7 +17,7 @@
                 <ref bean="knownTypeCommodityResourceView" />
                 <ref bean="knownTypeMineView" />
                 <ref bean="knownTypeNVCLBoreholes" />
-                <ref bean="knownTypeNationalVirtualCoreLibrary" />
+		<!--  <ref bean="knownTypeNationalVirtualCoreLibrary" /> -->
                 <ref bean="knownTypeAllBoreholes" />
                 <ref bean="knownTypeSamplingPoint" />
                 <ref bean="knownTypeFeatureCollection" />
