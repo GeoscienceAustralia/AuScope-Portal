@@ -2472,7 +2472,7 @@ The coastal boundary for the Great Barrier Reef World Heritage Area is interim. 
         <property name="description" value="" />
         <property name="proxyUrl" value="" />
         <property name="proxyCountUrl" value="" />
-        <property name="proxyStyleUrl" value="rockPropertiesClusterStyle.do" />
+        <property name="proxyStyleUrl" value="" />
         <property name="proxyDownloadUrl" value="getBulkDensityDownload.do" />
         <property name="proxyGetFeatureInfoUrl" value="rockPropertiesGetFeatureInfo.do" />
 
