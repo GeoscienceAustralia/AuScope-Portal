@@ -1513,7 +1513,7 @@
         <property name="mapStyles" value="bulk_density_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/bulk_density_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/bulk_density_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 01" />
     </bean>
     <bean id="knownTypeRockPropertiesChargeability" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1535,7 +1535,7 @@
         <property name="proxyGetFeatureInfoUrl" value="rockPropertiesGetFeatureInfo.do" />
         <property name="mapStyles" value="chargeability_cluster"/>
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/chargeability_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/chargeability_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 010" />
     </bean>
     <bean id="knownTypeRockPropertiesElectricalConductivity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1556,7 +1556,7 @@
         <property name="mapStyles" value="electrical_conductivity_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/electrical_conductivity_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/electrical_conductivity_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 020" />
     </bean>
     <bean id="knownTypeRockPropertiesElectricalResistivity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1579,7 +1579,7 @@
         <property name="proxyGetFeatureInfoUrl" value="rockPropertiesGetFeatureInfo.do" />
         <property name="mapStyles" value="electrical_resistivity_cluster"/>
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/electrical_resistivity_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/electrical_resistivity_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 030" />
     </bean>
     <bean id="knownTypeRockPropertiesGammaBulkDensity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1603,7 +1603,7 @@
         <property name="mapStyles" value="gamma_density_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/gamma_bulk_density_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/gamma_bulk_density_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 040" />
     </bean>
     <bean id="knownTypeRockPropertiesKoenigsbergerRatio" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1627,7 +1627,7 @@
         <property name="mapStyles" value="koenigsberger_ratio_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/koenigsberger_ratio_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/koenigsberger_ratio_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 050" />
     </bean>
     <bean id="knownTypeRockPropertiesMagneticSusceptibility" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1651,7 +1651,7 @@
         <property name="mapStyles" value="magnetic_susceptibility_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/magnetic_susceptibility_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/magnetic_susceptibility_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 060" />
     </bean>
     <bean id="knownTypeRockPropertiesNaturalGamma" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1675,7 +1675,7 @@
         <property name="mapStyles" value="natural_gamma_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/natural_gamma_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/natural_gamma_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 070" />
     </bean>
     <bean id="knownTypeRockPropertiesPorosity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1699,7 +1699,7 @@
 
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/porosity_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/porosity_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 080" />
     </bean>
     <bean id="knownTypeRockPropertiesRemanentMagnetisation" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1723,7 +1723,7 @@
         <property name="mapStyles" value="remanent_magnetisation_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/remanent_magnetisation_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/remanent_magnetisation_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 090" />
     </bean>
     <bean id="knownTypeRockPropertiesSonicVelocity" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1746,7 +1746,7 @@
         <property name="mapStyles" value="sonic_velocity_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/sonic_velocity_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/sonic_velocity_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 100" />
     </bean>
     <bean id="knownTypeRockPropertiesTemperature" class="org.auscope.portal.core.view.knownlayer.KnownLayer">
@@ -1766,7 +1766,7 @@
         <property name="mapStyles" value="temperature_cluster"/>
 
         <property name="group" value="Rock Properties" />
-        <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/temperature_cluster_legend.jpg" />
+        <!--<property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/rock_properties/temperature_cluster_legend.jpg" />-->
         <property name="order" value="08 Rock Properties 110" />
     </bean>
 

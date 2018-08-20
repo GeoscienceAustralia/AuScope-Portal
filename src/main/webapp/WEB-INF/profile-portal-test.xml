@@ -19,7 +19,7 @@
                 <!-- Boreholes folder -->
                 <!-- TODO: GEOPOR-541 remove the below -->
                 <ref bean="knownTypeNVCLBoreholes"/>
-                <ref bean="knownTypeNationalVirtualCoreLibrary"/>
+                <!--<ref bean="knownTypeNationalVirtualCoreLibrary"/>-->
                 <ref bean="knownTypeAllBoreholes"/>
 
                 <!-- Mineral Occurrences and Resources folder -->
