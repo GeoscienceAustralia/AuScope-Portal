@@ -479,7 +479,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-   <distributionManagement>
+   <!--<distributionManagement>
         <repository>
             <id>nexus.gadevs.releases</id>
             <name>Internal nexus</name>
@@ -488,6 +488,18 @@
         <snapshotRepository>
             <id>nexus.gadevs.snapshots</id>
 	    <url>http://maven-int.ga.gov.au/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>-->
+
+    <distributionManagement>
+        <repository>
+            <id>nexus.gadevs.releases</id>
+            <name>Internal nexus</name>
+            <url>https://nexus.gadevs.ga/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus.gadevs.snapshots</id>
+            <url>https://nexus.gadevs.ga/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
