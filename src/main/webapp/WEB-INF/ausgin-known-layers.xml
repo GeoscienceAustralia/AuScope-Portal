@@ -692,7 +692,7 @@
                 value="A collection of services that implement the GGIC application schema mt:Mineral Tenement" />
         <property name="group" value="Tenements" />
         <property name="proxyUrl" value="" />
-        <!--<property name="proxyGetFeatureInfoUrl" value="getMineralTenementFeatureInfo.do" />-->
+        <property name="proxyGetFeatureInfoUrl" value="getMineralTenementFeatureInfo.do" />
         <property name="proxyCountUrl" value="getMineralTenementCount.do" />
         <property name="proxyStyleUrl" value="getMineralTenementStyle.do" />
         <property name="proxyDownloadUrl" value="doMineralTenementDownload.do" />
