@@ -1,15 +1,12 @@
 package au.gov.geoscience.portal.server.controllers;
 
 import au.gov.geoscience.portal.services.EarthResourceService;
-import au.gov.geoscience.portal.services.filters.*;
 import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.NamespaceService;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import org.auscope.portal.core.util.FileIOUtil;
-import org.opengis.filter.Filter;
-import org.opengis.geometry.BoundingBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,83 +41,20 @@ public class EarthResourceFilterController extends BasePortalController {
      * @param maxFeatures Maximum number of features to return
      * @throws Exception
      */
-    @RequestMapping("miningActivityFilterStyle.do")
-    public void miningActivityFilterStyle(HttpServletResponse response,
-                                @RequestParam("serviceUrl") String serviceUrl,
-                                @RequestParam(required = false, value = "mineName", defaultValue = "") String mineName,
-                                @RequestParam(required = false, value = "status", defaultValue = "") String status,
-                                @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
-                                @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-
-        MiningActivityFilter filter = this.earthResourceService.getMiningActivityFilter(mineName, null);
-
-
-        String style = FilterStyle.MINE.getStyle(filter.getFilter(), EarthResourceService.MINING_FEATURE_OCCURRENCE_FEATURE_TYPE, "Mine", null);
-
-        response.setContentType("text/xml");
-
-        ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
-        OutputStream outputStream = response.getOutputStream();
-
-        FileIOUtil.writeInputToOutputStream(styleStream, outputStream, 1024, false);
-
-        styleStream.close();
-        outputStream.close();
-    }
-
-    /**
-     * @param serviceUrl
-     * @param mineName
-     * @param status
-     * @param bboxJson
-     * @param maxFeatures
-     * @return
-     */
-    @RequestMapping("/miningActivityFilterCount.do")
-    public ModelAndView miningActivityFilterCount(
-            @RequestParam("serviceUrl") String serviceUrl,
+    @RequestMapping("mineFilterStyle.do")
+    public void mineFilterStyle(HttpServletResponse response,
             @RequestParam(required = false, value = "mineName", defaultValue = "") String mineName,
             @RequestParam(required = false, value = "status", defaultValue = "") String status,
             @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
-            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures) {
-
-        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
-
-        try {
-            WFSCountResponse response = this.earthResourceService.getMiningActivityCount(serviceUrl, mineName, bbox, maxFeatures);
-
-            return generateJSONResponseMAV(true, new Integer(response.getNumberOfFeatures()), "");
-        } catch (Exception e) {
-            log.warn(String.format("Error performing filter for '%1$s': %2$s", serviceUrl, e));
-            log.debug("Exception: ", e);
-            return this.generateExceptionResponse(e, serviceUrl);
-        }
-
-    }
-
-    /**
-     * @param response Response to return
-     * @param mineName Name of the mine
-     * @param status Status of the mine
-     * @param bboxJson Bounding box of the query
-     * @param maxFeatures Maximum number of features to return
-     * @throws Exception
-     */
-    @RequestMapping("mineFilterStyle.do")
-    public void mineFilterStyle(HttpServletResponse response,
-                                @RequestParam("serviceUrl") String serviceUrl,
-                                @RequestParam(required = false, value = "mineName", defaultValue = "") String mineName,
-                                @RequestParam(required = false, value = "status", defaultValue = "") String status,
-                                @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
-                                @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
+            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
             throws Exception {
+        FilterBoundingBox bbox = null;
+        String filter = "";
 
-        MineFilter2 filter = this.earthResourceService.getMineFilter(mineName, status, null);
+        filter = this.earthResourceService.getMineFilter(mineName, status, bbox);
 
 
-        String style = FilterStyle.MINE.getStyle(filter.getFilter(), EarthResourceService.MINING_FEATURE_OCCURRENCE_FEATURE_TYPE, "Mine", null);
+        String style = FilterStyle.MINE.getStyle(filter, EarthResourceService.MINING_FEATURE_OCCURRENCE_FEATURE_TYPE, "Mine", null);
 
         response.setContentType("text/xml");
 
@@ -163,67 +97,6 @@ public class EarthResourceFilterController extends BasePortalController {
         }
         
     }
-
-
-    /**
-     * @param response Response to return
-     * @param name Name of the mineral occurrence
-     * @param bboxJson Bounding box of the query
-     * @param maxFeatures Maximum number of features to return
-     * @throws Exception
-     */
-    @RequestMapping("minOccViewFilterStyle.do")
-    public void minOccViewFilterStyle(HttpServletResponse response,
-                                @RequestParam("serviceUrl") String serviceUrl,
-                                @RequestParam(required = false, value = "name", defaultValue = "") String name,
-                                @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
-                                @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
-
-        MinOccViewFilter filter = this.earthResourceService.getMinOccViewFilter(name, null);
-
-
-        String style = FilterStyle.MINOCC_VIEW.getStyle(filter.getFilter(), EarthResourceService.MIN_OCC_VIEW_FEATURE_TYPE, "Mineral Occurrences", null);
-
-        response.setContentType("text/xml");
-
-        ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
-        OutputStream outputStream = response.getOutputStream();
-
-        FileIOUtil.writeInputToOutputStream(styleStream, outputStream, 1024, false);
-
-        styleStream.close();
-        outputStream.close();
-    }
-
-    /**
-     * @param serviceUrl
-     * @param name Name of the mineral occurrence
-     * @param bboxJson Bounding box of the query
-     * @param maxFeatures
-     * @return
-     */
-    @RequestMapping("/minOccViewFilterCount.do")
-    public ModelAndView minOccViewFilterCount(
-            @RequestParam("serviceUrl") String serviceUrl,
-            @RequestParam(required = false, value = "name", defaultValue = "") String name,
-            @RequestParam(required = false, value = "bbox", defaultValue = "") String bboxJson,
-            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures) {
-
-        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
-
-        try {
-            WFSCountResponse response = this.earthResourceService.getMinOccViewCount(serviceUrl, name, bbox, maxFeatures);
-
-            return generateJSONResponseMAV(true, new Integer(response.getNumberOfFeatures()), "");
-        } catch (Exception e) {
-            log.warn(String.format("Error performing filter for '%1$s': %2$s", serviceUrl, e));
-            log.debug("Exception: ", e);
-            return this.generateExceptionResponse(e, serviceUrl);
-        }
-
-    }
     
     /**
      * Handles the styling for EarthResourceML Lite MineralOccurrenceView
@@ -248,11 +121,10 @@ public class EarthResourceFilterController extends BasePortalController {
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
             throws Exception {
 
+        FilterBoundingBox bbox = null;
 
-        MineralOccurrenceViewFilter2 mineralOccurrenceViewFilter = this.earthResourceService.getMineralOccurrenceViewFilter(name, commodityUri, timescaleUri,
-                null);
-
-        Filter filter = mineralOccurrenceViewFilter.getFilter();
+        String filter = this.earthResourceService.getMineralOccurrenceViewFilter(name, commodityUri, timescaleUri,
+                bbox);
 
         String ermlLiteNamespace = namespaceService.getNamespaceURI(serviceUrl, ERL_PREFIX);
 
@@ -265,7 +137,6 @@ public class EarthResourceFilterController extends BasePortalController {
         OutputStream outputStream = response.getOutputStream();
 
         FileIOUtil.writeInputToOutputStream(styleStream, outputStream, 1024, false);
-
 
         styleStream.close();
         outputStream.close();
@@ -314,18 +185,17 @@ public class EarthResourceFilterController extends BasePortalController {
      */
     @RequestMapping("/mineViewFilterStyle.do")
     public void mineViewFilterStyle(HttpServletResponse response,
-                                    @RequestParam("serviceUrl") String serviceUrl,
             @RequestParam(required = false, value = "name") String name,
             @RequestParam(required = false, value = "statusUri") String statusUri,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
             throws Exception {
 
-        MineViewFilter2 filter = this.earthResourceService.getMineViewFilter(name, statusUri, null);
+        FilterBoundingBox bbox = null;
 
-        String ermlLiteNamespace = namespaceService.getNamespaceURI(serviceUrl, ERL_PREFIX);
+        String filter = this.earthResourceService.getMineViewFilter(name, statusUri, bbox);
 
-        String style = FilterStyle.MINE_VIEW.getStyle(filter.getFilter(), EarthResourceService.MINE_VIEW_FEATURE_TYPE, "Mines", ermlLiteNamespace);
+        String style = FilterStyle.MINE_VIEW.getStyle(filter, EarthResourceService.MINE_VIEW_FEATURE_TYPE, "Mines", null);
 
         response.setContentType("text/xml");
 
@@ -380,7 +250,6 @@ public class EarthResourceFilterController extends BasePortalController {
      */
     @RequestMapping("/commodityResourceViewFilterStyle.do")
     public void commodityResourceViewFilterStyle(HttpServletResponse response,
-                                                 @RequestParam("serviceUrl") String serviceUrl,
             @RequestParam(required = false, value = "name") String name,
             @RequestParam(required = false, value = "commodityUri") String commodityUri,
             @RequestParam(required = false, value = "jorcCategoryUri") String jorcCategoryUri,
@@ -388,12 +257,13 @@ public class EarthResourceFilterController extends BasePortalController {
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
             throws Exception {
 
-        CommodityResourceViewFilter2 filter = this.earthResourceService.getCommodityResourceViewFilter(name, commodityUri, jorcCategoryUri, null);
+        FilterBoundingBox bbox = null;
 
-        String ermlLiteNamespace = namespaceService.getNamespaceURI(serviceUrl, ERL_PREFIX);
+        String filter = this.earthResourceService.getCommodityResourceViewFilter(name, commodityUri, jorcCategoryUri,
+                bbox);
 
-        String style = FilterStyle.COMMODITY_RESOURCE_VIEW.getStyle(filter.getFilter(),
-                EarthResourceService.COMMODITY_RESOURCE_VIEW_FEATURE_TYPE, "Commodity Resource", ermlLiteNamespace);
+        String style = FilterStyle.COMMODITY_RESOURCE_VIEW.getStyle(filter,
+                EarthResourceService.COMMODITY_RESOURCE_VIEW_FEATURE_TYPE, "Commodity Resource", null);
 
         response.setContentType("text/xml");
 

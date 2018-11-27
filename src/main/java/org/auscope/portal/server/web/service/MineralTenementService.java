@@ -1,7 +1,6 @@
 package org.auscope.portal.server.web.service;
 
 import au.gov.geoscience.portal.server.controllers.VocabularyController;
-import au.gov.geoscience.portal.services.filters.MineralTenementFilter2;
 import au.gov.geoscience.portal.services.methodmaker.filter.MineralTenementFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
@@ -66,17 +65,44 @@ public class MineralTenementService extends BaseWFSService {
         if (statusUri != null && !statusUri.isEmpty()) {
             statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.TENEMENT_STATUS_VOCABULARY_ID, statusUri);
         }
-		MineralTenementFilter2 filter = new MineralTenementFilter2(name, owner, mineralTenementServiceProviderType);
+		MineralTenementFilter filter = new MineralTenementFilter(name, owner, statusUris, typeUris, mineralTenementServiceProviderType);
+		return generateFilterString(filter, bbox);
+	}
 
-        return filter.generateFilterStringAllRecords();
+	public String getMineralTenementWithStyling(String name, String tenementTypeUri, String owner, String statusUri,
+			String endDate) throws Exception {
+		MineralTenementFilter filter = new MineralTenementFilter(name, tenementTypeUri, owner, statusUri, endDate, MineralTenementServiceProviderType.GeoServer);
+		return generateAdditionalStyleFilter(filter);
+	}
+
+	/**
+	 * Utility for turning a filter and add additional styling to the filter.
+	 * 
+	 * @param filter
+	 *            The filter
+	 * @return
+	 * @throws OperationNotSupportedException
+	 */
+	public static String generateAdditionalStyleFilter(IFilter filter) throws OperationNotSupportedException {
+		if (filter instanceof MineralTenementFilter) {
+			MineralTenementFilter mtFilter = (MineralTenementFilter) filter;
+			return mtFilter.getFilterWithAdditionalStyle();
+		} else {
+			throw new OperationNotSupportedException(
+					"Only MineralTenementFilter supports the use of additional style filtering");
+		}
+
 	}
 
 	public WFSResponse getAllTenements(String serviceURL, String tenementName, String owner, int maxFeatures,
 			FilterBoundingBox bbox, String outputFormat) throws Exception {
-
-        MineralTenementFilter2 filter = new MineralTenementFilter2(tenementName, owner, bbox);
-
-		String filterString = filter.generateFilterStringAllRecords();
+		String filterString;
+		MineralTenementFilter mineralTenementFilter = new MineralTenementFilter(tenementName);
+		if (bbox == null) {
+			filterString = mineralTenementFilter.getFilterStringAllRecords();
+		} else {
+			filterString = mineralTenementFilter.getFilterStringBoundingBox(bbox);
+		}
 
 		HttpRequestBase method = null;
 
@@ -93,10 +119,14 @@ public class MineralTenementService extends BaseWFSService {
 
 	public WFSCountResponse getTenementCount(String serviceURL, String tenementName, String owner, int maxFeatures,
 			FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
-
-		MineralTenementFilter2 mineralTenementFilter = new MineralTenementFilter2(tenementName, owner, bbox);
-
-        String filterString = mineralTenementFilter.generateFilterStringAllRecords();
+		// TODO Auto-generated method stub
+		String filterString;
+		MineralTenementFilter mineralTenementFilter = new MineralTenementFilter(tenementName);
+		if (bbox == null) {
+			filterString = mineralTenementFilter.getFilterStringAllRecords();
+		} else {
+			filterString = mineralTenementFilter.getFilterStringBoundingBox(bbox);
+		}
 
 		HttpRequestBase method = null;
 
@@ -105,5 +135,26 @@ public class MineralTenementService extends BaseWFSService {
 		return getWfsFeatureCount(method);
 
 	}
+
+    /**
+     * Utility for turning a filter and optional bounding box into a OGC filter
+     * string
+     *
+     * @param filter
+     *            The filter
+     * @param bbox
+     *            [Optional] the spatial bounds to constrain the result set
+     * @return
+     */
+    public static String generateFilterString(IFilter filter, FilterBoundingBox bbox) {
+        String filterString = null;
+        if (bbox == null) {
+            filterString = filter.getFilterStringAllRecords();
+        } else {
+            filterString = filter.getFilterStringBoundingBox(bbox);
+        }
+
+        return filterString;
+    }
 
 }

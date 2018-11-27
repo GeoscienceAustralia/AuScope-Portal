@@ -65,12 +65,4 @@ public class EarthResourceDownloadService extends BaseWFSService {
         return downloadWFS(serviceUrl, type, filter, maxFeatures);
     }
 
-    public InputStream downloadMinOccView(String serviceUrl, String filter, int maxFeatures, String outputFormat) throws PortalServiceException {
-        String type = EarthResourceService.MIN_OCC_VIEW_FEATURE_TYPE;
-        if (outputFormat.toUpperCase().equals("CSV")) {
-            return downloadCSV(serviceUrl, type, filter, maxFeatures);
-        }
-        return downloadWFS(serviceUrl, type, filter, maxFeatures);
-
-    }
 }

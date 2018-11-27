@@ -51,31 +51,7 @@
                 <version>5.0.0.RELEASE</version>
             </extension>
         </extensions>
-        <plugins>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.2</version>
-                <executions>
-                    <execution>
-                        <id>shade</id>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <filters>
-                                <filter>
-                                    <artifact>org.geotools:gt-main</artifact>
-                                    <excludes>
-                                        <exclude>org/geotools/xml/transform/TransformerBase.class</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+        <plugins>        
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
@@ -303,6 +279,13 @@
                     </plugin>        			        
                 </plugins>
             </build>
+            <repositories>
+                <repository>
+                    <id>nexus.gadevs</id>
+                    <name>Geoscience Australia Nexus Repo</name>
+                    <url>http://rhe-repo-prod01.prod.lan:8080/nexus/content/repositories/public</url>
+                </repository>
+            </repositories>
             <distributionManagement>
                 <repository>
                     <id>release</id>
@@ -374,6 +357,13 @@
                     </plugin>                          
                 </plugins>
             </build>
+            <repositories>
+                <repository>
+                    <id>nexus.gadevs</id>
+                    <name>Geoscience Australia Nexus Repo</name>
+                    <url>https://nexus.gadevs.ga/repository/maven-public</url>
+                </repository>
+            </repositories>
             <distributionManagement>
                 <repository>
                     <id>release</id>
@@ -460,24 +450,19 @@
     </reporting>
 
     <repositories>
-	    <!--<repository>-->
-            <!--<id>nexus.gadevs</id>-->
-            <!--<name>Internal nexus</name>-->
-            <!--<url>https://nexus.gadevs.ga/repository/maven-public</url>-->
-
-        <!--</repository>-->
-        <repository>
-            <id>osgeo</id>
-            <name>Open Source Geospatial Foundation Repository</name>
-            <url>http://download.osgeo.org/webdav/geotools</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
+	    <repository>
+            <id>nexus.gadevs</id>
+            <name>Internal nexus</name>
+            <url>https://nexus.gadevs.ga/repository/maven-public</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </snapshots>
+        </repository>
+        <repository>
+            <id>osgeo</id>
+            <name>Open Source Geospatial Foundation Repository</name>
+            <url>http://download.osgeo.org/webdav/geotools</url>
         </repository>
         <repository>
             <id>geotoolkit</id>
@@ -499,7 +484,6 @@
             <url>http://cgsrv8.arrc.csiro.au/nexus/content/groups/PortalRepository/</url>
         </repository>
     </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.auscope.portal</groupId>
@@ -523,26 +507,6 @@
             <artifactId>testng</artifactId>
             <version>6.8</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-main</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-epsg-hsql</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-xml</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools.xsd</groupId>
-            <artifactId>gt-xsd-sld</artifactId>
-            <version>RELEASE</version>
         </dependency>
     </dependencies>
 </project>

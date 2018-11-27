@@ -1,4 +1,4 @@
-package au.gov.geoscience.portal.server.controllers;
+package org.auscope.portal.server.web.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -82,9 +82,7 @@ public class MineralTenementController extends BasePortalController {
         
         return generateJSONResponseMAV(true, "gml", response.getData(), response.getMethod());
     }
-
-
-    // TODO: Remove once portal is switched to Angular
+    
     @RequestMapping("/getMineralTenementFeatureInfo.do")
 	public void getMineralTenementFeatureInfo(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("serviceUrl") String serviceUrl, @RequestParam("lat") String latitude,
@@ -189,6 +187,7 @@ public class MineralTenementController extends BasePortalController {
      * @param name
      * @param tenementTypeUri
      * @param owner
+     * @param statusUri
      * @throws Exception
      */
     @RequestMapping("/getMineralTenementStyle.do")

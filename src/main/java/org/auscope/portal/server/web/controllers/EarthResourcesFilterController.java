@@ -253,7 +253,7 @@ public class EarthResourcesFilterController extends BasePortalController {
 		}
 	}
 	
-	@RequestMapping("/getMinOccViewFilterCount.do")
+	@RequestMapping("/minOccViewFilterCount.do")
 	public ModelAndView minOccViewFilterCount(
 	        @RequestParam(value = "serviceUrl", required = false) String serviceUrl,
 	        @RequestParam(required = false, value = "name") String name,            

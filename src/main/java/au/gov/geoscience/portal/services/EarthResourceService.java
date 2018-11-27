@@ -1,7 +1,10 @@
 package au.gov.geoscience.portal.services;
 
 import au.gov.geoscience.portal.server.controllers.VocabularyController;
-import au.gov.geoscience.portal.services.filters.*;
+import au.gov.geoscience.portal.services.methodmaker.filter.CommodityResourceViewFilter;
+import au.gov.geoscience.portal.services.methodmaker.filter.MineFilter;
+import au.gov.geoscience.portal.services.methodmaker.filter.MineViewFilter;
+import au.gov.geoscience.portal.services.methodmaker.filter.MineralOccurrenceViewFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
 import org.auscope.portal.core.services.BaseWFSService;
@@ -13,12 +16,9 @@ import org.auscope.portal.core.services.methodmakers.WFSGetFeatureMethodMaker.Re
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.methodmakers.filter.IFilter;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
-import org.opengis.filter.Filter;
-import org.opengis.geometry.BoundingBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.transform.TransformerException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,8 +33,6 @@ public class EarthResourceService extends BaseWFSService {
     private static String ERL_PREFIX = "erl";
 
     public static final String MINING_FEATURE_OCCURRENCE_FEATURE_TYPE = "er:MiningFeatureOccurrence";
-    public static final String MIN_OCC_VIEW_FEATURE_TYPE = "mo:MinOccView";
-
 
     public static final String MINERAL_OCCURRENCE_VIEW_FEATURE_TYPE = "erl:MineralOccurrenceView";
     public static final String MINE_VIEW_FEATURE_TYPE = "erl:MineView";
@@ -60,9 +58,9 @@ public class EarthResourceService extends BaseWFSService {
      * @param bbox
      * @return
      */
-    public MineFilter2 getMineFilter(String mineName, String status, FilterBoundingBox bbox) {
-        MineFilter2 filter = new MineFilter2(mineName, status, bbox);
-        return filter;
+    public String getMineFilter(String mineName, String status, FilterBoundingBox bbox) {
+        MineFilter filter = new MineFilter(mineName, status);
+        return generateFilterString(filter, bbox);
     }
 
     /**
@@ -76,71 +74,14 @@ public class EarthResourceService extends BaseWFSService {
      * @throws PortalServiceException
      */
     public WFSCountResponse getMineCount(String serviceUrl, String mineName, String status, FilterBoundingBox bbox,
-            int maxFeatures) throws URISyntaxException, PortalServiceException, TransformerException {
-
-        MineFilter2 filter = new MineFilter2(mineName, status, bbox);
-
-        String filterString = filter.generateFilterStringAllRecords();
-
+            int maxFeatures) throws URISyntaxException, PortalServiceException {
+        MineFilter filter = new MineFilter(mineName, status);
+        String filterString = generateFilterString(filter, bbox);
         HttpRequestBase method = generateWFSRequest(serviceUrl, MINING_FEATURE_OCCURRENCE_FEATURE_TYPE, null,
                 filterString, maxFeatures, null, ResultType.Hits);
         return getWfsFeatureCount(method);
     }
 
-    /**
-     * @param mineName
-     * @param bbox
-     * @return
-     */
-    public MiningActivityFilter getMiningActivityFilter(String mineName, FilterBoundingBox bbox) {
-        MiningActivityFilter filter = new MiningActivityFilter(mineName, bbox);
-        return filter;
-    }
-
-    /**
-     * @param serviceUrl
-     * @param mineName
-     * @param bbox
-     * @param maxFeatures
-     * @return
-     * @throws URISyntaxException
-     * @throws PortalServiceException
-     * @throws TransformerException
-     */
-    public WFSCountResponse getMiningActivityCount(String serviceUrl, String mineName, FilterBoundingBox bbox,
-                                         int maxFeatures) throws URISyntaxException, PortalServiceException, TransformerException {
-
-        MiningActivityFilter filter = new MiningActivityFilter(mineName, bbox);
-
-        String filterString = filter.generateFilterStringAllRecords();
-
-        HttpRequestBase method = generateWFSRequest(serviceUrl, MINING_FEATURE_OCCURRENCE_FEATURE_TYPE, null,
-                filterString, maxFeatures, null, ResultType.Hits);
-        return getWfsFeatureCount(method);
-    }
-
-
-    /**
-     * @param name
-     * @param bbox
-     * @return
-     */
-    public MinOccViewFilter getMinOccViewFilter(String name, FilterBoundingBox bbox) {
-        MinOccViewFilter filter = new MinOccViewFilter(name, bbox);
-        return filter;
-    }
-
-    public WFSCountResponse getMinOccViewCount(String serviceUrl, String name, FilterBoundingBox bbox,
-                                         int maxFeatures) throws URISyntaxException, PortalServiceException, TransformerException {
-
-        MinOccViewFilter filter = new MinOccViewFilter(name, bbox);
-
-        String filterString = filter.generateFilterStringAllRecords();
-
-        HttpRequestBase method = generateWFSRequest(serviceUrl, MIN_OCC_VIEW_FEATURE_TYPE, null,
-                filterString, maxFeatures, null, ResultType.Hits);
-        return getWfsFeatureCount(method);
-    }
 
     /**
      * @param name Name of the mineral occurrence to filter
@@ -151,8 +92,8 @@ public class EarthResourceService extends BaseWFSService {
      * @throws PortalServiceException
      * @throws URISyntaxException
      */
-    public MineralOccurrenceViewFilter2 getMineralOccurrenceViewFilter(String name, String commodityUri, String timescaleUri,
-                                                   FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
+    public String getMineralOccurrenceViewFilter(String name, String commodityUri, String timescaleUri,
+            FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
         Set<String> timescaleUris = new HashSet<>();
         Set<String> commodityUris = new HashSet<>();
         if (timescaleUri != null && !timescaleUri.isEmpty()) {
@@ -161,7 +102,9 @@ public class EarthResourceService extends BaseWFSService {
         if (commodityUri != null && !commodityUri.isEmpty()) {
             commodityUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.COMMODITY_VOCABULARY_ID, commodityUri);
         }
-       return new MineralOccurrenceViewFilter2(name, commodityUris, timescaleUris, bbox);
+        MineralOccurrenceViewFilter filter = new MineralOccurrenceViewFilter(name, commodityUris, timescaleUris);
+
+        return generateFilterString(filter, bbox);
 
     }
 
@@ -193,9 +136,9 @@ public class EarthResourceService extends BaseWFSService {
         if (commodityUri != null && !commodityUri.isEmpty()) {
             commodityUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.COMMODITY_VOCABULARY_ID, commodityUri);
         }
-        MineralOccurrenceViewFilter2 filter = new MineralOccurrenceViewFilter2(name, commodityUris, timescaleUris, bbox);
+        MineralOccurrenceViewFilter filter = new MineralOccurrenceViewFilter(name, commodityUris, timescaleUris);
 
-        String filterString = filter.generateFilterStringAllRecords();
+        String filterString = generateFilterString(filter, bbox);
         HttpRequestBase method = generateWFSRequest(serviceUrl, MINERAL_OCCURRENCE_VIEW_FEATURE_TYPE, null,
                 filterString, maxFeatures, null, ResultType.Hits);
 
@@ -208,14 +151,16 @@ public class EarthResourceService extends BaseWFSService {
      * @param bbox
      * @return OGC Filter string
      */
-    public MineViewFilter2 getMineViewFilter(String name, String statusUri, FilterBoundingBox bbox) {
+    public String getMineViewFilter(String name, String statusUri, FilterBoundingBox bbox) {
         Set<String> statusUris = new HashSet<>();
 
         if (statusUri != null && !statusUri.isEmpty()) {
             statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.MINE_STATUS_VOCABULARY_ID, statusUri);
         }
 
-        return new MineViewFilter2(name, statusUris, bbox);
+        MineViewFilter filter = new MineViewFilter(name, statusUris);
+
+        return generateFilterString(filter, bbox);
 
     }
 
@@ -240,8 +185,8 @@ public class EarthResourceService extends BaseWFSService {
             statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.MINE_STATUS_VOCABULARY_ID, statusUri);
         }
 
-        MineViewFilter2 filter = new MineViewFilter2(name, statusUris, bbox);
-        String filterString = filter.generateFilterStringAllRecords();
+        MineViewFilter filter = new MineViewFilter(name, statusUris);
+        String filterString = generateFilterString(filter, bbox);
         HttpRequestBase method = generateWFSRequest(serviceUrl, MINE_VIEW_FEATURE_TYPE, null, filterString, maxFeatures,
                 null, ResultType.Hits);
 
@@ -256,16 +201,16 @@ public class EarthResourceService extends BaseWFSService {
      * @param bbox
      * @return
      */
-    public CommodityResourceViewFilter2 getCommodityResourceViewFilter(String mineralOccurrenceName, String commodityUri, String jorcCategoryUri,
-                                                                       FilterBoundingBox bbox) {
+    public String getCommodityResourceViewFilter(String mineralOccurrenceName, String commodityUri, String jorcCategoryUri,
+            FilterBoundingBox bbox) {
         Set<String> commodityUris = new HashSet<>();
 
         if (commodityUri != null && !commodityUri.isEmpty()) {
             commodityUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.COMMODITY_VOCABULARY_ID, commodityUri);
         }
 
-        CommodityResourceViewFilter2 filter = new CommodityResourceViewFilter2(mineralOccurrenceName, commodityUris, jorcCategoryUri, bbox);
-        return filter;
+        CommodityResourceViewFilter filter = new CommodityResourceViewFilter(mineralOccurrenceName, commodityUris, jorcCategoryUri);
+        return generateFilterString(filter, bbox);
     }
 
 
@@ -289,8 +234,8 @@ public class EarthResourceService extends BaseWFSService {
             commodityUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.COMMODITY_VOCABULARY_ID, commodityUri);
         }
 
-        CommodityResourceViewFilter2 filter = new CommodityResourceViewFilter2(mineralOccurrenceName, commodityUris, jorcCategoryUri, bbox);
-        String filterString = filter.generateFilterStringAllRecords();
+        CommodityResourceViewFilter filter = new CommodityResourceViewFilter(mineralOccurrenceName, commodityUris, jorcCategoryUri);
+        String filterString = generateFilterString(filter, bbox);
         HttpRequestBase method = generateWFSRequest(serviceUrl, COMMODITY_RESOURCE_VIEW_FEATURE_TYPE, null,
                 filterString, maxFeatures, null, ResultType.Hits);
 
@@ -313,7 +258,4 @@ public class EarthResourceService extends BaseWFSService {
 
         return filterString;
     }
-
-
-
 }

@@ -466,8 +466,8 @@
         <property name="group" value="Mineral Occurrences and Resources"/>
         <property name="proxyUrl" value=""/>
         <property name="proxyCountUrl" value="minOccViewFilterCount.do"/>
-        <property name="proxyStyleUrl" value="minOccViewFilterStyle.do"/>
-        <property name="proxyDownloadUrl" value="minOccViewDownload.do"/>
+        <property name="proxyStyleUrl" value="doMinOccurViewFilterStyle.do"/>
+        <property name="proxyDownloadUrl" value="downloadMinOccurView.do"/>
         <property name="staticLegendUrl" value="${portal.build.environment.host}/img/legends/mo_minoccview.jpg"/>
         <property name="order" value="03_Mineral Occurrences and Resources_2"/>
         <property name="filterCollection">

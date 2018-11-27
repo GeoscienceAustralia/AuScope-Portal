@@ -1,25 +1,26 @@
 package au.gov.geoscience.portal.server.controllers;
 
-import au.gov.geoscience.portal.services.EarthResourceDownloadService;
-import au.gov.geoscience.portal.services.EarthResourceService;
-import au.gov.geoscience.portal.services.filters.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.PortalServiceException;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.util.FileIOUtil;
-import org.opengis.filter.Filter;
-import org.opengis.geometry.BoundingBox;
-import org.opengis.referencing.FactoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.TransformerException;
-import java.io.*;
-import java.net.URISyntaxException;
+import au.gov.geoscience.portal.services.EarthResourceDownloadService;
+import au.gov.geoscience.portal.services.EarthResourceService;
 
 /**
  * Controller for downloading data from EarthResourceML and EarthResourceML lite services.
@@ -67,14 +68,14 @@ public class EarthResourceDownloadController extends BasePortalController {
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures,
             @RequestParam(required = false, value = "startIndex") String startIndex,
             @RequestParam(required = false, value = "outputFormat") String outputFormat, HttpServletResponse response)
-            throws IOException, FactoryException {
+            throws IOException {
 
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
-        FilterBoundingBox filterBbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
-        MineFilter2 filter = this.earthResourceService.getMineFilter(mineName, status, filterBbox);
+        String filter = this.earthResourceService.getMineFilter(mineName, status, bbox);
 
-        if (maxFeatures == 0 && (filterBbox != null || startIndex != null)) {
+        if (maxFeatures == 0 && (bbox != null || startIndex != null)) {
             maxFeatures = 200;
         }
 
@@ -82,7 +83,7 @@ public class EarthResourceDownloadController extends BasePortalController {
         OutputStream outputStream = response.getOutputStream();
         File file = null;
         try {
-            InputStream results = this.earthResourceDownloadService.downloadMine(serviceUrl, filter.generateFilterStringAllRecords(), maxFeatures);
+            InputStream results = this.earthResourceDownloadService.downloadMine(serviceUrl, filter, maxFeatures);
 
             file = FileIOUtil.writeStreamToFileTemporary(results, "APT_MFD", ".xml", true);
             FileInputStream in = new FileInputStream(file);
@@ -101,45 +102,6 @@ public class EarthResourceDownloadController extends BasePortalController {
                 file.delete();
             }
         }
-    }
-
-    /**
-     * @param response
-     * @param serviceUrl
-     * @param name
-     * @param bboxJson
-     * @param maxFeatures
-     * @param startIndex
-     * @param outputFormat
-     * @throws IOException
-     * @throws PortalServiceException
-     */
-    @RequestMapping("/minOccViewDownload.do")
-    public void minOccViewDownload(
-            HttpServletResponse response,
-            @RequestParam("serviceUrl") String serviceUrl,
-            @RequestParam(required = false, value = "name") String name,
-            @RequestParam(required = false, value = "bbox") String bboxJson,
-            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures,
-            @RequestParam(required = false, value = "startIndex") String startIndex,
-            @RequestParam(required = false, value = "outputFormat") String outputFormat
-            ) throws IOException, PortalServiceException {
-
-        OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
-        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
-
-        MinOccViewFilter filter = this.earthResourceService.getMinOccViewFilter(name, bbox);
-
-        String filterString = filter.generateFilterStringAllRecords();
-
-        response.setContentType("text/xml");
-        OutputStream outputStream = response.getOutputStream();
-
-        InputStream results = this.earthResourceDownloadService.downloadMinOccView(serviceUrl, filterString,
-                maxFeatures, outputFormat);
-        FileIOUtil.writeInputToOutputStream(results, outputStream, 8 * 1024, true);
-        outputStream.close();
-
     }
 
     /**
@@ -178,15 +140,12 @@ public class EarthResourceDownloadController extends BasePortalController {
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
-        MineralOccurrenceViewFilter2 filter = this.earthResourceService.getMineralOccurrenceViewFilter(name, commodityUri, timescaleUri,
-                       bbox);
-
-        String filterString = filter.generateFilterStringAllRecords();
-
+        String filter = this.earthResourceService.getMineralOccurrenceViewFilter(name, commodityUri, timescaleUri,
+                bbox);
         response.setContentType("text/xml");
         OutputStream outputStream = response.getOutputStream();
 
-        InputStream results = this.earthResourceDownloadService.downloadMineralOccurrenceView(serviceUrl, filterString,
+        InputStream results = this.earthResourceDownloadService.downloadMineralOccurrenceView(serviceUrl, filter,
                 maxFeatures, outputFormat);
         FileIOUtil.writeInputToOutputStream(results, outputStream, 8 * 1024, true);
         outputStream.close();
@@ -220,16 +179,16 @@ public class EarthResourceDownloadController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "outputFormat") String outputFormat,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures,
-            HttpServletResponse response) throws IOException, PortalServiceException, URISyntaxException, FactoryException, TransformerException {
+            HttpServletResponse response) throws IOException, PortalServiceException, URISyntaxException {
 
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
-        MineViewFilter2 filter = this.earthResourceService.getMineViewFilter(name, statusUri, bbox);
+        String filter = this.earthResourceService.getMineViewFilter(name, statusUri, bbox);
         response.setContentType("text/xml");
         OutputStream outputStream = response.getOutputStream();
 
-        InputStream results = this.earthResourceDownloadService.downloadMineView(serviceUrl, filter.generateFilterStringAllRecords(), maxFeatures,
+        InputStream results = this.earthResourceDownloadService.downloadMineView(serviceUrl, filter, maxFeatures,
                 outputFormat);
         FileIOUtil.writeInputToOutputStream(results, outputStream, 8 * 1024, true);
         outputStream.close();
@@ -265,18 +224,17 @@ public class EarthResourceDownloadController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "outputFormat") String outputFormat,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures,
-            HttpServletResponse response) throws IOException, PortalServiceException, FactoryException, TransformerException {
+            HttpServletResponse response) throws IOException, PortalServiceException {
 
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
-
-        CommodityResourceViewFilter2 filter = this.earthResourceService.getCommodityResourceViewFilter(name, commodityUri, jorcCategoryUri,
+        String filter = this.earthResourceService.getCommodityResourceViewFilter(name, commodityUri, jorcCategoryUri,
                 bbox);
         response.setContentType("text/xml");
         OutputStream outputStream = response.getOutputStream();
 
-        InputStream results = this.earthResourceDownloadService.downloadCommodityResourceView(serviceUrl, filter.generateFilterStringAllRecords(),
+        InputStream results = this.earthResourceDownloadService.downloadCommodityResourceView(serviceUrl, filter,
                 maxFeatures, outputFormat);
         FileIOUtil.writeInputToOutputStream(results, outputStream, 8 * 1024, true);
         outputStream.close();
