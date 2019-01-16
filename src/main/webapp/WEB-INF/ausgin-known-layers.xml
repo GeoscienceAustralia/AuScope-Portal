@@ -24,7 +24,7 @@
         <property name="proxyStyleUrl" value="getScannedGeologicalMapsStyle.do"/>
         <property name="singleTile" value="true"/>
         <property name="staticLegendUrl"
-                  value="http://services.ga.gov.au/gis/rest/directories/capabilities/Scanned_250k_Geological_Map_Index/Scanned_250k_Geological_Map_Index_Legend.png"/>
+                  value="http://services.ga.gov.au/Scanned_250k_Geological_Map_Index/capabilities/Scanned_250k_Geological_Map_Index_Legend.png"/>
         <property name="order" value="01_Geological Maps_1"/>
         <property name="filterCollection">
             <bean class="org.auscope.portal.core.uifilter.FilterCollection">
