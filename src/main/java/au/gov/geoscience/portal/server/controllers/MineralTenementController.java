@@ -1,4 +1,4 @@
-package org.auscope.portal.server.web.controllers;
+package au.gov.geoscience.portal.server.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -20,6 +20,7 @@ import org.auscope.portal.server.MineralTenementServiceProviderType;
 import org.auscope.portal.server.web.service.MineralTenementService;
 import org.auscope.portal.xslt.ArcGISToMineralTenement;
 import org.auscope.portal.xslt.WfsToCsvTransformer;
+import org.opengis.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,7 +83,9 @@ public class MineralTenementController extends BasePortalController {
         
         return generateJSONResponseMAV(true, "gml", response.getData(), response.getMethod());
     }
-    
+
+
+    // TODO: Remove once portal is switched to Angular
     @RequestMapping("/getMineralTenementFeatureInfo.do")
 	public void getMineralTenementFeatureInfo(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("serviceUrl") String serviceUrl, @RequestParam("lat") String latitude,
@@ -187,7 +190,6 @@ public class MineralTenementController extends BasePortalController {
      * @param name
      * @param tenementTypeUri
      * @param owner
-     * @param statusUri
      * @throws Exception
      */
     @RequestMapping("/getMineralTenementStyle.do")
@@ -205,10 +207,16 @@ public class MineralTenementController extends BasePortalController {
         
         MineralTenementServiceProviderType mineralTenementServiceProviderType = MineralTenementServiceProviderType.parseUrl(serviceUrl);
         
-        String filter = this.mineralTenementService.getMineralTenementFilter(name, tenementTypeUri, owner, tenementStatusUri, endDate,
+        Filter filter = this.mineralTenementService.getMineralTenementFilter(name, tenementTypeUri, owner, tenementStatusUri, endDate,
                 bbox, mineralTenementServiceProviderType);
 
-        String style = this.getPolygonStyle(filter, mineralTenementServiceProviderType.featureType() , mineralTenementServiceProviderType.fillColour(), mineralTenementServiceProviderType.borderColour());
+
+
+        //String style = this.getPolygonStyle(filter, mineralTenementServiceProviderType.featureType() , mineralTenementServiceProviderType.fillColour(), mineralTenementServiceProviderType.borderColour());
+
+        InputStream is = getClass().getResourceAsStream("/au/gov/geoscience/portal/sld/mineraltenement.sld");
+
+        String style = FilterStyle.getStyle(is,filter,null);
 
         response.setContentType("text/xml");
 

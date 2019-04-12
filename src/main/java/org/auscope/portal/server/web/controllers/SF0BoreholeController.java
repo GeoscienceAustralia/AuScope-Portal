@@ -1,6 +1,7 @@
 package org.auscope.portal.server.web.controllers;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import au.gov.geoscience.portal.server.controllers.FilterStyle;
+import au.gov.geoscience.portal.services.filters.BoreholeViewFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.CSWCacheService;
@@ -21,6 +24,7 @@ import org.auscope.portal.server.web.service.BoreholeService;
 import org.auscope.portal.server.web.service.BoreholeService.Mark;
 import org.auscope.portal.server.web.service.NVCL2_0_DataService;
 import org.auscope.portal.server.web.service.SF0BoreholeService;
+import org.opengis.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -234,50 +238,30 @@ public class SF0BoreholeController extends BasePortalController {
      * Handles getting the style of the SF0 borehole filter queries. (If the bbox elements are specified, they will limit the output response to 200 records
      * implicitly)
      *
-     * @param mineName
-     *            the name of the mine to query for
-     * @param bbox
      * @param maxFeatures
      * @throws Exception
      */
     @RequestMapping("/doBoreholeViewFilterStyle.do")
     public void doFilterStyle(
             HttpServletResponse response,
-            @RequestParam(required = false, value = "serviceUrl", defaultValue = "") String serviceUrl,
+            @RequestParam(value = "serviceUrl", defaultValue = "") String serviceUrl,
             @RequestParam(required = false, value = "boreholeName", defaultValue = "") String boreholeName,
-            @RequestParam(required = false, value = "custodian", defaultValue = "") String custodian,
             @RequestParam(required = false, value = "dateOfDrilling", defaultValue = "") String dateOfDrilling,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") Integer maxFeatures,
-            @RequestParam(required = false, value = "bbox") String bboxJson,
-            @RequestParam(required = false, value = "serviceFilter", defaultValue = "") String serviceFilter,
-            @RequestParam(required = false, value = "color", defaultValue = "") String color,
-            @RequestParam(required = false, value = "ids") String ids,
-            @RequestParam(required = false, value = "showNoneHylogged", defaultValue = "false") Boolean showNoneHylogged )
+            @RequestParam(required = false, value = "bbox") String bboxJson)
 
             throws Exception {
 
-        FilterBoundingBox bbox = null;
+        FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson);
 
-        List<String> boreholeIdentifiers = null;
-        if (ids != null && !ids.isEmpty()) {
-            boreholeIdentifiers = Arrays.asList(ids.split(","));
-        }
+        BoreholeViewFilter filter = this.boreholeService.getFilter(boreholeName, dateOfDrilling, bbox);
 
-        List<String> hyloggerBoreholeIDs = null;
-
-        String filter = this.boreholeService.getFilter(boreholeName, custodian, dateOfDrilling, maxFeatures, bbox, null, boreholeIdentifiers, null);
-
-        Boolean justNVCL = showNoneHylogged;
-
-        String hyloggerFilter = this.boreholeService.getFilter(boreholeName,
-                custodian, dateOfDrilling, maxFeatures, bbox,
-                hyloggerBoreholeIDs);
 
         String gsmlpNameSpace = gsmlpNameSpaceTable.getGsmlpNameSpace(serviceUrl);
-        String style = this.boreholeService.getStyle(filter, (color.isEmpty() ? "#2242c7" : color), hyloggerFilter,
-                "#F87217",BoreholeService.Styles.ALL_BOREHOLES,gsmlpNameSpace);
 
+        InputStream stream = getClass().getResourceAsStream("/au/gov/geoscience/portal/sld/boreholeview.sld");
 
+        String style = FilterStyle.getStyle(stream, filter.getFilter(), null);
 
         response.setContentType("text/xml");
 

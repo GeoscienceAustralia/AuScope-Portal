@@ -1,43 +1,64 @@
 package au.gov.geoscience.portal.server.controllers;
 
-public enum FilterStyle {
-    MINE("square", 8, "#1fffff", "#000000", 0.15), MINE_VIEW("square", 8, "#aa00aa", "#000000", 0.15), MINERAL_OCCURRENCE_VIEW("circle", 8, "#00aa00", "#000000",
-            0.15), COMMODITY_RESOURCE_VIEW("circle", 8, "#ff00aa", "#000000", 0.15);
+import org.geotools.sld.SLDConfiguration;
+import org.geotools.styling.*;
+import org.geotools.xml.Configuration;
+import org.geotools.xml.Parser;
+import org.opengis.filter.Filter;
+import org.xml.sax.SAXException;
 
-    public final String shape;
-    public final int size;
-    public final String fillColour;
-    public final String borderColour;
-    public final double borderWidth;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    FilterStyle(final String shape, final int size, final String fillColour, final String borderColour,
-            final double borderWidth) {
-        this.shape = shape;
-        this.size = size;
-        this.fillColour = fillColour;
-        this.borderColour = borderColour;
-        this.borderWidth = borderWidth;
-    }
-    
-    public final String getStyle(String filter, String name, String title, String namespace) {
+public class FilterStyle {
 
-        String style = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<StyledLayerDescriptor version=\"1.0.0\" xmlns:mo=\"http://xmlns.geoscience.gov.au/minoccml/1.0\" "
-                + "xmlns:er=\"urn:cgi:xmlns:GGIC:EarthResource:1.1\" xsi:schemaLocation=\"http://www.opengis.net/sld StyledLayerDescriptor.xsd\" "
-                + "xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:erl=\""
-                + namespace + "\" "
-                + "xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:gml=\"http://www.opengis.net/gml\" xmlns:gsml=\"urn:cgi:xmlns:CGI:GeoSciML:2.0\" "
-                + "xmlns:sld=\"http://www.opengis.net/sld\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
-                + "<NamedLayer>" + "<Name>" + name + "</Name>" + "<UserStyle>" + "<Name>portal-style</Name>" + "<Title>"
-                + name + "</Title>" + "<Abstract>EarthResource</Abstract>" + "<IsDefault>1</IsDefault>"
-                + "<FeatureTypeStyle>" + "<Rule>" + "<Name>" + name + "</Name>" + "<Title>" + title + "</Title>"
-                + "<Abstract>" + name + "</Abstract>" + filter + "<PointSymbolizer>" + "<Graphic>" + "<Mark>"
-                + "<WellKnownName>" + this.shape + "</WellKnownName>" + "<Fill>" + "<CssParameter name=\"fill\">"
-                + this.fillColour + "</CssParameter>" + "</Fill>" + "<Stroke>" + "<CssParameter name=\"stroke\">"
-                + this.borderColour + "</CssParameter>" + "<CssParameter name=\"stroke-width\">" + this.borderWidth
-                + "</CssParameter>" + "</Stroke>" + "</Mark>" + "<Size>" + this.size + "</Size>" + "</Graphic>"
-                + "</PointSymbolizer>" + "</Rule>" + "</FeatureTypeStyle>" + "</UserStyle>" + "</NamedLayer>"
-                + "</StyledLayerDescriptor>";
-        return style;
+    public static final String getStyle(InputStream sldStream, Filter filter, String namespace) throws TransformerException, URISyntaxException, IOException {
+
+        Configuration config = new SLDConfiguration();
+        Parser parser = new Parser(config);
+
+        StyledLayerDescriptor sld = null;
+        try {
+            sld = (StyledLayerDescriptor) parser.parse(sldStream);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        Map<URI, String> nsMap = new HashMap<>();
+
+        if (namespace != null) {
+            nsMap.put(new URI(namespace), "erl");
+        }
+        nsMap.put(new URI("http://xmlns.geoscience.gov.au/minoccml/1.0") , "mo");
+        nsMap.put(new URI("urn:cgi:xmlns:GGIC:EarthResource:1.1"), "er");
+        nsMap.put(new URI("http://xmlns.geoscience.gov.au/mineraltenementml/1.0") , "mt");
+        nsMap.put(new URI("http://xmlns.geosciml.org/geosciml-portrayal/4.0"), "gsmlp");
+        StyledLayer[] styledLayers = sld.getStyledLayers();
+
+        for (int i = 0; i < styledLayers.length; i++) {
+            if (styledLayers[i] instanceof NamedLayer) {
+                NamedLayer layer = (NamedLayer) styledLayers[i];
+                Style[] styles = layer.getStyles();
+                for (int j = 0; j< styles.length; j++) {
+                    List<FeatureTypeStyle> ftStyles = styles[j].featureTypeStyles();
+                    for (FeatureTypeStyle featureTypeStyle : ftStyles) {
+                        for (Rule rule : featureTypeStyle.rules()) {
+                            rule.setFilter(filter);
+                        }
+                    }
+                }
+            }
+        }
+
+        SLDTransformer transformer = new SLDTransformer(nsMap);
+        return transformer.transform(sld);
     }
 }

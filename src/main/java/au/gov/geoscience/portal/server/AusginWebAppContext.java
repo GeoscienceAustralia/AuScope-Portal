@@ -7,6 +7,10 @@ import org.auscope.portal.core.server.PortalProfileXmlWebApplicationContext;
 public class AusginWebAppContext extends PortalProfileXmlWebApplicationContext {
     @Override
     protected String[] getDefaultConfigLocations() {
+
+        // Necessary to get GeoTools to work with our Saxon parser
+
+        System.setProperty("javax.xml.transform.TransformerFactory","org.apache.xalan.processor.TransformerFactoryImpl");
         String[] locations = super.getDefaultConfigLocations();
 
         //VT --perform some initalizing sequence. Could not find a more suitable place for this

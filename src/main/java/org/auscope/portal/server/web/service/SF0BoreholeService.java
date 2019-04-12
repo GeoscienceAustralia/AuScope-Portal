@@ -3,6 +3,7 @@ package org.auscope.portal.server.web.service;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import au.gov.geoscience.portal.services.filters.BoreholeViewFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
 import org.auscope.portal.core.services.PortalServiceException;
@@ -12,6 +13,7 @@ import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import org.auscope.portal.core.services.responses.wfs.WFSResponse;
 import org.auscope.portal.gsml.SF0BoreholeFilter;
+import org.opengis.filter.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -133,5 +135,9 @@ public class SF0BoreholeService extends BoreholeService {
         HttpRequestBase method = generateWFSRequest(serviceUrl, "gsmlp:BoreholeView", null,
                 filterString, maxFeatures, null, ResultType.Hits);
         return getWfsFeatureCount(method);
+    }
+
+    public BoreholeViewFilter getFilter(String boreholeName, String dateOfDrilling, FilterBoundingBox bbox) {
+        return new BoreholeViewFilter(boreholeName, dateOfDrilling, bbox);
     }
 }
