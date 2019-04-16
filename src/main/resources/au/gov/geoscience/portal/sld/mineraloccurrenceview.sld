@@ -50,7 +50,7 @@
                                     <ogc:Literal>27</ogc:Literal>
                                 </ogc:Function>
                             </ogc:Function>
-                        </Label>                     
+                        </Label>
                         <Font>
                             <CssParameter name="font-family">SansSerif</CssParameter>
                             <CssParameter name="font-size">12</CssParameter>
@@ -68,10 +68,10 @@
                             </PointPlacement>
                         </LabelPlacement>
                         <Halo>
-                            <Radius>2</Radius>
+                            <Radius>2.5</Radius>
                             <Fill>
                                 <CssParameter name="fill">#ffffff</CssParameter>
-                                <CssParameter name="fill-opacity">0.5</CssParameter>
+                                <CssParameter name="fill-opacity">0.8</CssParameter>
                             </Fill>
                         </Halo>
                     </TextSymbolizer>

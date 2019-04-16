@@ -1,7 +1,8 @@
 <StyledLayerDescriptor xmlns="http://www.opengis.net/sld" version="1.0.0"
-    xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ogc="http://www.opengis.net/ogc"
-    xmlns:gml="http://www.opengis.net/gml">
+                       xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd"
+                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ogc="http://www.opengis.net/ogc"
+                       xmlns:mt="http://xmlns.geoscience.gov.au/mineraltenementml/1.0"
+                       xmlns:gml="http://www.opengis.net/gml">
     <NamedLayer>
         <Name>mt:MineralTenement</Name>
         <UserStyle>
@@ -44,7 +45,6 @@
                         <Font>
                             <CssParameter name="font-family">SansSerif</CssParameter>
                             <CssParameter name="font-size">10</CssParameter>
-                            
                         </Font>
                         <LabelPlacement>
                             <PointPlacement>
@@ -52,13 +52,13 @@
                                     <AnchorPointX>0.0</AnchorPointX>
                                     <AnchorPointY>0.0</AnchorPointY>
                                 </AnchorPoint>
-                             </PointPlacement>
+                            </PointPlacement>
                         </LabelPlacement>
                         <Halo>
-                            <Radius>2</Radius>
+                            <Radius>3</Radius>
                             <Fill>
                                 <CssParameter name="fill">#ffffff</CssParameter>
-                                <CssParameter name="fill-opacity">0.5</CssParameter>
+                                <CssParameter name="fill-opacity">1</CssParameter>
                             </Fill>
                         </Halo>
                         <Fill>

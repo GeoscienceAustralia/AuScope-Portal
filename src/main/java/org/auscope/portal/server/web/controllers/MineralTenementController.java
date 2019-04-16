@@ -16,6 +16,7 @@ import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import org.auscope.portal.core.services.responses.wfs.WFSResponse;
 import org.auscope.portal.core.util.FileIOUtil;
+import org.auscope.portal.core.util.SLDLoader;
 import org.auscope.portal.server.MineralTenementServiceProviderType;
 import org.auscope.portal.server.web.service.MineralTenementService;
 import org.auscope.portal.xslt.ArcGISToMineralTenement;
@@ -208,8 +209,10 @@ public class MineralTenementController extends BasePortalController {
         String filter = this.mineralTenementService.getMineralTenementFilter(name, tenementTypeUri, owner, tenementStatusUri, endDate,
                 bbox, mineralTenementServiceProviderType);
 
-        String style = this.getPolygonStyle(filter, mineralTenementServiceProviderType.featureType() , mineralTenementServiceProviderType.fillColour(), mineralTenementServiceProviderType.borderColour());
+//        String style = this.getPolygonStyle(filter, mineralTenementServiceProviderType.featureType() , mineralTenementServiceProviderType.fillColour(), mineralTenementServiceProviderType.borderColour());
 
+
+        String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/mineraltenement.sld", filter);
         response.setContentType("text/xml");
 
         ByteArrayInputStream styleStream = new ByteArrayInputStream(

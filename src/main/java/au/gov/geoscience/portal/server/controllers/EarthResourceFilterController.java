@@ -7,6 +7,7 @@ import org.auscope.portal.core.services.NamespaceService;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import org.auscope.portal.core.util.FileIOUtil;
+import org.auscope.portal.core.util.SLDLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -128,8 +129,10 @@ public class EarthResourceFilterController extends BasePortalController {
 
         String ermlLiteNamespace = namespaceService.getNamespaceURI(serviceUrl, ERL_PREFIX);
 
-        String style = FilterStyle.MINERAL_OCCURRENCE_VIEW.getStyle(filter,
-                EarthResourceService.MINERAL_OCCURRENCE_VIEW_FEATURE_TYPE, "Mineral Occurrence", ermlLiteNamespace);
+        //String style = FilterStyle.MINERAL_OCCURRENCE_VIEW.getStyle(filter,
+        //        EarthResourceService.MINERAL_OCCURRENCE_VIEW_FEATURE_TYPE, "Mineral Occurrence", ermlLiteNamespace);
+
+        String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/mineraloccurrenceview.sld", filter, ERL_PREFIX, ermlLiteNamespace);
 
         response.setContentType("text/xml");
 
@@ -250,11 +253,12 @@ public class EarthResourceFilterController extends BasePortalController {
      */
     @RequestMapping("/commodityResourceViewFilterStyle.do")
     public void commodityResourceViewFilterStyle(HttpServletResponse response,
-            @RequestParam(required = false, value = "name") String name,
-            @RequestParam(required = false, value = "commodityUri") String commodityUri,
-            @RequestParam(required = false, value = "jorcCategoryUri") String jorcCategoryUri,
-            @RequestParam(required = false, value = "bbox") String bboxJson,
-            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
+                                                 @RequestParam("serviceUrl") String serviceUrl,
+                                                 @RequestParam(required = false, value = "name") String name,
+                                                 @RequestParam(required = false, value = "commodityUri") String commodityUri,
+                                                 @RequestParam(required = false, value = "jorcCategoryUri") String jorcCategoryUri,
+                                                 @RequestParam(required = false, value = "bbox") String bboxJson,
+                                                 @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
             throws Exception {
 
         FilterBoundingBox bbox = null;
@@ -262,8 +266,9 @@ public class EarthResourceFilterController extends BasePortalController {
         String filter = this.earthResourceService.getCommodityResourceViewFilter(name, commodityUri, jorcCategoryUri,
                 bbox);
 
-        String style = FilterStyle.COMMODITY_RESOURCE_VIEW.getStyle(filter,
-                EarthResourceService.COMMODITY_RESOURCE_VIEW_FEATURE_TYPE, "Commodity Resource", null);
+        String ermlLiteNamespace = namespaceService.getNamespaceURI(serviceUrl, ERL_PREFIX);
+
+        String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/commodityresourceview.sld", filter, ERL_PREFIX, ermlLiteNamespace);
 
         response.setContentType("text/xml");
 
