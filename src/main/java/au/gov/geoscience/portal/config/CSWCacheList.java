@@ -47,6 +47,18 @@ public class CSWCacheList {
 
     @Order(4)
     @Bean
+    public CSWServiceItem cswSarig() {
+        String id = "cswSarig";
+        String title = "Geological Survey of South Australia";
+        String serviceUrl = "https://catalog.sarig.sa.gov.au/geonetwork/srv/eng/csw";
+        String recordInformationUrl = "https://catalog.sarig.sa.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
+        serviceItem.setNoCache(true);
+        return serviceItem;
+    }
+
+    @Order(5)
+    @Bean
     public CSWServiceItem cswMineralResourcesTasmaniaDev() {
         String id = "cswMineralResourcesTasmaniaDev";
         String title = "Mineral Resources Tasmania";
@@ -57,7 +69,7 @@ public class CSWCacheList {
         return serviceItem;
     }
 
-    @Order(5)
+    @Order(6)
     @Bean
     public CSWServiceItem cswGsv() {
         String id = "cswGsv";
@@ -69,7 +81,7 @@ public class CSWCacheList {
         return serviceItem;
     }
 
-    @Order(6)
+    @Order(7)
     @Bean
     public CSWServiceItem cswGswa() {
         String id = "cswGswa";
@@ -81,7 +93,7 @@ public class CSWCacheList {
         return serviceItem;
     }
 
-    @Order(7)
+    @Order(8)
     @Bean
     public CSWServiceItem cswEnvironment() {
         String id = "cswEnvironment";
