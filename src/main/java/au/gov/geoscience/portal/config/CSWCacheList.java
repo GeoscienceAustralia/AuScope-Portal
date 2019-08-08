@@ -51,7 +51,7 @@ public class CSWCacheList {
         String id = "cswSarig";
         String title = "Geological Survey of South Australia";
         String serviceUrl = "https://catalog.sarig.sa.gov.au/geonetwork/srv/eng/csw";
-        String recordInformationUrl = "https://catalog.sarig.sa.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String recordInformationUrl = "https://catalog.sarig.sa.gov.au/geonetwork/srv/eng/catalog.search#/metadata/%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setNoCache(true);
         return serviceItem;
