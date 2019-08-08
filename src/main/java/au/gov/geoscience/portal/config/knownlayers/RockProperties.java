@@ -3,6 +3,7 @@ package au.gov.geoscience.portal.config.knownlayers;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WMSSelector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,6 +16,9 @@ public class RockProperties {
     private final static int GROUP_ORDER = GroupOrder.ROCK_PROPERTIES;
 
     private final static String ROCK_PROPERTIES_DOWNLOAD = "getRockPropertiesDownload.do";
+
+    @Value("${portal.build.environment.host}")
+    private String HOSTNAME;
 
     @Bean
     @Order(GROUP_ORDER)
@@ -29,9 +33,11 @@ public class RockProperties {
 
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("bulk_density_cluster");
+        knownLayer.setMapStyles("rockprops:bulk_density_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/bulk_density_cluster_legend.jpg");
 
         return knownLayer;
     }
@@ -48,9 +54,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("chargeability_cluster");
+        knownLayer.setMapStyles("rockprops:chargeability_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/chargeability_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -67,9 +76,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("electrical_conductivity_cluster");
+        knownLayer.setMapStyles("rockprops:electrical_conductivity_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/electrical_conductivity_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -86,9 +98,11 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("electrical_resistivity_cluster");
+        knownLayer.setMapStyles("rockprops:electrical_resistivity_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/electrical_resistivity_cluster_legend.jpg");
 
         return knownLayer;
     }
@@ -105,9 +119,10 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("gamma_density_cluster");
+        knownLayer.setMapStyles("rockprops:gamma_density_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/gamma_bulk_density_cluster_legend.jpg");
 
         return knownLayer;
     }
@@ -124,9 +139,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("koenigsberger_ratio_cluster");
+        knownLayer.setMapStyles("rockprops:koenigsberger_ratio_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/koenigsberger_ratio_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -143,9 +161,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("magnetic_susceptibility_cluster");
+        knownLayer.setMapStyles("rockprops:magnetic_susceptibility_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/magnetic_susceptibility_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -162,9 +183,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("natural_gamma_cluster");
+        knownLayer.setMapStyles("rockprops:natural_gamma_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/natural_gamma_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -182,7 +206,7 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("porosity_cluster");
+        knownLayer.setMapStyles("rockprops:porosity_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
 
@@ -201,9 +225,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("remanent_magnetisation_cluster");
+        knownLayer.setMapStyles("rockprops:remanent_magnetisation_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/remanent_magnetisation_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -220,9 +247,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("sonic_velocity_cluster");
+        knownLayer.setMapStyles("rockprops:sonic_velocity_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/sonic_velocity_cluster_legend.jpg");
+
 
         return knownLayer;
     }
@@ -239,9 +269,12 @@ public class RockProperties {
         knownLayer.setName(name);
         knownLayer.setGroup(GROUP);
 
-        knownLayer.setMapStyles("temperature_cluster");
+        knownLayer.setMapStyles("rockprops:temperature_cluster");
 
         knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/temperature_cluster_legend.jpg");
+
 
         return knownLayer;
     }
