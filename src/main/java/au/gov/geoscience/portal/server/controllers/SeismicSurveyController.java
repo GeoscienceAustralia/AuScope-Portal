@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.gov.geoscience.portal.services.SeismicSurveyService;
+import au.gov.geoscience.portal.server.services.SeismicSurveyService;
 
 @Controller
 @Scope("session")
@@ -49,8 +49,7 @@ public class SeismicSurveyController extends BaseCSWController {
     }
 
     @RequestMapping(value = "/getSeismicCSWRecord.do", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getSeismicCSWRecord(@RequestParam("serviceUrl") String serviceUrl,
-            HttpServletRequest request, HttpServletResponse response)
+    public ModelAndView getSeismicCSWRecord(@RequestParam("serviceUrl") String serviceUrl)
             throws Exception {
         
         String recordNumber = serviceUrl.replace(METADATASUBSTRING,"");

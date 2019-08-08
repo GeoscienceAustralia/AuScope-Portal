@@ -1,12 +1,12 @@
 package au.gov.geoscience.portal.server.controllers;
 
-import au.gov.geoscience.portal.services.vocabularies.VocabularyLookup;
+import au.gov.geoscience.portal.server.services.NvclVocabService;
+import au.gov.geoscience.portal.server.services.vocabularies.VocabularyLookup;
 import net.sf.json.JSONArray;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.auscope.portal.core.services.PortalServiceException;
 import org.auscope.portal.core.services.VocabularyFilterService;
 import org.auscope.portal.core.test.PortalTestClass;
-import org.auscope.portal.server.web.service.NvclVocabService;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.junit.Assert;

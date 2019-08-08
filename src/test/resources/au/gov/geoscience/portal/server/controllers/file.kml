@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+    <Document>
+        <name>Sample</name>
+        <Placemark>
+            <name>Obdurodonia</name>
+            <description>Digital Humanists’ favorite place on Earth</description>
+            <Point>
+                <coordinates>-169.866667,-19.05,200</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>

@@ -1,7 +1,8 @@
 package au.gov.geoscience.portal.server.controllers;
 
 
-import au.gov.geoscience.portal.services.vocabularies.VocabularyLookup;
+import au.gov.geoscience.portal.server.services.NvclVocabService;
+import au.gov.geoscience.portal.server.services.vocabularies.VocabularyLookup;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONSerializer;
 import org.apache.commons.io.IOUtils;
@@ -12,7 +13,6 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.RDF;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.VocabularyFilterService;
-import org.auscope.portal.server.web.service.NvclVocabService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

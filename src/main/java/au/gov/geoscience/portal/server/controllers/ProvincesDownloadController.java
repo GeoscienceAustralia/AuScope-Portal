@@ -1,13 +1,11 @@
 package au.gov.geoscience.portal.server.controllers;
 
-import org.auscope.portal.core.server.OgcServiceProviderType;
+import au.gov.geoscience.portal.xslt.WfsToCsvTransformer;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.WFSService;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.methodmakers.filter.SimpleBBoxFilter;
 import org.auscope.portal.core.services.responses.wfs.WFSResponse;
-import org.auscope.portal.core.uifilter.GenericFilterAdapter;
-import org.auscope.portal.xslt.WfsToCsvTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +20,7 @@ public class ProvincesDownloadController extends BasePortalController {
 
     @Autowired
     public ProvincesDownloadController(WFSService wfsService, WfsToCsvTransformer wfsToCsvTransformer) {
-        this.wfsService =wfsService;
+        this.wfsService = wfsService;
         this.wfsToCsvTransformer = wfsToCsvTransformer;
     }
 
@@ -42,7 +40,7 @@ public class ProvincesDownloadController extends BasePortalController {
 
         WFSResponse wfsResponse = this.wfsService.getWfsResponse(serviceUrl, typeName, filterString, maxFeatures, null);
 
-        String response = wfsToCsvTransformer.convert(wfsResponse.getData(),serviceUrl);
+        String response = wfsToCsvTransformer.convert(wfsResponse.getData(), serviceUrl);
 
         return generateNamedJSONResponseMAV(true, "csv", response, wfsResponse.getMethod());
 

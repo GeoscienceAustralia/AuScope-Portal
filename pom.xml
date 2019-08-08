@@ -1,102 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>au.gov.ga</groupId>
-    <artifactId>geoscience-portal</artifactId>
-    <packaging>war</packaging>
-    <version>2.0.16-SNAPSHOT</version>
-    <name>Geoscience Portal</name>
-    <description />
-    <url>http://portal.geoscience.gov.au</url>
-    <issueManagement>
-        <system>Jira</system>
-        <url>https://gajira.atlassian.net/projects/GEOPOR</url>
-    </issueManagement>
-    <ciManagement>
-        <system>Jenkins</system>
-        <url>http://ci.prod.lan/</url>
-    </ciManagement>
-    <scm>
-        <connection>scm:git:git@github.com:GeoscienceAustralia/geoscience-portal.git</connection>
-        <developerConnection>scm:git:git@github.com:GeoscienceAustralia/geoscience-portal.git</developerConnection>
-        <url>https://www.github.com/GeoscienceAustralia/geoscience-portal</url>
-    </scm>
-    <organization>
-        <name>Geoscience Australia</name>
-        <url>http://www.ga.gov.au</url>
-    </organization>
-    <properties>
-        <targetJdk>1.8</targetJdk>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jetty.version>6.1.25</jetty.version>
-        <log4j.version>1.2.16</log4j.version>
-        <spring.version>3.0.5.RELEASE</spring.version>
-        <spring.security.version>3.0.5.RELEASE</spring.security.version>
-        <geotools.version>2.6.5</geotools.version>
-        <portal.core.version>2.1.0-SNAPSHOT</portal.core.version>
-        <timestamp>${maven.build.timestamp}</timestamp>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format> 
-        <additionalparam>-Xdoclint:none</additionalparam>
-    </properties>
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <extensions>
-            <extension>
-                <groupId>org.springframework.build</groupId>
-                <artifactId>aws-maven</artifactId>
-                <version>5.0.0.RELEASE</version>
-            </extension>
-        </extensions>
-        <plugins>        
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <compilerVersion>1.8</compilerVersion>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                    <timestampFormat>{0,date,dd-MM-yyyy HH:mm}</timestampFormat>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.amashchenko.maven.plugin</groupId>
-                <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.11.0</version>
-                <configuration>
-                    <fetchRemote>false</fetchRemote>
-                    <skipFeatureVersion>true</skipFeatureVersion>
-                    <allowSnapshots>true</allowSnapshots>
-                    <postReleaseGoals>-P internal,production deploy</postReleaseGoals>
-                    <gitFlowConfig>
-                       <productionBranch>master</productionBranch>
-                       <developmentBranch>develop-ga</developmentBranch>
-                       <featureBranchPrefix>GEOPOR-</featureBranchPrefix>
-                       <releaseBranchPrefix>geoscience-portal-</releaseBranchPrefix>
-                    </gitFlowConfig>
-                </configuration>
-            </plugin>
 
+    <groupId>au.gov.geoscience</groupId>
+    <artifactId>geoscience-portal</artifactId>
+    <version>3.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.16</version>
@@ -106,41 +33,6 @@
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                 </configuration>
             </plugin>
-        
-            <!-- Copy the user guide files into the top-level "static" directory (link
-                            to htm file in page_header.jsp) -->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <delimiters>
-                        <delimiter>@</delimiter>
-
-                    </delimiters>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>copy-user-guide</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}/static/user-guide</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>doc/user-guide</directory>
-                                    <includes>
-                                        <include>ug.*</include>
-                                        <include>images/*</include>
-                                        <include>icons/*</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>            
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -159,317 +51,43 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                        <version>${log4j.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <webApp>${project.build.directory}/${project.build.finalName}</webApp>
-                    <scanIntervalSeconds>9999</scanIntervalSeconds>
-                    <contextPath>/</contextPath>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <classpathContainers>
-                        <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
-                    </classpathContainers>
-                    <wtpversion>2.0</wtpversion>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>yuicompressor-maven-plugin</artifactId>
-                <version>1.3.0</version>
-                <configuration>
-                    <excludes>
-                        <!-- Exclude some base frameworks -->
-                        <exclude>portal-core/**</exclude>
-                    </excludes>
-                    <nosuffix>true</nosuffix>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.10</version>
-                <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
-                    <cacheFile>checkstyle.cache</cacheFile>
-                </configuration>
-            </plugin>
-    
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>development</id>
-            <activation>
-              <activeByDefault>true</activeByDefault>    
-               <property>
-                    <name>environment</name>
-                    <value>development</value>
-                </property>         
-            </activation>
-            <properties>
-                <environment.host>http://dev.portal.geoscience.gov.au</environment.host>
-            </properties>
-            <build>
-                <finalName>geoscience-portal</finalName>                
-                <plugins>                                 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.4</version>
-                        <configuration>
-                            <!-- Enable filtering of resources so that we can sub in variables (eg maven version) in resources like JSPs -->
-						    <webResources>
-						        <resource>
-                                    <directory>src/main/resources</directory>
-                                    <includes>
-                                        <include>version.properties</include>
-                                    </includes>                                    
-                                    <filtering>true</filtering>
-                                </resource>                                
-						    </webResources>                        
-                            <overlays>
-                                <overlay>
-                                    <groupId>org.auscope.portal</groupId>
-                                    <artifactId>portal-core</artifactId>
-                                    <type>jar</type>
-                                    <includes>
-                                        <include>portal-core/**/*</include>
-                                    </includes>                                   
-                                </overlay>
-                            </overlays>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                </manifest>
-                                <manifestEntries>
-                                    <Implementation-Build>${buildNumber}</Implementation-Build>
-                                    <projectName>${project.name}</projectName>
-                                    <version>${project.version}</version>
-                                    <buildDate>${timestamp}</buildDate>
-                                    <osName>${os.name}</osName>
-                                    <osVersion>${os.version}</osVersion>
-                                    <javaVendor>${java.vendor}</javaVendor>
-                                    <javaVersion>${java.version}</javaVersion>
-                                    <javaVmVersion>${java.vm.version}</javaVmVersion>
-                                    <javaVmVendor>${java.vm.vendor}</javaVmVendor>
-                                </manifestEntries>
-                            </archive>
-
-                        </configuration>
-                        <!-- This is needed to create ${basedir}/src/main/webapp/META-INF/MANIFEST.MF file -->
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>manifest</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>        			        
-                </plugins>
-            </build>
-
-        </profile>
-        <profile>
-            <id>production</id>
-            <activation>
-                <property>
-                    <name>environment</name>
-                    <value>production</value>
-                </property>
-            </activation>
-            <properties>
-                <environment.host>http://api.portal.geoscience.gov.au</environment.host>
-            </properties>
-            <build>
-                <finalName>geoscience-portal</finalName>               
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.4</version>
-                        <configuration>
-                            <webResources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <includes>
-                                        <include>version.properties</include>
-                                    </includes>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </webResources>
-                            <packagingExcludes>test/**</packagingExcludes>
-                            <overlays>
-                                <overlay>
-                                    <groupId>org.auscope.portal</groupId>
-                                    <artifactId>portal-core</artifactId>
-                                    <type>jar</type>
-                                    <includes>
-                                        <include>portal-core/**/*</include>
-                                    </includes>                                    
-                                </overlay>
-                            </overlays>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                </manifest>
-                                <manifestEntries>
-                                    <Implementation-Build>${buildNumber}</Implementation-Build>
-                                    <projectName>${project.name}</projectName>
-                                    <version>${project.version}</version>
-                                    <buildDate>${timestamp}</buildDate>
-                                    <osName>${os.name}</osName>
-                                    <osVersion>${os.version}</osVersion>
-                                    <javaVendor>${java.vendor}</javaVendor>
-                                    <javaVersion>${java.version}</javaVersion>
-                                    <javaVmVersion>${java.vm.version}</javaVmVersion>
-                                    <javaVmVendor>${java.vm.vendor}</javaVmVendor>
-                                </manifestEntries>
-                            </archive>
-
-                        </configuration>
-                        <!-- This is needed to create ${basedir}/src/main/webapp/META-INF/MANIFEST.MF file -->
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>manifest</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>                          
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>internal</id>
-            <repositories>
-                <repository>
-                    <id>maven-int</id>
-                    <name>Geoscience Australia Nexus Repo</name>
-                    <url>http://rhe-repo-prod01.prod.lan:8080/nexus/content/repositories/public</url>
-                </repository>
-            </repositories>
-            <distributionManagement>
-                <repository>
-                    <id>release</id>
-
-                    <url>http://rhe-repo-prod01.prod.lan:8080/nexus/content/repositories/releases</url>
-                </repository>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <url>http://rhe-repo-prod01.prod.lan:8080/nexus/content/repositories/snapshots</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-        <profile>
-            <id>external</id>
-            <repositories>
-                <repository>
-                    <id>nexus.gadevs</id>
-                    <name>Geoscience Australia Nexus Repo</name>
-                    <url>https://nexus.gadevs.ga/repository/maven-public</url>
-                </repository>
-            </repositories>
-            <distributionManagement>
-                <repository>
-                    <id>release</id>
-                    <url>https://nexus.gadevs.ga/repository/maven-releases</url>
-                </repository>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <url>https://nexus.gadevs.ga/repository/maven-snapshots</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-
-    </profiles>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.10</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
-    <repositories>
-	    <repository>
-            <id>nexus.gadevs</id>
-            <name>Internal nexus</name>
-            <url>https://nexus.gadevs.ga/repository/maven-public</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>osgeo</id>
-            <name>Open Source Geospatial Foundation Repository</name>
-            <url>http://download.osgeo.org/webdav/geotools</url>
-        </repository>
-        <repository>
-            <id>geotoolkit</id>
-            <name>Geo Toolkit Repository</name>
-            <url>http://maven.geotoolkit.org/</url>
-        </repository>
-        <!-- This is only for the temporary usage of JClouds snapshots-->
-        <repository>
-            <id>apache-snapshots</id>
-            <name>snapshots  apache maven repo</name>
-            <url>https://repository.apache.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-		<repository>
-            <id>cgsrv8.arrc.csiro.au</id>
-            <name>AuScope Nexus - PortalRepo</name>
-            <url>http://cgsrv8.arrc.csiro.au/nexus/content/groups/PortalRepository/</url>
-        </repository>
-    </repositories>
+    <packaging>war</packaging>
     <dependencies>
         <dependency>
             <groupId>org.auscope.portal</groupId>
             <artifactId>portal-core</artifactId>
-            <version>${portal.core.version}</version>
+            <version>2.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
         </dependency>
-        <!-- Selenium and testng are needed for automated UI testing -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>3.0.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.8</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>GA Nexus</name>
+            <url>https://nexus.cloud.ga.gov.au/repository/maven-public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Internal nexus</name>
+            <url>https://nexus.cloud.ga.gov.au/repository/maven-releases</url>
+
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://nexus.cloud.ga.gov.au/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

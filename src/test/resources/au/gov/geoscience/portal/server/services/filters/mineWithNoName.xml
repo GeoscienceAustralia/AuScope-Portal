@@ -1,0 +1,1 @@
+<ogc:Filter><ogc:Not><ogc:PropertyIsNull><ogc:PropertyName>er:specification/er:Mine/er:mineName/er:MineName/er:mineName</ogc:PropertyName></ogc:PropertyIsNull></ogc:Not></ogc:Filter>
