@@ -9,20 +9,26 @@ import org.auscope.portal.core.uifilter.optional.UICheckBoxGroupProvider;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WFSSelector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
+@PropertySource("classpath:config.properties")
 public class Boreholes {
 
     private final static String GROUP = "Boreholes";
     private final static int GROUP_ORDER = GroupOrder.BOREHOLES;
 
     private final static String NAGIOS_HOST_GROUP = "GeolSurveySISSDeployments";
+
+    @Value("${portal.build.environment.host}")
+    private String HOSTNAME;
 
     @Order(GROUP_ORDER)
     @Bean(name = "national-virtual-core-library")
@@ -86,7 +92,7 @@ public class Boreholes {
 
         knownLayer.setFilterCollection(filterCollection);
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/gsmlp_boreholeview.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/gsmlp_boreholeview.jpg");
 
         return knownLayer;
     }

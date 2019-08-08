@@ -8,6 +8,7 @@ import org.auscope.portal.core.uifilter.optional.UICheckBoxGroupProvider;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WFSSelector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -21,6 +22,9 @@ public class MinesAndMiningActivity {
     private final static int GROUP_ORDER = GroupOrder.MINES_AND_MINING_ACTIVITY;
 
     private final static String NAGIOS_HOST_GROUP = "GeolSurveySISSDeployments";
+
+    @Value("${portal.build.environment.host}")
+    private String HOSTNAME;
 
     @Bean(name = "mine-view")
     @Order(GROUP_ORDER)
@@ -41,7 +45,7 @@ public class MinesAndMiningActivity {
         knownLayer.setProxyStyleUrl("mineViewFilterStyle.do");
         knownLayer.setProxyDownloadUrl("mineViewDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/erl_mineview.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/erl_mineview.jpg");
 
         knownLayer.setGroup(GROUP);
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
@@ -86,7 +90,7 @@ public class MinesAndMiningActivity {
         knownLayer.setProxyStyleUrl("mineFilterStyle.do");
         knownLayer.setProxyDownloadUrl("mineDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/er_mine.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/er_mine.jpg");
 
 
         knownLayer.setGroup(GROUP);
@@ -136,7 +140,7 @@ public class MinesAndMiningActivity {
         knownLayer.setProxyStyleUrl("miningActivityFilterStyle.do");
         knownLayer.setProxyDownloadUrl("miningActivityDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/er_miningactivity.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/er_miningactivity.jpg");
 
         knownLayer.setGroup(GROUP);
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
