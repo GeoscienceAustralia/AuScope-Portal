@@ -8,7 +8,7 @@
     <artifactId>geoscience-portal</artifactId>
     <version>3.0-SNAPSHOT</version>
     <properties>
-        <environment.host>http://dev.portal.geoscience.gov.au</environment.host>
+        <environment.host>http://api.portal.geoscience.gov.au</environment.host>
     </properties>
     <build>
         <resources>
