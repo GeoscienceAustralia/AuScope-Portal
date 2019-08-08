@@ -8,6 +8,7 @@ import org.auscope.portal.core.uifilter.optional.UICheckBoxGroupProvider;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WFSSelector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -23,6 +24,9 @@ public class MineralOccurrencesAndResources {
 
 
     private final static String NAGIOS_HOST_GROUP = "GeolSurveySISSDeployments";
+
+    @Value("${portal.build.environment.host}")
+    private String HOSTNAME;
 
     /**
      * This bean is configured for the now deprecated mo:MinOccView feature type.
@@ -57,7 +61,7 @@ public class MineralOccurrencesAndResources {
         knownLayer.setProxyStyleUrl("minOccViewFilterStyle.do");
         knownLayer.setProxyDownloadUrl("minOccViewFilterDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/mo_minoccview.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/mo_minoccview.jpg");
 
         knownLayer.setGroup(GROUP);
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
@@ -100,7 +104,7 @@ public class MineralOccurrencesAndResources {
         knownLayer.setProxyStyleUrl("mineralOccurrenceViewFilterStyle.do");
         knownLayer.setProxyDownloadUrl("mineralOccurrenceViewDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/erl_mineraloccurrenceview.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/erl_mineraloccurrenceview.jpg");
 
 
         knownLayer.setGroup(GROUP);
@@ -161,7 +165,7 @@ public class MineralOccurrencesAndResources {
         knownLayer.setProxyStyleUrl("commodityResourceViewFilterStyle.do");
         knownLayer.setProxyDownloadUrl("commodityResourceViewDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/erl_commodityresourceview.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/erl_commodityresourceview.jpg");
 
         knownLayer.setGroup(GROUP);
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);

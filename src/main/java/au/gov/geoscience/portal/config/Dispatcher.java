@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "org.auscope.portal")
+@ComponentScan(basePackages = {"org.auscope.portal", "au.gov.geoscience.portal"})
 public class Dispatcher extends WebMvcConfigurerAdapter {
 
     @Override
@@ -28,5 +28,12 @@ public class Dispatcher extends WebMvcConfigurerAdapter {
         viewResolver.setPrefix("/WEB-INF/jsp/");
         viewResolver.setSuffix(".jsp");
         registry.viewResolver(viewResolver);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/img/**")
+                .addResourceLocations("/img/");
     }
 }

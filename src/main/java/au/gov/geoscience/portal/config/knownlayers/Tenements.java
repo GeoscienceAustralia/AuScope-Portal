@@ -8,6 +8,7 @@ import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WMSSelector;
 import org.auscope.portal.core.view.knownlayer.WMSWFSSelector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -21,6 +22,9 @@ public class Tenements {
     private static final String GROUP = "Tenements";
 
     private static final String NAGIOS_HOST_GROUP = "GeolSurveySISSDeployments";
+
+    @Value("${portal.build.environment.host}")
+    private String HOSTNAME;
 
     @Bean(name = "mineral-tenements")
     @Order(GROUP_ORDER)
@@ -40,7 +44,7 @@ public class Tenements {
         knownLayer.setProxyStyleUrl("mineralTenementFilterStyle.do");
         knownLayer.setProxyDownloadUrl("mineralTenementFilterDownload.do");
 
-        knownLayer.setStaticLegendUrl("${portal.build.environment.host}/img/legends/mt_mineraltenement.jpg");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/mt_mineraltenement.jpg");
 
         knownLayer.setGroup(GROUP);
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
