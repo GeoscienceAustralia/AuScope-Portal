@@ -56,6 +56,9 @@ public class MineralTenementController extends BasePortalController {
 
 
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/mineraltenement.sld", filter);
+        if (MineralTenementServiceProviderType.ArcGIS.equals(mineralTenementServiceProviderType)) {
+            style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/mineraltenement-qld.sld", filter);
+        }
         response.setContentType("text/xml");
 
         ByteArrayInputStream styleStream = new ByteArrayInputStream(
