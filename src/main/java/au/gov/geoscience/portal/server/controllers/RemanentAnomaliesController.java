@@ -15,7 +15,6 @@ import java.io.OutputStream;
 @Controller
 public class RemanentAnomaliesController extends BasePortalController {
 
-    @Autowired
     public RemanentAnomaliesController() {
     }
 
