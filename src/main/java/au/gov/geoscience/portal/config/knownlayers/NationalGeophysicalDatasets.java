@@ -503,13 +503,10 @@ public class NationalGeophysicalDatasets {
     @Bean(name = "knownTypeRemanentAnomalies")
     @Order(GROUP_ORDER + 21)
     KnownLayer knownTypeRemanentAnomalies() {
-
-
         String id = "remanent-anomalies";
 
         KnownLayerSelector selector = new WMSSelector("RemAnom:Anomaly");
         KnownLayer knownLayer = new KnownLayer(id, selector);
-
 
         String name = "AUS5 - Remanent Anomalies";
         knownLayer.setName(name);
@@ -518,9 +515,7 @@ public class NationalGeophysicalDatasets {
         knownLayer.setDescription(description);
         knownLayer.setGroup(GROUP);
 
-//        knownLayer.setProxyStyleUrl("remanentAnomaliesFilterStyle.do");
-
+        knownLayer.setProxyStyleUrl("remanentAnomaliesFilterStyle.do");
         return knownLayer;
     }
-
 }
