@@ -19,7 +19,8 @@ public class RemanentAnomaliesController extends BasePortalController {
     }
 
     @RequestMapping("/remanentAnomaliesFilterStyle.do")
-    public void remanentAnomaliesFilterStyle(HttpServletResponse response) throws Exception {
+    public void remanentAnomaliesFilterStyle(@RequestParam(required = false, value = "serviceUrl") String serviceUrl,
+                                           HttpServletResponse response) throws Exception {
         String style;
         style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/remanentanomalies.sld", "");
         response.setContentType("text/xml");
