@@ -87,7 +87,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 2)
+    @Order(GROUP_ORDER + 3)
     KnownLayer electricalResistivity() {
         String id = "electrical-resistivity";
         KnownLayerSelector selector = new WMSSelector("rockprops:ElectricalResistivity");
@@ -108,7 +108,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 3)
+    @Order(GROUP_ORDER + 4)
     KnownLayer gammaBulkDensity() {
         String id = "gamma-bulk-density";
         KnownLayerSelector selector = new WMSSelector("rockprops:GammaBulkDensity");
@@ -128,7 +128,27 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 4)
+    @Order(GROUP_ORDER + 5)
+    KnownLayer hydraulicConductivity() {
+        String id = "hydraulic-conductivity";
+        KnownLayerSelector selector = new WMSSelector("rockprops:HydraulicConductivity");
+        String name = "Hydraulic Conductivity";
+
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+
+        knownLayer.setName(name);
+        knownLayer.setGroup(GROUP);
+
+        knownLayer.setMapStyles("rockprops:hydraulic_conductivity_cluster");
+
+        knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/hydraulic_conductivity_cluster_legend.jpg");
+
+        return knownLayer;
+    }
+
+    @Bean
+    @Order(GROUP_ORDER + 6)
     KnownLayer koenigsbergerRatio() {
         String id = "koenigsberger-ratio";
         KnownLayerSelector selector = new WMSSelector("rockprops:KoenigsbergerRatio");
@@ -150,7 +170,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 5)
+    @Order(GROUP_ORDER + 7)
     KnownLayer magneticSusceptibility() {
         String id = "magnetic-susceptibility";
         KnownLayerSelector selector = new WMSSelector("rockprops:MagneticSusceptibility");
@@ -172,7 +192,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 6)
+    @Order(GROUP_ORDER + 8)
     KnownLayer naturalGamma() {
         String id = "natural-gamma";
         KnownLayerSelector selector = new WMSSelector("rockprops:NaturalGamma");
@@ -193,9 +213,29 @@ public class RockProperties {
         return knownLayer;
     }
 
+    @Bean
+    @Order(GROUP_ORDER + 9)
+    KnownLayer nmrRelaxation() {
+        String id = "nmr-relaxation";
+        KnownLayerSelector selector = new WMSSelector("rockprops:NmrRelaxation");
+        String name = "Nmr Relaxation";
+
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+
+        knownLayer.setName(name);
+        knownLayer.setGroup(GROUP);
+
+        knownLayer.setMapStyles("rockprops:nmr_relaxation_cluster");
+
+        knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/nmr_relaxation_cluster_legend.jpg");
+
+        return knownLayer;
+    }
+
 
     @Bean
-    @Order(GROUP_ORDER + 7)
+    @Order(GROUP_ORDER + 10)
     KnownLayer porosity() {
         String id = "porosity";
         KnownLayerSelector selector = new WMSSelector("rockprops:Porosity");
@@ -214,7 +254,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 8)
+    @Order(GROUP_ORDER + 11)
     KnownLayer remanentMagnetisation() {
         String id = "remanent-magnetisation";
         KnownLayerSelector selector = new WMSSelector("rockprops:RemanentMagnetisation");
@@ -236,7 +276,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 9)
+    @Order(GROUP_ORDER + 12)
     KnownLayer sonicVelocity() {
         String id = "sonic-velocity";
         KnownLayerSelector selector = new WMSSelector("rockprops:SonicVelocity");
@@ -258,7 +298,7 @@ public class RockProperties {
     }
 
     @Bean
-    @Order(GROUP_ORDER + 10)
+    @Order(GROUP_ORDER + 13)
     KnownLayer temperature() {
         String id = "temperature";
         KnownLayerSelector selector = new WMSSelector("rockprops:Temperature");
@@ -278,4 +318,25 @@ public class RockProperties {
 
         return knownLayer;
     }
+
+    @Bean
+    @Order(GROUP_ORDER + 14)
+    KnownLayer waterContent() {
+        String id = "water-content";
+        KnownLayerSelector selector = new WMSSelector("rockprops:WaterContent");
+        String name = "Water Content";
+
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+
+        knownLayer.setName(name);
+        knownLayer.setGroup(GROUP);
+
+        knownLayer.setMapStyles("rockprops:water_content_cluster");
+
+        knownLayer.setProxyDownloadUrl(ROCK_PROPERTIES_DOWNLOAD);
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/rock_properties/water_content_cluster_legend.jpg");
+
+        return knownLayer;
+    }
+
 }
