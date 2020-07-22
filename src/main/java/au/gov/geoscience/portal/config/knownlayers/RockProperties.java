@@ -218,7 +218,7 @@ public class RockProperties {
     KnownLayer nmrRelaxation() {
         String id = "nmr-relaxation";
         KnownLayerSelector selector = new WMSSelector("rockprops:NmrRelaxation");
-        String name = "Nmr Relaxation";
+        String name = "NMR Relaxation";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
