@@ -215,6 +215,10 @@ public class BoreholeController extends BasePortalController {
 			FilterBoundingBox box = FilterBoundingBox.attemptParseFromJSON(bbox);
 			WFSResponse response = this.boreholeService.getAllBoreholes(serviceUrl, boreholeName, custodian,
 					dateOfDrilling, maxFeatures, box, outputFormat);
+
+			log.info("doBoreholeViewFilter.do response:");
+			log.info(response.toString());
+
 			return generateNamedJSONResponseMAV(true, "gml", response.getData(), response.getMethod());
 		} catch (Exception e) {
 			return this.generateExceptionResponse(e, serviceUrl);

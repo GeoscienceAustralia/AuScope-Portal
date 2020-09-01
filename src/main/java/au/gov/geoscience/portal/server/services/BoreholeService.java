@@ -131,6 +131,9 @@ public class BoreholeService extends BaseWFSService {
 			filterString = nvclFilter.getFilterStringBoundingBox(bbox);
 		}
 
+		log.info("getAllBoreholes filterString:");
+		log.info(filterString);
+
 		HttpRequestBase method = null;
 		try {
 			// Create a GetFeature request with an empty filter - get all
