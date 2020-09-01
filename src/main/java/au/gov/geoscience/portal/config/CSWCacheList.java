@@ -1,20 +1,23 @@
 package au.gov.geoscience.portal.config;
 
 import org.auscope.portal.core.services.csw.CSWServiceItem;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 @Configuration
 public class CSWCacheList {
+    @Value("${geoscience.portal.catalog.url}")
+    private String catalogUrl;
 
     @Order(1)
     @Bean
     public CSWServiceItem cswGeoscienceAll() {
         String id = "cswGeoscienceAll";
         String title = "Catalog for the AusGIN Portal";
-        String serviceUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/csw";
-        String recordInformationUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String serviceUrl = catalogUrl + "/geonetwork/srv/eng/csw";
+        String recordInformationUrl = catalogUrl + "/geonetwork/srv/eng/main.home?uuid=%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setHideFromCatalogue(true);
         return serviceItem;
@@ -27,7 +30,7 @@ public class CSWCacheList {
         String id = "cswGARegistry";
         String title = "Geoscience Australia eCat Catalog";
         String serviceUrl = "https://ecat.ga.gov.au/geonetwork/srv/eng/csw";
-        String recordInformationUrl = "http://ecat.ga.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String recordInformationUrl = "https://ecat.ga.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setNoCache(true);
         return serviceItem;
@@ -38,8 +41,8 @@ public class CSWCacheList {
     public CSWServiceItem cswGsq() {
         String id = "cswGsq";
         String title = "Geological Survey of Queensland";
-        String serviceUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/csw-gsq";
-        String recordInformationUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String serviceUrl = catalogUrl + "/geonetwork/srv/eng/csw-gsq";
+        String recordInformationUrl = catalogUrl + "/geonetwork/srv/eng/main.home?uuid=%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setNoCache(true);
         return serviceItem;
@@ -62,8 +65,8 @@ public class CSWCacheList {
     public CSWServiceItem cswMineralResourcesTasmaniaDev() {
         String id = "cswMineralResourcesTasmaniaDev";
         String title = "Mineral Resources Tasmania";
-        String serviceUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/csw-tas";
-        String recordInformationUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String serviceUrl = catalogUrl + "/geonetwork/srv/eng/csw-tas";
+        String recordInformationUrl = catalogUrl + "/geonetwork/srv/eng/main.home?uuid=%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setNoCache(true);
         return serviceItem;
@@ -74,8 +77,8 @@ public class CSWCacheList {
     public CSWServiceItem cswGsv() {
         String id = "cswGsv";
         String title = "Geological Survey of Victoria";
-        String serviceUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/csw-gsv";
-        String recordInformationUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String serviceUrl = catalogUrl + "/geonetwork/srv/eng/csw-gsv";
+        String recordInformationUrl = catalogUrl + "/geonetwork/srv/eng/main.home?uuid=%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setNoCache(true);
         return serviceItem;
@@ -86,8 +89,8 @@ public class CSWCacheList {
     public CSWServiceItem cswGswa() {
         String id = "cswGswa";
         String title = "Geological Survey of Western Australia";
-        String serviceUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/csw-gswa";
-        String recordInformationUrl = "http://catalog.geoscience.gov.au/geonetwork/srv/eng/main.home?uuid=%1$s";
+        String serviceUrl = catalogUrl + "/geonetwork/srv/eng/csw-gswa";
+        String recordInformationUrl = catalogUrl + "/geonetwork/srv/eng/main.home?uuid=%1$s";
         CSWServiceItem serviceItem = new CSWServiceItem(id, serviceUrl, recordInformationUrl, title);
         serviceItem.setNoCache(true);
         return serviceItem;

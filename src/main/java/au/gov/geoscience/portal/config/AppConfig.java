@@ -1,14 +1,23 @@
 package au.gov.geoscience.portal.config;
 
-import au.gov.geoscience.portal.server.controllers.sessionobject.StringArrayToCustomRegistry;
 import au.gov.geoscience.portal.xslt.WfsToCsvTransformer;
 import org.auscope.portal.core.configuration.ServiceConfiguration;
 import org.auscope.portal.core.configuration.ServiceConfigurationItem;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
 import org.auscope.portal.core.server.http.download.FileDownloadService;
-import org.auscope.portal.core.services.*;
+import org.auscope.portal.core.services.CSWCacheService;
+import org.auscope.portal.core.services.CSWFilterService;
+import org.auscope.portal.core.services.KnownLayerService;
+import org.auscope.portal.core.services.OpendapService;
+import org.auscope.portal.core.services.WCSService;
+import org.auscope.portal.core.services.WMSService;
 import org.auscope.portal.core.services.csw.CSWServiceItem;
-import org.auscope.portal.core.services.methodmakers.*;
+import org.auscope.portal.core.services.methodmakers.OPeNDAPGetDataMethodMaker;
+import org.auscope.portal.core.services.methodmakers.WCSMethodMaker;
+import org.auscope.portal.core.services.methodmakers.WFSGetFeatureMethodMaker;
+import org.auscope.portal.core.services.methodmakers.WMSMethodMaker;
+import org.auscope.portal.core.services.methodmakers.WMSMethodMakerInterface;
+import org.auscope.portal.core.services.methodmakers.WMS_1_3_0_MethodMaker;
 import org.auscope.portal.core.services.namespaces.WFSNamespaceContext;
 import org.auscope.portal.core.view.ViewCSWRecordFactory;
 import org.auscope.portal.core.view.ViewKnownLayerFactory;
@@ -18,14 +27,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @ComponentScan(basePackages = {"org.auscope.portal", "au.gov.geoscience.portal"})
+@PropertySource("classpath:application-${env:nonprod}.properties")
 public class AppConfig {
 
     private static int TIMEOUT = 900000;
