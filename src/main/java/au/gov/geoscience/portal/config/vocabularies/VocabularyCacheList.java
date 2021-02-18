@@ -26,7 +26,7 @@ public class VocabularyCacheList {
 
     @Bean
     VocabularyServiceItem vocabularyCommodities(){
-        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http://vocabs.ga.gov.au/cgi/sissvoc/commodity-code");
+        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "https://vocabs.ardc.edu.au/repository/api/lda/ga/commodity-code/v0-2");
         VocabularyServiceItem serviceItem = new VocabularyServiceItem("vocabularyCommodities", "Mineral Commodity Vocabulary", service);
         return serviceItem;
     }
