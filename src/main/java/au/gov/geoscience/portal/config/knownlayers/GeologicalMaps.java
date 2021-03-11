@@ -39,7 +39,7 @@ public class GeologicalMaps {
 
         knownLayer.setProxyStyleUrl("scannedGeologicalMapsStyle.do");
         knownLayer.setSingleTile(true);
-        //knownLayer.setStaticLegendUrl("http://services.ga.gov.au/Scanned_250K_Geological_Map_Index/capabilities/Scanned_250K_Geological_Map_Index_Legend.png");
+        knownLayer.setStaticLegendUrl("http://services.ga.gov.au/Scanned_250K_Geological_Map_Index/capabilities/Scanned_250K_Geological_Map_Index_Legend.png");
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
 
