@@ -47,7 +47,7 @@ public class MineralOccurrencesAndResources {
 
 
         String[] serviceEndPoints = new String[]{"http://geology.data.vic.gov.au/nvcl/wfs",
-                "http://geossdi.dmp.wa.gov.au/services/wfs", "http://geology.data.vic.gov.au:80/nvcl/wfs"};
+                "http://geossdi.dmp.wa.gov.au/services/wfs", "http://geology.data.vic.gov.au:80/nvcl/wfs", "https://www.mrt.tas.gov.au/web-services/wfs"};
 
         KnownLayerSelector selector = new WFSSelector("mo:MinOccView", serviceEndPoints, true);
 
