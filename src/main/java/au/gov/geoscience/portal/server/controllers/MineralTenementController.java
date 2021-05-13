@@ -124,8 +124,10 @@ public class MineralTenementController extends BasePortalController {
 
         if (mineralTenementServiceProviderType == MineralTenementServiceProviderType.ArcGIS) {
             outputFormat = "text/xml; subtype=gml/3.1.1";
+
         } else {
             outputFormat = "CSV";
+
         }
         String filter = this.mineralTenementService.getMineralTenementFilter(name, null, owner, null, null, bbox,
                 mineralTenementServiceProviderType);
@@ -136,7 +138,7 @@ public class MineralTenementController extends BasePortalController {
                 outputFormat);
 
         OutputStream outputStream = response.getOutputStream();
-
+        response.setContentType("text/csv");
 
         if (mineralTenementServiceProviderType == mineralTenementServiceProviderType.ArcGIS) {
             outputStream.write(this.csvTransformer.convert(inputStream, serviceUrl).getBytes());
