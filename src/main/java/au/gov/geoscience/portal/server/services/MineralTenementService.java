@@ -12,9 +12,11 @@ import org.auscope.portal.core.services.methodmakers.WFSGetFeatureMethodMaker;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.methodmakers.filter.IFilter;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
+import org.auscope.portal.core.services.responses.wfs.WFSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +39,7 @@ public class MineralTenementService extends BaseWFSService {
     }
 
     public String getMineralTenementFilter(String name, String typeUri, String owner, String statusUri, String endDate,
-    FilterBoundingBox bbox, MineralTenementServiceProviderType mineralTenementServiceProviderType) {
+                                           FilterBoundingBox bbox, MineralTenementServiceProviderType mineralTenementServiceProviderType) {
 
         Set<String> typeUris = new HashSet<>();
 
@@ -101,4 +103,12 @@ public class MineralTenementService extends BaseWFSService {
     }
 
 
+    public InputStream getAllTenements(String serviceUrl, String type, String filter, int maxFeatures,
+                                       String outputFormat) throws PortalServiceException {
+
+        if (outputFormat.toUpperCase().equals("CSV")) {
+            return downloadCSV(serviceUrl, type, filter, maxFeatures);
+        }
+        return downloadWFS(serviceUrl, type, filter, maxFeatures);
+    }
 }
