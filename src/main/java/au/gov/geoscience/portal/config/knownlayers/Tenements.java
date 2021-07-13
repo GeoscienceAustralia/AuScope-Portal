@@ -91,4 +91,56 @@ public class Tenements {
         knownLayer.setGroup(GROUP);
 
         return knownLayer;
-    }}
+    }
+
+    @Bean(name = "OPGGSA_2006_Blocks")
+    @Order(GROUP_ORDER + 2)
+    KnownLayer OPGGSA2006Blocks() {
+        String id = "OPGGSA_2006_Blocks";
+        String name = "OPGGSA 2006 Blocks";
+        String description = "This dataset is a digital realisation of the Blocks as defined under Section 33 (3) of the " +
+                "Offshore Petroleum and Greenhouse Gas Storage Act 2006. The blocks are created using a 5 minute by 5 minute " +
+                "graticular section that has been trimmed to the extent of the Offshore Area (defined in the same Act). " +
+                "The dataset is comprised of both points and polygons, and is densified to ensure the geometry will remain correct " +
+                "regardless of projection. The dataset's coverage includes areas of coastal waters and land within the constitutional " +
+                "limits of the States and territories, however in these areas the data is indicative only. For titles within the limits of " +
+                "the coastal waters, the relevant State agency should be consulted.";
+
+        KnownLayerSelector selector = new WMSSelector("OPGGSA_2006_Blocks");
+
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+
+        knownLayer.setName(name);
+        knownLayer.setDescription(description);
+
+        knownLayer.setGroup(GROUP);
+
+        return knownLayer;
+    }
+
+    @Bean(name = "OPGGSA_2006_Blocks_Locations")
+    @Order(GROUP_ORDER + 3)
+    KnownLayer OPGGSA2006BlocksLocations() {
+        String id = "OPGGSA_2006_Blocks_Locations";
+        String name = "OPGGSA 2006 Blocks Locations";
+        String description = "This dataset is a digital realisation of the Blocks as defined under Section 33 (3) of the Offshore " +
+                "Petroleum and Greenhouse Gas Storage Act 2006. The blocks are created using a 5 minute by 5 minute graticular section " +
+                "that has been trimmed to the extent of the Offshore Area (defined in the same Act). The dataset is comprised of both " +
+                "points and polygons, and is densified to ensure the geometry will remain correct regardless of projection. " +
+                "The dataset's coverage includes areas of coastal waters and land within the constitutional limits of the States " +
+                "and territories, however in these areas the data is indicative only. For titles within the limits of the coastal waters, " +
+                "the relevant State agency should be consulted.";
+
+        KnownLayerSelector selector = new WMSSelector("OPGGSA_2006_Blocks_Locations");
+
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+
+        knownLayer.setName(name);
+        knownLayer.setDescription(description);
+
+        knownLayer.setGroup(GROUP);
+
+        return knownLayer;
+    }
+
+}
