@@ -81,7 +81,7 @@ public class Tenements {
         String description = "the boundary of the National Offshore Petroleum Titles in accordance with the Offshore " +
                 "Petroleum and Greenhouse Gas Storage Act (OPGGSA) 2006.";
 
-        KnownLayerSelector selector = new WMSSelector("Petroleum_Titles_Company62396");
+        KnownLayerSelector selector = new WMSSelector("0");
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
