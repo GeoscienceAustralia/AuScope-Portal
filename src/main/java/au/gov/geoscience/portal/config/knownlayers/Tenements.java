@@ -56,7 +56,7 @@ public class Tenements {
                 "# = a single character, * = any number of characters (eg, EL#234*). Search terms are case " +
                 "insensitive.");
 
-        AbstractBaseFilter ownerFilter = new UIFilterText("Owner","All tenement owners",
+        AbstractBaseFilter ownerFilter = new UIFilterText("Owner", "All tenement owners",
                 "owner");
         ownerFilter.setToolTip("Type all or part of a mineral tenement owner. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, *BIL#ITON*). Search terms are case " +
@@ -81,7 +81,12 @@ public class Tenements {
         String description = "the boundary of the National Offshore Petroleum Titles in accordance with the Offshore " +
                 "Petroleum and Greenhouse Gas Storage Act (OPGGSA) 2006.";
 
-        KnownLayerSelector selector = new WMSSelector("0");
+
+        String[] serviceEndPoints = new String[]{
+                "https://arcgis.nopta.gov.au:443/arcgis/services/Public/TitlesCompany_NOPTA/MapServer/WmsServer?"
+        };
+
+        KnownLayerSelector selector = new WMSSelector("0", serviceEndPoints, true);
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
