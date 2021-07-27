@@ -9,7 +9,6 @@ import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.WMSService;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
-import org.auscope.portal.core.services.responses.wfs.WFSResponse;
 import org.auscope.portal.core.util.FileIOUtil;
 import org.auscope.portal.core.util.SLDLoader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,23 +111,24 @@ public class MineralTenementController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures,
             @RequestParam(required = false, value = "outputFormat") String outputFormat,
+            @RequestParam(required = false, value = "forceOutputFormat", defaultValue = "false") Boolean forceOutputFormat,
             HttpServletResponse response) throws Exception {
 
         MineralTenementServiceProviderType mineralTenementServiceProviderType = MineralTenementServiceProviderType.parseUrl(serviceUrl);
-
 
         // This is required to work with FilterBoundingBox. Needs a better fix than this
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
 
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
 
-        if (mineralTenementServiceProviderType == MineralTenementServiceProviderType.ArcGIS) {
-            outputFormat = "text/xml; subtype=gml/3.1.1";
-
-        } else {
-            outputFormat = "CSV";
-
+        if (!forceOutputFormat) {
+            if (mineralTenementServiceProviderType == MineralTenementServiceProviderType.ArcGIS) {
+                outputFormat = "text/xml; subtype=gml/3.1.1";
+            } else {
+                outputFormat = "CSV";
+            }
         }
+
         String filter = this.mineralTenementService.getMineralTenementFilter(name, null, owner, null, null, bbox,
                 mineralTenementServiceProviderType);
 
