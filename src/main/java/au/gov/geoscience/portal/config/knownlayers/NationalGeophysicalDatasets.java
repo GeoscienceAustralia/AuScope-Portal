@@ -64,11 +64,11 @@ public class NationalGeophysicalDatasets {
 
         String id = "AirborneSurveys2014";
 
-        KnownLayerSelector selector = new WMSSelector("AirborneSurveys2014");
+        KnownLayerSelector selector = new WMSSelector("gadds:geophysical_surveys");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
-        String name = "Airborne Geophysical Surveys - June 2014";
+        String name = "Geophysical Surveys";
         knownLayer.setName(name);
 
         String description = "This layer provides the outlines and specifications of 1085 airborne geophysical " +
