@@ -93,7 +93,7 @@ public class MineralOccurrencesAndResources {
         String description = "A collection of services that implement the EarthResourceML Lite schema for " +
                 "erl:MineralOccurrenceView";
 
-        String[] serviceEndPoints = new String[]{"http://geology.data.nt.gov.au:80/geoserver/wfs", "https://www.mrt.tas.gov.au/web-services/wfs",
+        String[] serviceEndPoints = new String[]{"https://geology.data.nt.gov.au/geoserver/wfs", "https://www.mrt.tas.gov.au/web-services/wfs",
                 "https://gs.geoscience.nsw.gov.au/geoserver/wfs", "http://services.ga.gov.au/earthresource/wfs", "https://sarigdata.pir.sa.gov.au/geoserver/wfs"};
 
         KnownLayerSelector selector = new WFSSelector("erl:MineralOccurrenceView", serviceEndPoints, true);
