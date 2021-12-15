@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1} - %m%n"/>
+        </Console>
+        <RollingFile name="LogFile" fileName="${sys:catalina.base}/logs/portal.log"
+                     filePattern="${sys:catalina.base}/logs/portal-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="LogFile"/>
+        </Root>
+
+        <Logger name="httpclient.wire.header" level="INFO" />
+        <Logger name="httpclient.wire.content" level="INFO" />
+
+        <Logger name="net.sf.ehcache.config.Configurator" level="WARN" />
+
+        <Logger name="org.apache" level="INFO" />
+
+        <Logger name="org.auscope" level="DEBUG" />
+        <Logger name="org.auscope.portal.csw.CSWGetRecordResponse" level="INFO" />
+        <Logger name="org.auscope.portal.server.util.GmlToKml" level="INFO" />
+        <Logger name="org.auscope.portal.server.web.view.JSONView" level="INFO" />
+        <Logger name="org.auscope.portal.core.server.http.HttpServiceCaller" level="INFO" />
+        <Logger name="org.auscope.portal.server.web.service.MineralOccurrenceService" level="INFO" />
+        <!--<Logger name="org.auscope.portal.core.services.methodmakers.CSWMethodMakerGetDataRecords" level="TRACE" />
+        <Logger name="org.auscope.portal.core.services.CSWService" level="TRACE" />
+        <Logger name="org.auscope.portal.core.services.methodmakers.filter.AbstractFilter" level="TRACE" />
+        <Logger name="org.auscope.portal.core.server.http.HttpServiceCaller" level="TRACE" />-->
+
+        <Logger name="au.gov.geoscience.portal" level="DEBUG" />
+
+        <Logger name="org.springframework" level="INFO" />
+        <Logger name="org.springframework.security" level="INFO" />
+        <Logger name="org.springframework.web.security" level="INFO" />
+        <Logger name="org.auscope.portal.server.web.WFSGetFeatureMethodMakerPOST" level="INFO" />
+        <Logger name="org.auscope.portal.gsml.YilgarnLocSpecimenRecords" level="INFO" />
+        <Logger name="org.auscope.portal.server.web.controllers.GetCapabilitiesController" level="INFO" />
+        <Logger name="org.auscope.portal.server.domain.ows.GetCapabilitiesRecord" level="INFO" />
+    </Loggers>
+</Configuration>
