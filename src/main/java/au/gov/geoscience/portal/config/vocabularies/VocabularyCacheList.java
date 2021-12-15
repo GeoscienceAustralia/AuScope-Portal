@@ -32,6 +32,13 @@ public class VocabularyCacheList {
     }
 
     @Bean
+    VocabularyServiceItem vocabularyNVCLScalars(){
+        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http://vocabs.ardc.edu.au/repository/api/lda/csiro/national-virtual-core-library-scalars/v0-3");
+        VocabularyServiceItem serviceItem = new VocabularyServiceItem("vocabularyNVCLScalars", "NVCL Scalars Vocabulary", service);
+        return serviceItem;
+    }
+
+    @Bean
     VocabularyServiceItem vocabularyMineStatuses(){
         VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http://vocabs.ga.gov.au/cgi/sissvoc/mine-status");
         VocabularyServiceItem serviceItem = new VocabularyServiceItem("vocabularyMineStatuses", "Mine Status Vocabulary", service);

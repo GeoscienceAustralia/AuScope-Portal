@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.SKOS;
 import org.apache.jena.vocabulary.RDF;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.VocabularyFilterService;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class VocabularyController extends BasePortalController {
     public static final String TENEMENT_TYPE_VOCABULARY_ID = "vocabularyTenementType";
     public static final String TENEMENT_STATUS_VOCABULARY_ID = "vocabularyTenementStatus";
     public static final String MINERAL_OCCURRENCE_TYPE_VOCABULARY = "vocabularyMineralOccurrenceType";
+    public static final String NVCL_SCALARS_VOCABULARY_ID = "vocabularyNVCLScalars";
 
 
     private final Log log = LogFactory.getLog(getClass());
@@ -82,31 +85,14 @@ public class VocabularyController extends BasePortalController {
     @RequestMapping("/getScalar.do")
     public ModelAndView getScalarQuery(@RequestParam("repository") final String repository,
                                        @RequestParam("label") final String label) throws Exception {
-
-        // Attempt to request and parse our response
-        try {
-            // Do the request
-            List<String> definitions = nvclVocabService.getScalarDefinitionsByLabel(label);
-
-            String labelString = null;
-            String scopeNoteString = null;
-            String definitionString = null;
-            if (definitions != null && definitions.size() > 0) {
-                labelString = label;
-                scopeNoteString = definitions.get(0); // this is for legacy
-                // support
-                definitionString = definitions.get(0);
-            }
-
-            return generateJSONResponseMAV(true, createScalarQueryModel(scopeNoteString, labelString, definitionString),
-                    "");
-        } catch (Exception ex) {
-            // On error, just return failure JSON (and the response string if
-            // any)
-            log.error("getVocabQuery ERROR: " + ex.getMessage());
-
-            return generateJSONResponseMAV(false, null, "");
+        ArrayList<String> defns = this.vocabularyFilterService.getVocabularyById(NVCL_SCALARS_VOCABULARY_ID, label, SKOS.definition);
+        Map<String,String> dataItems = new HashMap<>();
+        if (defns.size() > 0) {
+            dataItems.put("scopeNote", defns.get(0));
+            dataItems.put("definition", defns.get(0));
+            dataItems.put("label", label);
         }
+        return generateJSONResponseMAV(true, dataItems, "");
     }
 
     private ModelMap createScalarQueryModel(final String scopeNote, final String label, final String definition) {
