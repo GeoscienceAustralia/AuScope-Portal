@@ -10,7 +10,7 @@
     <properties>
         <environment.host>http://api.portal.geoscience.gov.au</environment.host>
         <org.slf4j.version>1.7.32</org.slf4j.version>
-        <log4j.version>2.17.0</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
     </properties>
     <build>
         <resources>
@@ -78,7 +78,7 @@
                             <rules>
                                 <bannedDependencies>
                                     <excludes>
-                                        <exclude>org.apache.logging.log4j:log4j-core:(,2.17.0)</exclude>
+                                        <exclude>org.apache.logging.log4j:log4j-core:(,2.17.1)</exclude>
                                     </excludes>
                                 </bannedDependencies>
                             </rules>
