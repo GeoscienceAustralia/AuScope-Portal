@@ -94,7 +94,7 @@ public class MineralOccurrencesAndResources {
                 "erl:MineralOccurrenceView";
 
         String[] serviceEndPoints = new String[]{"https://geology.data.nt.gov.au/geoserver/wfs", "https://www.mrt.tas.gov.au/web-services/wfs",
-                "https://gs.geoscience.nsw.gov.au/geoserver/wfs", "http://services.ga.gov.au/gis/earthresource/wfs", "https://sarigdata.pir.sa.gov.au/geoserver/wfs"};
+                "https://gs.geoscience.nsw.gov.au/geoserver/wfs", "https://services.ga.gov.au/gis/earthresource/wfs", "https://sarigdata.pir.sa.gov.au/geoserver/wfs"};
 
         KnownLayerSelector selector = new WFSSelector("erl:MineralOccurrenceView", serviceEndPoints, true);
 
