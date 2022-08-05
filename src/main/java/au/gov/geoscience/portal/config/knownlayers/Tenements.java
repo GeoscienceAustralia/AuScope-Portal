@@ -6,6 +6,7 @@ import org.auscope.portal.core.uifilter.FilterCollection;
 import org.auscope.portal.core.uifilter.optional.UICheckBoxGroupProvider;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
+import org.auscope.portal.core.view.knownlayer.WFSSelector;
 import org.auscope.portal.core.view.knownlayer.WMSSelector;
 import org.auscope.portal.core.view.knownlayer.WMSWFSSelector;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,12 +74,12 @@ public class Tenements {
         return knownLayer;
     }
 
-    @Bean(name = "offshore-petroleum-titles")
+    @Bean(name = "offshore-petroleum-tenements")
     @Order(GROUP_ORDER + 1)
-    KnownLayer offshorePetroleumTitles() {
-        String id = "offshore-petroleum-titles";
-        String name = "Offshore Petroleum Titles";
-        String description = "the boundary of the National Offshore Petroleum Titles in accordance with the Offshore " +
+    KnownLayer offshorePetroleumTenements() {
+        String id = "offshore-petroleum-tenements";
+        String name = "Offshore Petroleum Tenements";
+        String description = "the boundary of the National Offshore Petroleum Tenements in accordance with the Offshore " +
                 "Petroleum and Greenhouse Gas Storage Act (OPGGSA) 2006.";
 
 
@@ -98,8 +99,27 @@ public class Tenements {
         return knownLayer;
     }
 
-    @Bean(name = "OPGGSA_2006_Blocks")
+    @Bean(name="onshore-petroleum-tenements")
     @Order(GROUP_ORDER + 2)
+    KnownLayer onshorePetroleumTenements() {
+        String id = "onshore-petroleum-tenements";
+        String name = "Onshore Petroleum Tenements";
+        String description = "";
+        String[] serviceEndPoints = new String[]{
+                "https://gs.geoscience.nsw.gov.au/geoserver/pt/wfs",
+                "https://geology.data.nt.gov.au/geoserver/wfs"
+        };
+        KnownLayerSelector selector = new WFSSelector("pt:PetroleumTenement", serviceEndPoints, true);
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+        knownLayer.setName(name);
+        knownLayer.setDescription(description);
+        knownLayer.setGroup(GROUP);
+        knownLayer.setSingleTile(true);
+        return knownLayer;
+    }
+
+    @Bean(name = "OPGGSA_2006_Blocks")
+    @Order(GROUP_ORDER + 3)
     KnownLayer OPGGSA2006Blocks() {
         String id = "OPGGSA_2006_Blocks";
         String name = "OPGGSA 2006 Blocks";
@@ -124,7 +144,7 @@ public class Tenements {
     }
 
     @Bean(name = "OPGGSA_2006_Blocks_Locations")
-    @Order(GROUP_ORDER + 3)
+    @Order(GROUP_ORDER + 4)
     KnownLayer OPGGSA2006BlocksLocations() {
         String id = "OPGGSA_2006_Blocks_Locations";
         String name = "OPGGSA 2006 Blocks Locations";
