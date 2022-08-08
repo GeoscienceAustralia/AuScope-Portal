@@ -110,6 +110,11 @@ public class Tenements {
         knownLayer.setDescription(description);
         knownLayer.setGroup(GROUP);
         knownLayer.setSingleTile(true);
+
+        knownLayer.setProxyCountUrl("petroleumFilterCount.do");
+        knownLayer.setProxyStyleUrl("petroleumFilterStyle.do");
+        knownLayer.setProxyDownloadUrl("petroleumFilterDownload.do");
+
         FilterCollection filterCollection = new FilterCollection();
 
         AbstractBaseFilter nameFilter = new UIFilterText("Name", "All tenement names", "name");
