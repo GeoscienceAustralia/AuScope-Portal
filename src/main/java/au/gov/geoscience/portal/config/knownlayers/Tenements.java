@@ -111,9 +111,9 @@ public class Tenements {
         knownLayer.setGroup(GROUP);
         knownLayer.setSingleTile(true);
 
-        knownLayer.setProxyCountUrl("petroleumFilterCount.do");
-        knownLayer.setProxyStyleUrl("petroleumFilterStyle.do");
-        knownLayer.setProxyDownloadUrl("petroleumFilterDownload.do");
+        knownLayer.setProxyCountUrl("petroleumTenementFilterCount.do");
+        knownLayer.setProxyStyleUrl("petroleumTenementFilterStyle.do");
+        knownLayer.setProxyDownloadUrl("petroleumTenementFilterDownload.do");
 
         FilterCollection filterCollection = new FilterCollection();
 
