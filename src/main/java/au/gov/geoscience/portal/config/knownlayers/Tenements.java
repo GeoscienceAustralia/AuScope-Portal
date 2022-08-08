@@ -105,11 +105,7 @@ public class Tenements {
         String id = "onshore-petroleum-tenements";
         String name = "Onshore Petroleum Tenements";
         String description = "";
-        String[] serviceEndPoints = new String[]{
-                "https://gs.geoscience.nsw.gov.au/geoserver/pt/wfs",
-                "https://geology.data.nt.gov.au/geoserver/wfs"
-        };
-        KnownLayerSelector selector = new WFSSelector("pt:PetroleumTenement", serviceEndPoints, true);
+        KnownLayerSelector selector = new WMSWFSSelector("pt:PetroleumTenement", "PetroleumTenement");
         KnownLayer knownLayer = new KnownLayer(id, selector);
         knownLayer.setName(name);
         knownLayer.setDescription(description);
