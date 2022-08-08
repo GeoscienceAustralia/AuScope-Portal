@@ -1,19 +1,15 @@
 package au.gov.geoscience.portal.server.services.filters;
-
 import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import org.auscope.portal.core.services.methodmakers.filter.AbstractFilter;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Class that represents ogc:Filter markup for pt:petroleumTenement queries
  *
  * based on MineralTenement filter by Victor Tey
  */
-
 public class PetroleumTenementFilter extends AbstractFilter {
     List<String> fragments;
 
@@ -26,23 +22,23 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 *            the name of the tenement
 	 */
 	public PetroleumTenementFilter(String tenementName) {
-		this(tenementName, null, null, null, null, null);
+		this(tenementName, null, null);
 	}
 
 	
 	/**
 	 * 
-	 * Utility constructor that takes a given tenement name and tenement owner and builds a filter to wild card
+	 * Utility constructor that takes a given tenement name and tenement holder and builds a filter to wild card
 	 * search for tenement names.
 	 * 
 	 * @param tenementName
 	 *            the name of the tenement
-	 *  @param owner
-	 *  		  the name of the tenemnet holder           
+	 *  @param holder
+	 *  		  the name of the tenement holder           
 	 *            
 	 */
-	public PetroleumTenementFilter(String tenementName, String owner) {
-		this(tenementName, null, owner, null, null, null);
+	public PetroleumTenementFilter(String tenementName, String holder) {
+		this(tenementName, holder, null);
 	}
 	
 	/**
@@ -51,18 +47,12 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 *
 	 * @param tenementName
 	 *            the name of the tenement
-	 * 
-	 * @param tenementTypeUri
-	 *            Type of tenement
-	 * 
-	 * @param owner
-	 *            owner of tenement
-	 * @param statusUri
-	 *            status  of tenement
-	 * @param endDate
-	 *            Expiry date of tenement
+	 * @param holder
+	 *            holder of tenement
+	 * @param petroleumTenementServiceProviderType
+	 *            enum for differentiating service providers for Petroleum Tenement services
 	 */
-	public PetroleumTenementFilter(String tenementName, String tenementTypeUri, String owner, String statusUri, String endDate, PetroleumTenementServiceProviderType petroleumTenementServiceProviderType) {
+	public PetroleumTenementFilter(String tenementName, String holder, PetroleumTenementServiceProviderType petroleumTenementServiceProviderType) {
 		if (petroleumTenementServiceProviderType == null) {
 			petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.GeoServer;
 		}
@@ -70,58 +60,12 @@ public class PetroleumTenementFilter extends AbstractFilter {
 		if (tenementName != null && !tenementName.isEmpty()) {
 			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.nameField(), tenementName ));
 		}
-		if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
-			fragments.add(this.generatePropertyIsEqualToFragment("mt:tenementType_uri", tenementTypeUri));
-		}
-        if (statusUri != null && !statusUri.isEmpty()) {
-            fragments.add(this.generatePropertyIsEqualToFragment("mt:status_uri", statusUri));
-        }
 
-		if (owner != null && !owner.isEmpty()) {
-			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.ownerField(), owner));
-		}
-
-		if (endDate != null && !endDate.isEmpty()) {
-			fragments.add(this.generatePropertyIsLessThanOrEqualTo("mt:expireDate", endDate));
+		if (holder != null && !holder.isEmpty()) {
+			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.holderField(), holder));
 		}
 		
-
 	}
-
-	/**
-	 * @param name
-	 * @param owner
-	 * @param statusUris
-	 * @param typeUris
-	 * @param PetroleumTenementServiceProviderType
-	 */
-    public PetroleumTenementFilter(String name, String owner, Set<String> statusUris, Set<String> typeUris, PetroleumTenementServiceProviderType petroleumTenementServiceProviderType) {
-		fragments = new ArrayList<String>();
-    	if (name != null && !name.isEmpty()) {
-			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.nameField(), name ));
-		}
-
-		if (owner != null && !owner.isEmpty()) {
-			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.ownerField(), owner));
-		}
-
-		if (statusUris != null && !statusUris.isEmpty()) {
-			List<String> localFragments = new ArrayList<String>();
-			for (String statusUri : statusUris) {
-				localFragments.add(this.generatePropertyIsEqualToFragment("mt:status_uri", statusUri));
-			}
-			fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
-		}
-
-		if (typeUris != null && !typeUris.isEmpty()) {
-			List<String> localFragments = new ArrayList<String>();
-			for (String typeUri : typeUris) {
-				localFragments.add(this.generatePropertyIsEqualToFragment("mt:tenementType_uri", typeUri));
-			}
-			fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
-		}
-
-    }
 
     public String getFilterStringAllRecords() {
 		return this.generateFilter(this.generateAndComparisonFragment(fragments.toArray(new String[fragments.size()])));
@@ -131,18 +75,16 @@ public class PetroleumTenementFilter extends AbstractFilter {
 
 		List<String> localFragment = new ArrayList<String>(fragments);
 		if (bbox != null) {
-			localFragment.add(this.generateBboxFragment(bbox, "mt:shape"));
+			localFragment.add(this.generateBboxFragment(bbox, "pt:shape"));
 		}
-		return this.generateFilter(
-				this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
+		return this.generateFilter(this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
 	}
 
 	public String getFilterWithAdditionalStyle() {
 
 		List<String> localFragment = new ArrayList<String>(fragments);
 
-		return this.generateFilter(
-				this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
+		return this.generateFilter(this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
 	}
 
 }

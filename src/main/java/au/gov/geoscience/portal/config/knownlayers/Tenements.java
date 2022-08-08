@@ -1,5 +1,4 @@
 package au.gov.geoscience.portal.config.knownlayers;
-
 import au.gov.geoscience.portal.uifilter.UIFilterText;
 import org.auscope.portal.core.uifilter.AbstractBaseFilter;
 import org.auscope.portal.core.uifilter.FilterCollection;
@@ -12,17 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-
 import java.util.Arrays;
 
 @Configuration
 public class Tenements {
-
     private static final int GROUP_ORDER = GroupOrder.TENEMENTS;
     private static final String GROUP = "Tenements";
-
     private static final String NAGIOS_HOST_GROUP = "GeolSurveySISSDeployments";
-
     @Value("${portal.build.environment.host}")
     private String HOSTNAME;
 
@@ -32,44 +27,30 @@ public class Tenements {
         String id = "mineral-tenements";
         String name = "Mineral Tenements";
         String description = "A collection of services that implement the GGIC application schema mt:Mineral Tenement.";
-
         KnownLayerSelector selector = new WMSWFSSelector("mt:MineralTenement", "MineralTenement");
-
         KnownLayer knownLayer = new KnownLayer(id, selector);
-
         knownLayer.setName(name);
         knownLayer.setDescription(description);
-
         knownLayer.setProxyCountUrl("mineralTenementFilterCount.do");
         knownLayer.setProxyStyleUrl("mineralTenementFilterStyle.do");
         knownLayer.setProxyDownloadUrl("mineralTenementFilterDownload.do");
-
         knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/mt_mineraltenement.jpg");
-
         knownLayer.setGroup(GROUP);
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
-
         FilterCollection filterCollection = new FilterCollection();
-
         AbstractBaseFilter nameFilter = new UIFilterText("Name", "All tenement names", "name");
         nameFilter.setToolTip("Type all or part of a mineral tenement name. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, EL#234*). Search terms are case " +
                 "insensitive.");
-
         AbstractBaseFilter ownerFilter = new UIFilterText("Owner", "All tenement owners",
                 "owner");
         ownerFilter.setToolTip("Type all or part of a mineral tenement owner. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, *BIL#ITON*). Search terms are case " +
                 "insensitive.");
-
         AbstractBaseFilter providerFilter = new UICheckBoxGroupProvider("Provider", "All data providers");
         providerFilter.setToolTip("Choose a data provider from the drop-down list.");
-
         filterCollection.setOptionalFilters(Arrays.asList(nameFilter, ownerFilter, providerFilter));
-
         knownLayer.setFilterCollection(filterCollection);
-
-
         return knownLayer;
     }
 
@@ -80,21 +61,14 @@ public class Tenements {
         String name = "Offshore Petroleum Tenements";
         String description = "the boundary of the National Offshore Petroleum Tenements in accordance with the Offshore " +
                 "Petroleum and Greenhouse Gas Storage Act (OPGGSA) 2006.";
-
-
         String[] serviceEndPoints = new String[]{
                 "https://arcgis.nopta.gov.au:443/arcgis/services/Public/TitlesCompany_NOPTA/MapServer/WmsServer?"
         };
-
         KnownLayerSelector selector = new WMSSelector("0", serviceEndPoints, true);
-
         KnownLayer knownLayer = new KnownLayer(id, selector);
-
         knownLayer.setName(name);
         knownLayer.setDescription(description);
-
         knownLayer.setGroup(GROUP);
-
         return knownLayer;
     }
 
@@ -110,29 +84,22 @@ public class Tenements {
         knownLayer.setDescription(description);
         knownLayer.setGroup(GROUP);
         knownLayer.setSingleTile(true);
-
         knownLayer.setProxyCountUrl("petroleumTenementFilterCount.do");
         knownLayer.setProxyStyleUrl("petroleumTenementFilterStyle.do");
         knownLayer.setProxyDownloadUrl("petroleumTenementFilterDownload.do");
-
         FilterCollection filterCollection = new FilterCollection();
-
         AbstractBaseFilter nameFilter = new UIFilterText("Name", "All tenement names", "name");
         nameFilter.setToolTip("Type all or part of a petroleum tenement name. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, EL#234*). Search terms are case " +
                 "insensitive.");
-
-        AbstractBaseFilter ownerFilter = new UIFilterText("Owner", "All tenement owners",
-                "owner");
-        ownerFilter.setToolTip("Type all or part of a petroleum tenement owner. Use wildcards to broaden your search.  " +
+        AbstractBaseFilter holderFilter = new UIFilterText("holder", "All tenement holders",
+                "holder");
+                holderFilter.setToolTip("Type all or part of a petroleum tenement holder. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, *BIL#ITON*). Search terms are case " +
                 "insensitive.");
-
         AbstractBaseFilter providerFilter = new UICheckBoxGroupProvider("Provider", "All data providers");
         providerFilter.setToolTip("Choose a data provider from the drop-down list.");
-
-        filterCollection.setOptionalFilters(Arrays.asList(nameFilter, ownerFilter, providerFilter));
-
+        filterCollection.setOptionalFilters(Arrays.asList(nameFilter, holderFilter, providerFilter));
         knownLayer.setFilterCollection(filterCollection);
         return knownLayer;
     }
@@ -149,16 +116,11 @@ public class Tenements {
                 "regardless of projection. The dataset's coverage includes areas of coastal waters and land within the constitutional " +
                 "limits of the States and territories, however in these areas the data is indicative only. For titles within the limits of " +
                 "the coastal waters, the relevant State agency should be consulted.";
-
         KnownLayerSelector selector = new WMSSelector("OPGGSA_2006_Blocks");
-
         KnownLayer knownLayer = new KnownLayer(id, selector);
-
         knownLayer.setName(name);
         knownLayer.setDescription(description);
-
         knownLayer.setGroup(GROUP);
-
         return knownLayer;
     }
 
@@ -174,16 +136,11 @@ public class Tenements {
                 "The dataset's coverage includes areas of coastal waters and land within the constitutional limits of the States " +
                 "and territories, however in these areas the data is indicative only. For titles within the limits of the coastal waters, " +
                 "the relevant State agency should be consulted.";
-
         KnownLayerSelector selector = new WMSSelector("OPGGSA_2006_Blocks_Locations");
-
         KnownLayer knownLayer = new KnownLayer(id, selector);
-
         knownLayer.setName(name);
         knownLayer.setDescription(description);
-
         knownLayer.setGroup(GROUP);
-
         return knownLayer;
     }
 

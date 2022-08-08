@@ -8,23 +8,21 @@ package au.gov.geoscience.portal.server;
  * 
  */
 public enum PetroleumTenementServiceProviderType {
-	GeoServer("pt:PetroleumTenement", "#66ff66", "#a3ffa3", "pt:name", "pt:owner", "pt:shape"),
-	ArcGIS("PetroleumTenement", "#00ff00", "#66ff66", "TENNAME", "TENOWNER", "SHAPE");
-
+	GeoServer("pt:PetroleumTenement", "#d3faff", "#0813a8", "pt:name", "pt:holder", "pt:shape");
 	private final String featureType;
 	private final String fillColour;
 	private final String borderColour;
 	private final String nameField;
-	private final String ownerField;
+	private final String holderField;
 	private final String shapeField;
 
 	private PetroleumTenementServiceProviderType(String featureType, String fillColour, String borderColour,
-                                               String nameField, String ownerField, String shapeField) {
+                                               String nameField, String holderField, String shapeField) {
 		this.featureType = featureType;
 		this.fillColour = fillColour;
 		this.borderColour = borderColour;
 		this.nameField = nameField;
-		this.ownerField = ownerField;
+		this.holderField = holderField;
 		this.shapeField = shapeField;
 	}
 
@@ -44,8 +42,8 @@ public enum PetroleumTenementServiceProviderType {
 		return nameField;
 	}
 
-	public String ownerField() {
-		return ownerField;
+	public String holderField() {
+		return holderField;
 	}
 
 	public String shapeField() {
@@ -53,10 +51,6 @@ public enum PetroleumTenementServiceProviderType {
 	}
 
 	public static PetroleumTenementServiceProviderType parseUrl(String serviceUrl) {
-		if (serviceUrl != null && (serviceUrl.toUpperCase().contains("MAPSERVER/WFSSERVER")
-				|| serviceUrl.toUpperCase().contains("MAPSERVER/WMSSERVER"))) {
-			return PetroleumTenementServiceProviderType.ArcGIS;
-		}
 		return PetroleumTenementServiceProviderType.GeoServer;
 	}
 }
