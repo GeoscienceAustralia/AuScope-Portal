@@ -115,6 +115,25 @@ public class Tenements {
         knownLayer.setDescription(description);
         knownLayer.setGroup(GROUP);
         knownLayer.setSingleTile(true);
+        FilterCollection filterCollection = new FilterCollection();
+
+        AbstractBaseFilter nameFilter = new UIFilterText("Name", "All tenement names", "name");
+        nameFilter.setToolTip("Type all or part of a mineral tenement name. Use wildcards to broaden your search.  " +
+                "# = a single character, * = any number of characters (eg, EL#234*). Search terms are case " +
+                "insensitive.");
+
+        AbstractBaseFilter ownerFilter = new UIFilterText("Owner", "All tenement owners",
+                "owner");
+        ownerFilter.setToolTip("Type all or part of a mineral tenement owner. Use wildcards to broaden your search.  " +
+                "# = a single character, * = any number of characters (eg, *BIL#ITON*). Search terms are case " +
+                "insensitive.");
+
+        AbstractBaseFilter providerFilter = new UICheckBoxGroupProvider("Provider", "All data providers");
+        providerFilter.setToolTip("Choose a data provider from the drop-down list.");
+
+        filterCollection.setOptionalFilters(Arrays.asList(nameFilter, ownerFilter, providerFilter));
+
+        knownLayer.setFilterCollection(filterCollection);
         return knownLayer;
     }
 
