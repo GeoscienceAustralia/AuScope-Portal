@@ -21,7 +21,7 @@ public class RestrictedAreas {
         CSWRecordSelector selector = new CSWRecordSelector();
         selector.setRecordId("6cd862d180adb50c7ec7fde53bc1422a10a8f64c");
 
-        String name = "Protected Areas CAPAD 2014 - Marine";
+        String name = "Protected Areas CAPAD 2020 - Marine";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
@@ -37,7 +37,7 @@ public class RestrictedAreas {
     KnownLayer protectedAreasTerrestrial() {
         String id = "protected-areas-terrestrial";
         KnownLayerSelector selector = new WMSSelector("Protected_Areas");
-        String name = "Protected Areas CAPAD 2014 - Terrestrial";
+        String name = "Protected Areas CAPAD 2020 - Terrestrial";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
