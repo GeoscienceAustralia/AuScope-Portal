@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class PetroleumTenementFilter extends AbstractFilter {
     List<String> fragments;
-
 	/**
 	 * 
 	 * Utility constructor that takes a given tenement name, and builds a filter to wild card
@@ -24,7 +23,6 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	public PetroleumTenementFilter(String name) {
 		this(name, null, null);
 	}
-
 	
 	/**
 	 * 
