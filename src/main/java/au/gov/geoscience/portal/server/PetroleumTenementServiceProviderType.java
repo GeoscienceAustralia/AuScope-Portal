@@ -16,8 +16,7 @@ public enum PetroleumTenementServiceProviderType {
 	private final String holderField;
 	private final String shapeField;
 
-	private PetroleumTenementServiceProviderType(String featureType, String fillColour, String borderColour,
-                                               String nameField, String holderField, String shapeField) {
+	private PetroleumTenementServiceProviderType(String featureType, String fillColour, String borderColour, String nameField, String holderField, String shapeField) {
 		this.featureType = featureType;
 		this.fillColour = fillColour;
 		this.borderColour = borderColour;

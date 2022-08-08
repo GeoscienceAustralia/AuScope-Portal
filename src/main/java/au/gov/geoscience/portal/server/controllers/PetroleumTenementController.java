@@ -35,11 +35,9 @@ public class PetroleumTenementController extends BasePortalController {
         // Vt: wms shouldn't need the bbox because it is tiled.
         FilterBoundingBox bbox = null;
         PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
-        
         String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, petroleumTenementServiceProviderType);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
-
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
         OutputStream outputStream = response.getOutputStream();
         FileIOUtil.writeInputToOutputStream(styleStream, outputStream, 1024, false);

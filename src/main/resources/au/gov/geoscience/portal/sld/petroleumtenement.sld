@@ -1,8 +1,4 @@
-<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml"
-                       xmlns:pt="http://xmlns.geoscience.gov.au/petroleumtenementml/1.0"
-                       xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       version="1.0.0"
-                       xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd http://xmlns.geoscience.gov.au/petroleumtenementml/1.0 http://schemas.geoscience.gov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
+<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:pt="http://xmlns.geoscience.gov.au/petroleumtenementml/1.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd http://xmlns.geoscience.gov.au/petroleumtenementml/1.0 http://schemas.geoscience.gov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
     <NamedLayer>
         <Name>pt:PetroleumTenement</Name>
         <UserStyle>
