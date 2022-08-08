@@ -1,13 +1,10 @@
 package au.gov.geoscience.portal.server.services;
-
 import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
-import au.gov.geoscience.portal.server.controllers.VocabularyController;
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpClientInputStream;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
 import org.auscope.portal.core.services.PortalServiceException;
-import org.auscope.portal.core.services.VocabularyFilterService;
 import org.auscope.portal.core.services.methodmakers.WFSGetFeatureMethodMaker;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.test.PortalTestClass;
@@ -15,61 +12,34 @@ import org.auscope.portal.core.test.ResourceUtil;
 import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.springframework.util.Assert;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.auscope.portal.core.services.BaseWFSService.DEFAULT_SRS;
 
 public class TestPetroleumTenementService extends PortalTestClass {
-
     private PetroleumTenementService petroleumTenementService;
-
     private HttpServiceCaller httpServiceCaller;
     private WFSGetFeatureMethodMaker wfsMethodMaker;
-    private VocabularyFilterService vocabularyFilterService;
     private HttpRequestBase method;
 
     @Before
     public void setUp() {
         this.httpServiceCaller = context.mock(HttpServiceCaller.class);
         this.wfsMethodMaker = context.mock(WFSGetFeatureMethodMaker.class);
-        this.vocabularyFilterService = context.mock(VocabularyFilterService.class);
-        this.petroleumTenementService = new PetroleumTenementService(httpServiceCaller, wfsMethodMaker, vocabularyFilterService);
-
+        this.petroleumTenementService = new PetroleumTenementService(httpServiceCaller, wfsMethodMaker);
         this.method = context.mock(HttpRequestBase.class);
     }
 
     @Test
     public void testGetPetroleumTenementFilter() {
         String name = "Name";
-        String typeUri = "http://vocabs.ga/tenement-type/exploration";
-        String owner = "BHPBilliton Limited";
-        String statusUri = "http://vocabs.ga/tenement-type/exploration";
-        String endDate = null;
+        String holder = "BHPBilliton Limited";
         FilterBoundingBox bbox = null;
         PetroleumTenementServiceProviderType providerType = PetroleumTenementServiceProviderType.GeoServer;
-
-        Set<String> typeUris = new HashSet();
-        typeUris.add(typeUri);
-        Set<String> statusUris = new HashSet();
-        statusUris.add(statusUri);
-
-
-        context.checking(new Expectations() {
-                {
-                    oneOf(vocabularyFilterService).getAllNarrower(VocabularyController.TENEMENT_TYPE_VOCABULARY_ID, typeUri);
-                    will(returnValue(typeUris));
-                    oneOf(vocabularyFilterService).getAllNarrower(VocabularyController.TENEMENT_STATUS_VOCABULARY_ID, statusUri);
-                    will(returnValue(statusUris));
-                }
-            }
-        );
-
-        petroleumTenementService.getPetroleumTenementFilter(name, typeUri, owner, statusUri, endDate, bbox, providerType);
+        String result = petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, providerType);
+        Assert.notNull(result);
     }
 
     @Test

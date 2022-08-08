@@ -1,13 +1,10 @@
 package au.gov.geoscience.portal.server.controllers;
-
 import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.PetroleumTenementService;
 import org.auscope.portal.core.server.controllers.BasePortalController;
-import org.auscope.portal.core.services.WMSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import au.gov.geoscience.portal.xslt.WfsToCsvTransformer;
 import org.auscope.portal.core.server.OgcServiceProviderType;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
@@ -15,7 +12,6 @@ import org.auscope.portal.core.util.FileIOUtil;
 import org.auscope.portal.core.util.SLDLoader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,19 +19,16 @@ import java.io.OutputStream;
 
 @Controller
 public class PetroleumTenementController extends BasePortalController {
-    private WMSService wmsService;
     private PetroleumTenementService petroleumTenementService;
-    private WfsToCsvTransformer csvTransformer;
 
     @Autowired
-    public PetroleumTenementController(WMSService wmsService, PetroleumTenementService petroleumTenementService, WfsToCsvTransformer wfsToCsvTransformer){
-        this.wmsService = wmsService;
+    public PetroleumTenementController(PetroleumTenementService petroleumTenementService){
         this.petroleumTenementService = petroleumTenementService;
-        this.csvTransformer = wfsToCsvTransformer;
     }
 
     @RequestMapping("/petroleumTenementFilterStyle.do")
-    public void petroleumTenementFilterStyle(@RequestParam(required = false, value = "serviceUrl") String serviceUrl,
+    public void petroleumTenementFilterStyle(
+    @RequestParam(required = false, value = "serviceUrl") String serviceUrl,
     @RequestParam(required = false, value = "name") String name,
     @RequestParam(required = false, value = "holder") String holder,
     HttpServletResponse response) throws Exception {
@@ -44,8 +37,7 @@ public class PetroleumTenementController extends BasePortalController {
         PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
         
         String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, petroleumTenementServiceProviderType);
-        String style;
-        style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
+        String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
 
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());

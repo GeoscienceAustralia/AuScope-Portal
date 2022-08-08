@@ -16,7 +16,6 @@ import java.net.URISyntaxException;
 
 @Service
 public class PetroleumTenementService extends BaseWFSService {
-
     /**
      * Creates a new instance of this class with the specified dependencies
      *
@@ -33,7 +32,7 @@ public class PetroleumTenementService extends BaseWFSService {
         return generateFilterString(filter, bbox);
     }
 
-        /**
+     /**
      * @param serviceUrl
      * @param name
      * @param holder
@@ -54,10 +53,9 @@ public class PetroleumTenementService extends BaseWFSService {
         HttpRequestBase method = null;
         method = generateWFSRequest(serviceUrl, "pt:PetroleumTenement", null, filterString, maxFeatures, null, WFSGetFeatureMethodMaker.ResultType.Hits);
         return getWfsFeatureCount(method);
-
     }
 
-        /**
+    /**
      * Returns an OGC filter XML string
      *
      * @param filter
