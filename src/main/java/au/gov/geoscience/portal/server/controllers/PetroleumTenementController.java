@@ -31,11 +31,11 @@ public class PetroleumTenementController extends BasePortalController {
     @RequestParam(required = false, value = "serviceUrl") String serviceUrl,
     @RequestParam(required = false, value = "name") String name,
     @RequestParam(required = false, value = "holder") String holder,
+    @RequestParam(required = false, value = "statusUri") String statusUri,
+    @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri,
     HttpServletResponse response) throws Exception {
-        // Vt: wms shouldn't need the bbox because it is tiled.
         FilterBoundingBox bbox = null;
-        PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, petroleumTenementServiceProviderType);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, tenementTypeUri);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
@@ -53,7 +53,6 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
             throws Exception {
-
         // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
         // This will in turn limit the number of points returned to 200
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
@@ -66,7 +65,6 @@ public class PetroleumTenementController extends BasePortalController {
             log.debug("Exception: ", e);
             return this.generateExceptionResponse(e, serviceUrl);
         }
-
         return generateJSONResponseMAV(true, response.getNumberOfFeatures(), "");
     }
 
@@ -81,22 +79,16 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "forceOutputFormat", defaultValue = "false") Boolean forceOutputFormat,
             HttpServletResponse response) throws Exception {
         PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
-
         // This is required to work with FilterBoundingBox. Needs a better fix than this
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
-
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
-
         if (!forceOutputFormat) {
             outputFormat = "CSV";
         }
-
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, petroleumTenementServiceProviderType);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, null, null);
         InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, petroleumTenementServiceProviderType.featureType(), filter, maxFeatures, outputFormat);
-
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("text/csv");
-
         FileIOUtil.writeInputToOutputStream(inputStream, outputStream, 1024, false);
     }    
 }
