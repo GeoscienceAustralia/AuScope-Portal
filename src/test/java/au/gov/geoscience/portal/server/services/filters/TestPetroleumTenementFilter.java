@@ -1,10 +1,13 @@
 package au.gov.geoscience.portal.server.services.filters;
+
 import org.auscope.portal.core.test.PortalTestClass;
 import au.gov.geoscience.portal.server.ogc.AbstractFilterTestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
+
 public class TestPetroleumTenementFilter {
+
     /**
     * Should return a empty string.
     * @throws Exception
@@ -15,6 +18,7 @@ public class TestPetroleumTenementFilter {
         String result = filter.getFilterStringAllRecords();
         Assert.assertTrue(result.isEmpty());
     }
+    
     /**
     * Should return a empty string.
     * @throws Exception

@@ -1,4 +1,5 @@
 package au.gov.geoscience.portal.server.services;
+
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpClientInputStream;
@@ -19,6 +20,7 @@ import java.util.Set;
 import org.auscope.portal.core.services.VocabularyFilterService;
 import au.gov.geoscience.portal.server.controllers.VocabularyController;
 import static org.auscope.portal.core.services.BaseWFSService.DEFAULT_SRS;
+
 public class TestPetroleumTenementService extends PortalTestClass {
     private PetroleumTenementService petroleumTenementService;
     private HttpServiceCaller httpServiceCaller;

@@ -1,4 +1,5 @@
 package au.gov.geoscience.portal.server;
+
 /**
  * Differentiates WMS service providers for Petroleum Tenement services.
  * 

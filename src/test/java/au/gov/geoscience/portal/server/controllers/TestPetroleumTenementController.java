@@ -1,4 +1,5 @@
 package au.gov.geoscience.portal.server.controllers;
+
 import org.auscope.portal.core.test.PortalTestClass;
 import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
@@ -21,6 +22,7 @@ public class TestPetroleumTenementController extends PortalTestClass {
     private PetroleumTenementService mockPetroleumTenementService;
     private WMSService mockWmsService;
     private WfsToCsvTransformer mockCsvTransformer;
+    
     @Before
     public void setUp() {
         this.mockWmsService = context.mock(WMSService.class);

@@ -1,4 +1,5 @@
 package au.gov.geoscience.portal.config.knownlayers;
+
 import au.gov.geoscience.portal.uifilter.UIFilterText;
 import org.auscope.portal.core.uifilter.AbstractBaseFilter;
 import org.auscope.portal.core.uifilter.FilterCollection;
