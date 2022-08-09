@@ -17,7 +17,7 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 * @param name - the name of the tenement
 	 */
 	public PetroleumTenementFilter(String name) {
-		this(name, null, null, null, null);
+		this(name, null, null, null, null, null);
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 * @param holder - the name of the tenement holder           
 	 */
 	public PetroleumTenementFilter(String name, String holder) {
-		this(name, holder, null, null, null);
+		this(name, holder, null, null, null, null);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 * @param tenementTypeUri
 	 * @param PetroleumTenementServiceProviderType
 	 */
-	public PetroleumTenementFilter(String name, String holder, String statusUri, String tenementTypeUri, PetroleumTenementServiceProviderType petroleumTenementServiceProviderType) {
+	public PetroleumTenementFilter(String name, String holder, String statusUri, String tenementTypeUri, String applicationDate, PetroleumTenementServiceProviderType petroleumTenementServiceProviderType) {
 		petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.GeoServer;
 		fragments = new ArrayList<String>();
 		if (name != null && !name.isEmpty()) {
@@ -53,6 +53,9 @@ public class PetroleumTenementFilter extends AbstractFilter {
         if (statusUri != null && !statusUri.isEmpty()) {
             fragments.add(this.generatePropertyIsEqualToFragment("pt:status_uri", statusUri));
         }
+		if (applicationDate != null && !applicationDate.isEmpty()) {
+			fragments.add(this.generatePropertyIsLessThanOrEqualTo("pt:applicationDate", applicationDate));
+		}
 	}
 	
 	/**

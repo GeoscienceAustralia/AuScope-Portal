@@ -69,7 +69,8 @@ public class TestMineralTenementController extends PortalTestClass {
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
 
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/mineralTenementTest.sld");
-
+        System.out.println("mockSld");
+        System.out.println(mockSld);
         context.checking(new Expectations() {
             {
                 oneOf(mockMineralTenementService).getMineralTenementFilter(name, typeUri, owner, statusUri, endDate, null, MineralTenementServiceProviderType.GeoServer);
@@ -79,9 +80,11 @@ public class TestMineralTenementController extends PortalTestClass {
                 will(returnValue(os));
             }
         });
-
+        System.out.println("FILTER");
+        System.out.println(filterString);
         mineralTenementController.mineralTenementFilterStyle(mockServiceUrl, name, typeUri, owner, statusUri, endDate, response);
-
+        System.out.println("DATA");
+        System.out.println(new String(os.getDataWritten()));
         Assert.assertTrue(xmlStringEquals(mockSld, new String(os.getDataWritten()), true, true));
     }
 

@@ -31,7 +31,7 @@ public class PetroleumTenementService extends BaseWFSService {
         this.vocabularyFilterService = vocabularyFilterService;
     }
 
-    public String getPetroleumTenementFilter(String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri) {
+    public String getPetroleumTenementFilter(String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri, String applicationDate) {
         Set<String> tenementTypeUris = new HashSet<>();
         if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
             tenementTypeUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.TENEMENT_TYPE_VOCABULARY_ID, tenementTypeUri);

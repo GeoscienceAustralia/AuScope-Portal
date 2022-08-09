@@ -16,13 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import au.gov.geoscience.portal.xslt.WfsToCsvTransformer;
+import org.auscope.portal.core.services.WMSService;
 
 @Controller
 public class PetroleumTenementController extends BasePortalController {
     private PetroleumTenementService petroleumTenementService;
+    private WMSService wmsService;
+    private WfsToCsvTransformer csvTransformer;
 
     @Autowired
-    public PetroleumTenementController(PetroleumTenementService petroleumTenementService){
+    public PetroleumTenementController(WMSService wmsService, WfsToCsvTransformer wfsToCsvTransformer, PetroleumTenementService petroleumTenementService){
+        this.wmsService = wmsService;
+        this.csvTransformer = wfsToCsvTransformer;
         this.petroleumTenementService = petroleumTenementService;
     }
 
@@ -33,9 +39,10 @@ public class PetroleumTenementController extends BasePortalController {
     @RequestParam(required = false, value = "holder") String holder,
     @RequestParam(required = false, value = "statusUri") String statusUri,
     @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri,
+    @RequestParam(required = false, value = "applicationDate") String applicationDate,
     HttpServletResponse response) throws Exception {
         FilterBoundingBox bbox = null;
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, tenementTypeUri);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, tenementTypeUri, applicationDate);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
@@ -85,7 +92,7 @@ public class PetroleumTenementController extends BasePortalController {
         if (!forceOutputFormat) {
             outputFormat = "CSV";
         }
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, null, null);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, null, null, null);
         InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, petroleumTenementServiceProviderType.featureType(), filter, maxFeatures, outputFormat);
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("text/csv");
