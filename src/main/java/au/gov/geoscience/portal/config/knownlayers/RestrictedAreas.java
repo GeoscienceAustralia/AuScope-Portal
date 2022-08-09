@@ -18,9 +18,7 @@ public class RestrictedAreas {
     @Order(GROUP_ORDER)
     KnownLayer protectedAreasMarine() {
         String id = "protected-areas-marine";
-        CSWRecordSelector selector = new CSWRecordSelector();
-        selector.setRecordId("6cd862d180adb50c7ec7fde53bc1422a10a8f64c");
-
+        KnownLayerSelector selector = new WMSSelector("Australia_Commonwealth_Marine_Reserves");
         String name = "Protected Areas CAPAD 2020 - Marine";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
