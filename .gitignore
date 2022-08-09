@@ -6,4 +6,5 @@ src/main/webapp/META-INF/MANIFEST.MF
 src/main/webapp/bacon.htm
 /bin/
 .idea
+.vscode
 *.iml
