@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import au.gov.geoscience.portal.server.services.PetroleumTenementService;
-import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
 import javax.servlet.http.HttpServletResponse;
 import org.auscope.portal.core.test.jmock.ReadableServletOutputStream;
@@ -13,7 +12,6 @@ import org.jmock.Expectations;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
-
 public class TestPetroleumTenementController extends PortalTestClass {
     private PetroleumTenementController petroleumTenementController;
     private HttpServletResponse response;
@@ -31,19 +29,21 @@ public class TestPetroleumTenementController extends PortalTestClass {
         final String mockServiceUrl = "http://portal.ga/wms";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited";
-        final String filterString = new PetroleumTenementFilter(name, holder, PetroleumTenementServiceProviderType.GeoServer).getFilterStringAllRecords();
+        final String tenementTypeUri = null;
+        final String statusUri = null;
+        final String filterString = new PetroleumTenementFilter(name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, PetroleumTenementServiceProviderType.GeoServer);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, statusUri, tenementTypeUri);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
                 will(returnValue(os));
             }
         });
-        petroleumTenementController.petroleumTenementFilterStyle(mockServiceUrl, name, holder, response);
+        petroleumTenementController.petroleumTenementFilterStyle(mockServiceUrl, name, holder, statusUri, tenementTypeUri, response);
         Assert.assertTrue(xmlStringEquals(mockSld, new String(os.getDataWritten()), true, true));
     }
 

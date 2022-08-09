@@ -12,29 +12,22 @@ import java.util.Set;
 public class PetroleumTenementFilter extends AbstractFilter {
     List<String> fragments;
 	/**
-	 * 
 	 * Utility constructor that takes a given tenement name, and builds a filter to wild card
 	 * search for tenement names.
-	 * 
-	 * @param name
-	 *            the name of the tenement
+	 * @param name - the name of the tenement
 	 */
 	public PetroleumTenementFilter(String name) {
-		this(name, null, null, null, PetroleumTenementServiceProviderType.GeoServer);
+		this(name, null, null, null, null);
 	}
 	
 	/**
-	 * 
 	 * Utility constructor that takes a given tenement name and tenement holder and builds a filter to wild card
 	 * search for tenement names.
-	 * 
-	 * @param name
-	 *            the name of the tenement
-	 * @param holder
-	 *  		  the name of the tenement holder           
+	 * @param name - the name of the tenement
+	 * @param holder - the name of the tenement holder           
 	 */
 	public PetroleumTenementFilter(String name, String holder) {
-		this(name, holder, null, null, PetroleumTenementServiceProviderType.GeoServer);
+		this(name, holder, null, null, null);
 	}
 
 	/**
@@ -46,9 +39,13 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 * @param PetroleumTenementServiceProviderType
 	 */
 	public PetroleumTenementFilter(String name, String holder, String statusUri, String tenementTypeUri, PetroleumTenementServiceProviderType petroleumTenementServiceProviderType) {
+		petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.GeoServer;
 		fragments = new ArrayList<String>();
 		if (name != null && !name.isEmpty()) {
-			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.nameField(), name ));
+			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.nameField(), name));
+		}
+		if (holder != null && !holder.isEmpty()) {
+			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.holderField(), holder));
 		}
 		if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
 			fragments.add(this.generatePropertyIsEqualToFragment("pt:tenementType_uri", tenementTypeUri));
@@ -56,10 +53,6 @@ public class PetroleumTenementFilter extends AbstractFilter {
         if (statusUri != null && !statusUri.isEmpty()) {
             fragments.add(this.generatePropertyIsEqualToFragment("pt:status_uri", statusUri));
         }
-
-		if (holder != null && !holder.isEmpty()) {
-			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.holderField(), holder));
-		}
 	}
 	
 	/**
@@ -67,20 +60,16 @@ public class PetroleumTenementFilter extends AbstractFilter {
 	 * @param holder - holder of tenement
 	 * @param statusUri - status of tenement
 	 * @param tenementTypeUri - Type of tenement
-	 * @param petroleumTenementServiceProviderType - enum for differentiating service providers for Petroleum Tenement services
-	 * @param multipleUris - boolean for indicating that multiple hashsets are being used
 	 */
 	public PetroleumTenementFilter(String name, String holder, Set<String> statusUris, Set<String> tenementTypeUris) {
 		PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.GeoServer;
 		fragments = new ArrayList<String>();
 		if (name != null && !name.isEmpty()) {
-			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.nameField(), name ));
+			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.nameField(), name));
 		}
-
 		if (holder != null && !holder.isEmpty()) {
 			fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.holderField(), holder));
 		}
-
 		if (statusUris != null && !statusUris.isEmpty()) {
 			List<String> localFragments = new ArrayList<String>();
 			for (String statusUri : statusUris) {
@@ -88,7 +77,6 @@ public class PetroleumTenementFilter extends AbstractFilter {
 			}
 			fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
 		}
-
 		if (tenementTypeUris != null && !tenementTypeUris.isEmpty()) {
 			List<String> localFragments = new ArrayList<String>();
 			for (String typeUri : tenementTypeUris) {

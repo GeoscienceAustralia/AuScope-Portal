@@ -1,5 +1,4 @@
 package au.gov.geoscience.portal.server.services;
-import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
