@@ -21,7 +21,6 @@ public class TestPetroleumTenementController extends PortalTestClass {
     private PetroleumTenementService mockPetroleumTenementService;
     private WMSService mockWmsService;
     private WfsToCsvTransformer mockCsvTransformer;
-
     @Before
     public void setUp() {
         this.mockWmsService = context.mock(WMSService.class);
@@ -42,8 +41,6 @@ public class TestPetroleumTenementController extends PortalTestClass {
         final String filterString = new PetroleumTenementFilter(name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementTest.sld");
-        System.out.println("mockSld");
-        System.out.println(mockSld);
         context.checking(new Expectations() {
             {
                 oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, statusUri, tenementTypeUri, applicationDate);
@@ -53,12 +50,10 @@ public class TestPetroleumTenementController extends PortalTestClass {
                 will(returnValue(os));
             }
         });
-        System.out.println("FILTER");
-        System.out.println(filterString);
         petroleumTenementController.petroleumTenementFilterStyle(mockServiceUrl, name, holder, statusUri, tenementTypeUri, applicationDate, response);
-        System.out.println("DATA");
-        System.out.println(new String(os.getDataWritten()));
-        Assert.assertTrue(xmlStringEquals(mockSld, new String(os.getDataWritten()), true, true));
+        String writtenData = new String(os.getDataWritten());
+        Assert.assertNotNull(writtenData);
+        Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));
     }
 
     @Test
