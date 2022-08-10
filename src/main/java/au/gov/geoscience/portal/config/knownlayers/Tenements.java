@@ -91,12 +91,12 @@ public class Tenements {
         FilterCollection filterCollection = new FilterCollection();
         AbstractBaseFilter nameFilter = new UIFilterText("Name", "All tenement names", "name");
         nameFilter.setToolTip("Type all or part of a petroleum tenement name. Use wildcards to broaden your search.  " +
-                "# = a single character, * = any number of characters (eg, EL#234*). Search terms are case " +
+                "# = a single character, * = any number of characters (eg, EP27#*). Search terms are case " +
                 "insensitive.");
-        AbstractBaseFilter holderFilter = new UIFilterText("holder", "All tenement holders",
+        AbstractBaseFilter holderFilter = new UIFilterText("Holder", "All tenement holders",
                 "holder");
                 holderFilter.setToolTip("Type all or part of a petroleum tenement holder. Use wildcards to broaden your search.  " +
-                "# = a single character, * = any number of characters (eg, *BIL#ITON*). Search terms are case " +
+                "# = a single character, * = any number of characters (eg, *SA#TOS*). Search terms are case " +
                 "insensitive.");
         AbstractBaseFilter providerFilter = new UICheckBoxGroupProvider("Provider", "All data providers");
         providerFilter.setToolTip("Choose a data provider from the drop-down list.");
