@@ -9,8 +9,9 @@
     <version>3.0-SNAPSHOT</version>
     <properties>
         <environment.host>http://api.portal.geoscience.gov.au</environment.host>
-        <org.slf4j.version>1.7.32</org.slf4j.version>
         <log4j.version>2.17.1</log4j.version>
+        <org.slf4j.version>1.7.32</org.slf4j.version>
+        <stack.environment>nonprod</stack.environment>
     </properties>
     <build>
         <resources>

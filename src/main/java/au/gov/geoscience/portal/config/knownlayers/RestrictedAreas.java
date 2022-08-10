@@ -4,24 +4,29 @@ import org.auscope.portal.core.view.knownlayer.CSWRecordSelector;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WMSSelector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 @Configuration
 public class RestrictedAreas {
-
     private static final String GROUP = "Restricted Areas";
     private static final int GROUP_ORDER = GroupOrder.RESTRICTED_AREAS;
+
+    @Value("${portal.build.stack.environment}")
+    private String stackEnvironment;
 
     @Bean(name = "protected-areas-marine")
     @Order(GROUP_ORDER)
     KnownLayer protectedAreasMarine() {
+        String recordId = stackEnvironment.equalsIgnoreCase("PROD") ? "" : "dc0fc108b228b497f0e99397c57e39dfc3528d00";
+
         String id = "protected-areas-marine";
         CSWRecordSelector selector = new CSWRecordSelector();
-        selector.setRecordId("6cd862d180adb50c7ec7fde53bc1422a10a8f64c");
+        selector.setRecordId(recordId);
 
-        String name = "Protected Areas CAPAD 2014 - Marine";
+        String name = "Protected Areas CAPAD 2020 - Marine";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
@@ -37,7 +42,7 @@ public class RestrictedAreas {
     KnownLayer protectedAreasTerrestrial() {
         String id = "protected-areas-terrestrial";
         KnownLayerSelector selector = new WMSSelector("Protected_Areas");
-        String name = "Protected Areas CAPAD 2014 - Terrestrial";
+        String name = "Protected Areas CAPAD 2020 - Terrestrial";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
@@ -54,54 +59,6 @@ public class RestrictedAreas {
         String id = "world-heritage-areas";
         KnownLayerSelector selector = new WMSSelector("World_Heritage_Areas_Australia");
         String name = "World Heritage Areas";
-
-        KnownLayer knownLayer = new KnownLayer(id, selector);
-
-        knownLayer.setName(name);
-
-        knownLayer.setGroup(GROUP);
-
-        return knownLayer;
-    }
-
-    @Bean(name = "defence-prohibited-areas")
-    @Order(GROUP_ORDER + 3)
-    KnownLayer defenceProhibitedAreas() {
-        String id = "defence-prohibited-areas";
-        KnownLayerSelector selector = new WMSSelector("Defence_Prohibited_Areas");
-        String name = "Defence Prohibited Areas";
-
-        KnownLayer knownLayer = new KnownLayer(id, selector);
-
-        knownLayer.setName(name);
-
-        knownLayer.setGroup(GROUP);
-
-        return knownLayer;
-    }
-
-    @Bean(name = "defence-practice-areas")
-    @Order(GROUP_ORDER + 4)
-    KnownLayer defencePracticeAreas() {
-        String id = "defence-practice-areas";
-        KnownLayerSelector selector = new WMSSelector("Defence_Practice_Areas");
-        String name = "Defence Practice Areas";
-
-        KnownLayer knownLayer = new KnownLayer(id, selector);
-
-        knownLayer.setName(name);
-
-        knownLayer.setGroup(GROUP);
-
-        return knownLayer;
-    }
-
-    @Bean(name = "defence-training-areas")
-    @Order(GROUP_ORDER + 5)
-    KnownLayer defenceTrainingAreas() {
-        String id = "defence-training-areas";
-        KnownLayerSelector selector = new WMSSelector("Defence_Training_Areas");
-        String name = "Defence Training Areas";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
