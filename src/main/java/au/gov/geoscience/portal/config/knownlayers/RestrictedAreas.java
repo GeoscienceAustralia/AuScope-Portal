@@ -41,7 +41,7 @@ public class RestrictedAreas {
     @Order(GROUP_ORDER + 1)
     KnownLayer protectedAreasTerrestrial() {
         String id = "protected-areas-terrestrial";
-        KnownLayerSelector selector = new WMSSelector("Protected_Areas");
+        KnownLayerSelector selector = new WMSSelector("Terrestrial CAPAD");
         String name = "Protected Areas CAPAD 2020 - Terrestrial";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
