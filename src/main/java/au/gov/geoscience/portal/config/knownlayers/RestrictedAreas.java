@@ -20,7 +20,7 @@ public class RestrictedAreas {
     @Bean(name = "protected-areas-marine")
     @Order(GROUP_ORDER)
     KnownLayer protectedAreasMarine() {
-        String recordId = stackEnvironment.equalsIgnoreCase("PROD") ? "" : "83299a1edca1ad489aebbf4998c31720526febe8";
+        String recordId = stackEnvironment.equalsIgnoreCase("PROD") ? "" : "dc0fc108b228b497f0e99397c57e39dfc3528d00";
 
         String id = "protected-areas-marine";
         CSWRecordSelector selector = new CSWRecordSelector();
