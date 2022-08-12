@@ -43,7 +43,6 @@ public class TestPetroleumTenementService extends PortalTestClass {
         String holder = "BHPBilliton Limited";
         String statusUri = "http://vocabs.ga/tenement-type/exploration";
         String typeUri = "http://vocabs.ga/tenement-type/exploration";
-        String applicationDate = null;
         FilterBoundingBox bbox = null;
         Set<String> typeUris = new HashSet();
         typeUris.add(typeUri);
@@ -57,7 +56,7 @@ public class TestPetroleumTenementService extends PortalTestClass {
                 will(returnValue(statusUris));
             }
         });
-        petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, typeUri, applicationDate);
+        petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, typeUri);
     }
 
     @Test

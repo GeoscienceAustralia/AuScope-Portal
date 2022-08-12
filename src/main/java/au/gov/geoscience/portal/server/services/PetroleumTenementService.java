@@ -11,10 +11,12 @@ import org.auscope.portal.core.services.methodmakers.filter.IFilter;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.auscope.portal.core.services.VocabularyFilterService;
 import au.gov.geoscience.portal.server.controllers.VocabularyController;
 
@@ -23,26 +25,26 @@ public class PetroleumTenementService extends BaseWFSService {
     private final VocabularyFilterService vocabularyFilterService;
 
     /**
-    * Creates a new instance of this class with the specified dependencies
-    * @param httpServiceCaller Will be used for making requests
-    * @param wfsMethodMaker
-    */
+     * Creates a new instance of this class with the specified dependencies
+     *
+     * @param httpServiceCaller - will be used for making requests
+     * @param wfsMethodMaker    - for generating Web Feature Service requests
+     */
     @Autowired
-    public PetroleumTenementService(HttpServiceCaller httpServiceCaller, WFSGetFeatureMethodMaker wfsMethodMaker, VocabularyFilterService vocabularyFilterService){
+    public PetroleumTenementService(HttpServiceCaller httpServiceCaller, WFSGetFeatureMethodMaker wfsMethodMaker, VocabularyFilterService vocabularyFilterService) {
         super(httpServiceCaller, wfsMethodMaker);
         this.vocabularyFilterService = vocabularyFilterService;
     }
 
     /**
-    * @param name
-    * @param holder
-    * @param statusUri
-    * @param tenementTypeUri
-    * @param applicationDate
-    * @param bbox
-    * @return
-    */
-    public String getPetroleumTenementFilter(String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri, String applicationDate) {
+     * @param name            -  tenement name
+     * @param holder          - tenement holder
+     * @param statusUri       - tenement status URL
+     * @param tenementTypeUri - tenement type URL
+     * @param bbox            - bounding box
+     * @return
+     */
+    public String getPetroleumTenementFilter(String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri) {
         Set<String> tenementTypeUris = new HashSet<>();
         if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
             tenementTypeUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.TENEMENT_TYPE_VOCABULARY_ID, tenementTypeUri);
@@ -56,15 +58,15 @@ public class PetroleumTenementService extends BaseWFSService {
     }
 
     /**
-    * @param serviceUrl
-    * @param name
-    * @param holder
-    * @param maxFeatures
-    * @param bbox
-    * @return
-    * @throws PortalServiceException
-    * @throws URISyntaxException
-    */
+     * @param serviceUrl  - geoserver service url
+     * @param name        - tenement name
+     * @param holder      - tenement holder
+     * @param maxFeatures - max number of features
+     * @param bbox        - bounding box
+     * @return - returns the tenement count
+     * @throws PortalServiceException - PortalServiceException
+     * @throws URISyntaxException - URISyntaxException
+     */
     public WFSCountResponse getTenementCount(String serviceUrl, String name, String holder, int maxFeatures, FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
         String filterString;
         PetroleumTenementFilter petroleumTenementFilter = new PetroleumTenementFilter(name, holder);
@@ -79,11 +81,10 @@ public class PetroleumTenementService extends BaseWFSService {
     }
 
     /**
-    * Returns an OGC filter XML string
-    * @param filter
-    * @param bbox
-    * @return
-    */
+     * @param filter - IFilter
+     * @param bbox   - bounding box
+     * @return - returns an OGC filter XML string
+     */
     public static String generateFilterString(IFilter filter, FilterBoundingBox bbox) {
         String filterString;
         if (bbox == null) {
@@ -93,7 +94,7 @@ public class PetroleumTenementService extends BaseWFSService {
         }
         return filterString;
     }
-    
+
     public InputStream getAllTenements(String serviceUrl, String type, String filter, int maxFeatures, String outputFormat) throws PortalServiceException {
         if (outputFormat.toUpperCase().equals("CSV")) {
             return downloadCSV(serviceUrl, type, filter, maxFeatures);
