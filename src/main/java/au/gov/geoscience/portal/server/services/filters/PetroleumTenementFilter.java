@@ -51,19 +51,27 @@ public class PetroleumTenementFilter extends AbstractFilter {
         if (holder != null && !holder.isEmpty()) {
             fragments.add(this.generatePropertyIsLikeFragment(petroleumTenementServiceProviderType.holderField(), holder));
         }
-        if (statusUris != null && !statusUris.isEmpty()) {
+        if (statusUris != null && !statusUris.isEmpty() && statusUris.size() > 1) {
             List<String> localFragments = new ArrayList<String>();
             for (String statusUri : statusUris) {
                 localFragments.add(this.generatePropertyIsEqualToFragment("pt:status_uri", statusUri));
             }
             fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
+        } else if (statusUris != null && statusUris.size() == 1) {
+            for (String statusURI : statusUris) {
+                fragments.add(this.generatePropertyIsEqualToFragment("pt:status_uri", statusURI));
+            }
         }
-        if (tenementTypeUris != null && !tenementTypeUris.isEmpty()) {
+        if (tenementTypeUris != null && !tenementTypeUris.isEmpty() && tenementTypeUris.size() > 1) {
             List<String> localFragments = new ArrayList<String>();
             for (String typeUri : tenementTypeUris) {
                 localFragments.add(this.generatePropertyIsEqualToFragment("pt:tenementType_uri", typeUri));
             }
             fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
+        } else if (tenementTypeUris != null && tenementTypeUris.size() == 1) {
+            for (String tenementTypeURI : tenementTypeUris) {
+                fragments.add(this.generatePropertyIsEqualToFragment("pt:tenementType_uri", tenementTypeURI));
+            }
         }
     }
 

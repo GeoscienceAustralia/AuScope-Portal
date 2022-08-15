@@ -1,12 +1,15 @@
 package au.gov.geoscience.portal.server.controllers;
 
 import org.auscope.portal.core.test.PortalTestClass;
+import org.junit.After;
 import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
 import au.gov.geoscience.portal.server.services.PetroleumTenementService;
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.auscope.portal.core.test.jmock.ReadableServletOutputStream;
 import org.auscope.portal.core.test.ResourceUtil;
 import org.jmock.Expectations;
@@ -18,7 +21,7 @@ public class TestPetroleumTenementController extends PortalTestClass {
     private PetroleumTenementController petroleumTenementController;
     private HttpServletResponse response;
     private PetroleumTenementService mockPetroleumTenementService;
-    
+
     @Before
     public void setUp() {
         this.mockPetroleumTenementService = context.mock(PetroleumTenementService.class);
@@ -51,13 +54,20 @@ public class TestPetroleumTenementController extends PortalTestClass {
     }
 
     @Test
+    public void testEscapeModulusOperators() {
+        final String holder = "BHPBilliton Limited 100%";
+        final String modifiedHolder = petroleumTenementController.escapeModulusOperators(holder);
+        Assert.assertEquals("BHPBilliton Limited 100%%", modifiedHolder);
+    }
+
+    @Test
     public void testPetroleumTenementFilterCount() throws Exception {
         final String mockServiceUrl = "http://portal.ga/wms";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited";
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl,  name, holder, 0, null);
+                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl, name, holder, 0, null);
                 will(returnValue(new WFSCountResponse(10)));
             }
         });
@@ -73,7 +83,7 @@ public class TestPetroleumTenementController extends PortalTestClass {
         final String holder = "BHPBilliton Limited";
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl,  name, holder, 0, null);
+                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl, name, holder, 0, null);
                 will(throwException(new PortalServiceException("Mock Exception")));
             }
         });

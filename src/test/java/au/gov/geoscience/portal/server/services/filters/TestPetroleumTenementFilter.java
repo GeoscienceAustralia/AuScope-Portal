@@ -36,8 +36,7 @@ public class TestPetroleumTenementFilter {
         PetroleumTenementFilter filter = new PetroleumTenementFilter("abc", "def", statusUris, tenementTypeUris);
         String result = filter.getFilterWithAdditionalStyle();
         Document doc = AbstractFilterTestUtilities.parsefilterStringXML(result);
-        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLike/ogc:Literal", new String[]{"*abc*", "def", "ghi", "Active", "GRANTED"}, 2);
-        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsGreaterThanOrEqualTo/ogc:Literal", new String[]{"jkl"}, 0);
-        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLessThanOrEqualTo/ogc:Literal", new String[]{"mno"}, 1);
+        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLike/ogc:Literal", new String[]{"abc", "def"}, 2);
+        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsEqualTo/ogc:Literal", new String[]{"ghi", "jkl"}, 2);
     }
 }
