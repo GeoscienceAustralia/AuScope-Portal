@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.regex.Matcher;
 
 @Controller
 public class PetroleumTenementController extends BasePortalController {
@@ -97,9 +98,6 @@ public class PetroleumTenementController extends BasePortalController {
     }
 
     public String escapeModulusOperators(String value) {
-        if (value.contains("%")) {
-            value = value.replaceAll("%", "%%");
-        }
-        return value;
+        return value.replaceAll("%", Matcher.quoteReplacement("%%"));
     }
 }

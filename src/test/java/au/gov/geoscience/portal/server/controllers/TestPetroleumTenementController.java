@@ -55,9 +55,16 @@ public class TestPetroleumTenementController extends PortalTestClass {
 
     @Test
     public void testEscapeModulusOperators() {
-        final String holder = "BHPBilliton Limited 100%";
-        final String modifiedHolder = petroleumTenementController.escapeModulusOperators(holder);
+        String modifiedHolder = petroleumTenementController.escapeModulusOperators("BHPBilliton Limited 100%");
         Assert.assertEquals("BHPBilliton Limited 100%%", modifiedHolder);
+        modifiedHolder = petroleumTenementController.escapeModulusOperators("Holder - IMPERIAL OIL & GAS A PTY LI"
+                + "MITED (100.0%), Manager - IMPERIAL OIL & GAS A PTY LIMITED");
+        Assert.assertEquals("Holder - IMPERIAL OIL & GAS A PTY LI"
+                + "MITED (100.0%%), Manager - IMPERIAL OIL & GAS A PTY LIMITED", modifiedHolder);
+        modifiedHolder = petroleumTenementController.escapeModulusOperators("Holder - MINERALS AUSTRALIA PTY LTD"
+                + "(50.0%), Holder - JACARANDA MINERALS PTY LTD (50.0%), Manager - MINERALS AUSTRALIA PTY LTD");
+        Assert.assertEquals("Holder - MINERALS AUSTRALIA PTY LTD"
+                + "(50.0%%), Holder - JACARANDA MINERALS PTY LTD (50.0%%), Manager - MINERALS AUSTRALIA PTY LTD", modifiedHolder);
     }
 
     @Test
