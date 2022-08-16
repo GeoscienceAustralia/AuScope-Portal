@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class PetroleumTenementController extends BasePortalController {
@@ -37,7 +38,9 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
         // Add an escape for any modulus operators
         String modifiedHolder = holder;
-        if (holder.contains("%")) {
+        Pattern pattern = Pattern.compile("(%)");
+        Matcher matcher = pattern.matcher(modifiedHolder);
+        if (matcher.find()) {
             modifiedHolder = this.escapeModulusOperators(holder);
         }
         String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, modifiedHolder, null, statusUri, tenementTypeUri);
@@ -98,6 +101,8 @@ public class PetroleumTenementController extends BasePortalController {
     }
 
     public String escapeModulusOperators(String value) {
-        return value.replaceAll("%", Matcher.quoteReplacement("%%"));
+        Pattern pattern = Pattern.compile("(%)");
+        Matcher matcher = pattern.matcher(value);
+        return matcher.replaceAll("%%");
     }
 }
