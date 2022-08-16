@@ -32,16 +32,14 @@ public class PetroleumTenementController extends BasePortalController {
 
     @RequestMapping("/petroleumTenementFilterStyle.do")
     public void petroleumTenementFilterStyle(
-            @RequestParam(required = false, value = "name") String name,
+            @RequestParam(required = false, value = "name", defaultValue = "") String name,
             @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "statusUri") String statusUri,
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
         // Add an escape for any modulus operators
-        String modifiedHolder = holder;
-        if (holder != null && modifiedHolder.contains("%")) {
-            modifiedHolder = this.escapeModulusOperators(holder);
-        }
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, modifiedHolder, null, statusUri, tenementTypeUri);
+        String modifiedName = this.escapeModulusOperators(name);
+        String modifiedHolder = this.escapeModulusOperators(holder);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(modifiedName, modifiedHolder, null, statusUri, tenementTypeUri);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
@@ -54,18 +52,20 @@ public class PetroleumTenementController extends BasePortalController {
     @RequestMapping("/petroleumTenementFilterCount.do")
     public ModelAndView getPetroleumTenementCount(
             @RequestParam("serviceUrl") String serviceUrl,
-            @RequestParam(required = false, value = "name") String name,
-            @RequestParam(required = false, value = "holder") String holder,
+            @RequestParam(required = false, value = "name", defaultValue = "") String name,
+            @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "bbox") String bboxJson,
-            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures)
-            throws Exception {
+            @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures) {
+        // Add an escape for any modulus operators
+        String modifiedName = this.escapeModulusOperators(name);
+        String modifiedHolder = this.escapeModulusOperators(holder);
         // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
         // This will in turn limit the number of points returned to 200
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
         WFSCountResponse response;
         try {
-            response = this.petroleumTenementService.getTenementCount(serviceUrl, name, holder, maxFeatures, bbox);
+            response = this.petroleumTenementService.getTenementCount(serviceUrl, modifiedName, modifiedHolder, maxFeatures, bbox);
         } catch (Exception e) {
             log.warn(String.format("Error performing filter for '%1$s': %2$s", serviceUrl, e));
             log.debug("Exception: ", e);
@@ -77,13 +77,16 @@ public class PetroleumTenementController extends BasePortalController {
     @RequestMapping("/petroleumTenementFilterDownload.do")
     public void petroleumTenementFilterDownload(
             @RequestParam("serviceUrl") String serviceUrl,
-            @RequestParam(required = false, value = "name") String name,
-            @RequestParam(required = false, value = "holder") String holder,
+            @RequestParam(required = false, value = "name", defaultValue = "") String name,
+            @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures,
             @RequestParam(required = false, value = "outputFormat") String outputFormat,
             @RequestParam(required = false, value = "forceOutputFormat", defaultValue = "false") Boolean forceOutputFormat,
             HttpServletResponse response) throws Exception {
+        // Add an escape for any modulus operators
+        String modifiedName = this.escapeModulusOperators(name);
+        String modifiedHolder = this.escapeModulusOperators(holder);
         PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
         // This is required to work with FilterBoundingBox. Needs a better fix than this
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
@@ -91,7 +94,7 @@ public class PetroleumTenementController extends BasePortalController {
         if (!forceOutputFormat) {
             outputFormat = "CSV";
         }
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, null, null);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(modifiedName, modifiedHolder, bbox, null, null);
         InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, petroleumTenementServiceProviderType.featureType(), filter, maxFeatures, outputFormat);
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("text/csv");
@@ -99,8 +102,13 @@ public class PetroleumTenementController extends BasePortalController {
     }
 
     public String escapeModulusOperators(String value) {
-        Pattern pattern = Pattern.compile("(%)");
-        Matcher matcher = pattern.matcher(value);
-        return matcher.replaceAll("%%");
+        if (value != null && !value.equals("")) {
+            if (value.contains("%")) {
+                Pattern pattern = Pattern.compile("(%)");
+                Matcher matcher = pattern.matcher(value);
+                return matcher.replaceAll("%%");
+            }
+        }
+        return value;
     }
 }
