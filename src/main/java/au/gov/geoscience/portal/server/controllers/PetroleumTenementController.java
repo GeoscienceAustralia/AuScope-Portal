@@ -33,14 +33,12 @@ public class PetroleumTenementController extends BasePortalController {
     @RequestMapping("/petroleumTenementFilterStyle.do")
     public void petroleumTenementFilterStyle(
             @RequestParam(required = false, value = "name") String name,
-            @RequestParam(required = false, value = "holder") String holder,
+            @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "statusUri") String statusUri,
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
         // Add an escape for any modulus operators
         String modifiedHolder = holder;
-        Pattern pattern = Pattern.compile("(%)");
-        Matcher matcher = pattern.matcher(modifiedHolder);
-        if (matcher.find()) {
+        if (holder != null && modifiedHolder.contains("%")) {
             modifiedHolder = this.escapeModulusOperators(holder);
         }
         String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, modifiedHolder, null, statusUri, tenementTypeUri);
