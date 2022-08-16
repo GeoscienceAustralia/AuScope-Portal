@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+
 import java.util.Arrays;
 
 @Configuration
@@ -73,7 +74,7 @@ public class Tenements {
         return knownLayer;
     }
 
-    @Bean(name="onshore-petroleum-tenements")
+    @Bean(name = "onshore-petroleum-tenements")
     @Order(GROUP_ORDER + 2)
     KnownLayer onshorePetroleumTenements() {
         String id = "onshore-petroleum-tenements";
@@ -93,9 +94,8 @@ public class Tenements {
         nameFilter.setToolTip("Type all or part of a petroleum tenement name. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, EP27#*). Search terms are case " +
                 "insensitive.");
-        AbstractBaseFilter holderFilter = new UIFilterText("Holder", "All tenement holders",
-                "holder");
-                holderFilter.setToolTip("Type all or part of a petroleum tenement holder. Use wildcards to broaden your search.  " +
+        AbstractBaseFilter holderFilter = new UIFilterText("Holder", "All tenement holders", "holder");
+        holderFilter.setToolTip("Type all or part of a petroleum tenement holder. Use wildcards to broaden your search.  " +
                 "# = a single character, * = any number of characters (eg, *SA#TOS*). Search terms are case " +
                 "insensitive.");
         AbstractBaseFilter providerFilter = new UICheckBoxGroupProvider("Provider", "All data providers");

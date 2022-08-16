@@ -1,35 +1,42 @@
 package au.gov.geoscience.portal.server.services.filters;
 
-import org.auscope.portal.core.test.PortalTestClass;
 import au.gov.geoscience.portal.server.ogc.AbstractFilterTestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TestPetroleumTenementFilter {
 
     /**
-    * Should return a empty string.
-    * @throws Exception
-    */
+     * Should return an empty string.
+     *
+     * @throws Exception
+     */
     @Test
-    public void testEmptyCommodityFilter() throws Exception {
-        PetroleumTenementFilter filter = new PetroleumTenementFilter("", "", "", "", "",null);
+    public void testEmptyPetroleumTenementFilter() throws Exception {
+        PetroleumTenementFilter filter = new PetroleumTenementFilter("", "", new HashSet<String>(), new HashSet<String>());
         String result = filter.getFilterStringAllRecords();
         Assert.assertTrue(result.isEmpty());
     }
-    
+
     /**
-    * Should return a empty string.
-    * @throws Exception
-    */
+     * Should return an empty string.
+     *
+     * @throws Exception
+     */
     @Test
     public void testAdditionalStyle() throws Exception {
-        PetroleumTenementFilter filter = new PetroleumTenementFilter("abc", "def", "ghi", "jkl", "mno",null);
+        Set<String> statusUris = new HashSet<>();
+        statusUris.add("ghi");
+        Set<String> tenementTypeUris = new HashSet<>();
+        tenementTypeUris.add("jkl");
+        PetroleumTenementFilter filter = new PetroleumTenementFilter("abc", "def", statusUris, tenementTypeUris);
         String result = filter.getFilterWithAdditionalStyle();
         Document doc = AbstractFilterTestUtilities.parsefilterStringXML(result);
-        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLike/ogc:Literal", new String[] {"*abc*", "def", "ghi", "Active", "GRANTED"}, 2);
-        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsGreaterThanOrEqualTo/ogc:Literal", new String[] {"jkl"}, 0);
-        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLessThanOrEqualTo/ogc:Literal", new String[] {"mno"}, 1);
+        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLike/ogc:Literal", new String[]{"abc", "def"}, 2);
+        AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsEqualTo/ogc:Literal", new String[]{"ghi", "jkl"}, 2);
     }
 }
