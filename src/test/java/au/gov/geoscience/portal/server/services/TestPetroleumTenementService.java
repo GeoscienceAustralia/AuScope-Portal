@@ -50,9 +50,9 @@ public class TestPetroleumTenementService extends PortalTestClass {
         statusUris.add(statusUri);
         context.checking(new Expectations() {
             {
-                oneOf(vocabularyFilterService).getAllNarrower(VocabularyController.TENEMENT_TYPE_VOCABULARY_ID, typeUri);
+                oneOf(vocabularyFilterService).getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_TYPE_VOCABULARY_ID, typeUri);
                 will(returnValue(typeUris));
-                oneOf(vocabularyFilterService).getAllNarrower(VocabularyController.TENEMENT_STATUS_VOCABULARY_ID, statusUri);
+                oneOf(vocabularyFilterService).getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_STATUS_VOCABULARY_ID, statusUri);
                 will(returnValue(statusUris));
             }
         });

@@ -47,11 +47,11 @@ public class PetroleumTenementService extends BaseWFSService {
     public String getPetroleumTenementFilter(String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri) {
         Set<String> tenementTypeUris = new HashSet<>();
         if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
-            tenementTypeUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.TENEMENT_TYPE_VOCABULARY_ID, tenementTypeUri);
+            tenementTypeUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_TYPE_VOCABULARY_ID, tenementTypeUri);
         }
         Set<String> statusUris = new HashSet<>();
         if (statusUri != null && !statusUri.isEmpty()) {
-            statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.TENEMENT_STATUS_VOCABULARY_ID, statusUri);
+            statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_STATUS_VOCABULARY_ID, statusUri);
         }
         PetroleumTenementFilter filter = new PetroleumTenementFilter(name, holder, statusUris, tenementTypeUris);
         return generateFilterString(filter, bbox);

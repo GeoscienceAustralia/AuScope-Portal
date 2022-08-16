@@ -44,6 +44,8 @@ public class VocabularyController extends BasePortalController {
     public static final String RESERVE_VOCABULARY_ID = "vocabularyReserveCategories";
     public static final String TENEMENT_TYPE_VOCABULARY_ID = "vocabularyTenementType";
     public static final String TENEMENT_STATUS_VOCABULARY_ID = "vocabularyTenementStatus";
+    public static final String PETROLEUM_TENEMENT_TYPE_VOCABULARY_ID = "vocabularyPetroleumTenementType";
+    public static final String PETROLEUM_TENEMENT_STATUS_VOCABULARY_ID = "vocabularyPetroleumTenementStatus";
     public static final String MINERAL_OCCURRENCE_TYPE_VOCABULARY = "vocabularyMineralOccurrenceType";
     public static final String NVCL_SCALARS_VOCABULARY_ID = "vocabularyNVCLScalars";
 
@@ -86,7 +88,7 @@ public class VocabularyController extends BasePortalController {
     public ModelAndView getScalarQuery(@RequestParam("repository") final String repository,
                                        @RequestParam("label") final String label) throws Exception {
         ArrayList<String> defns = this.vocabularyFilterService.getVocabularyById(NVCL_SCALARS_VOCABULARY_ID, label, SKOS.definition);
-        Map<String,String> dataItems = new HashMap<>();
+        Map<String, String> dataItems = new HashMap<>();
         if (defns.size() > 0) {
             dataItems.put("scopeNote", defns.get(0));
             dataItems.put("definition", defns.get(0));
@@ -224,6 +226,48 @@ public class VocabularyController extends BasePortalController {
         }
 
         Map<String, String> vocabularyMappings = this.vocabularyFilterService.getVocabularyById(TENEMENT_STATUS_VOCABULARY_ID, selectors);
+
+        return getVocabularyMappings(vocabularyMappings);
+    }
+
+    /**
+     * @return
+     */
+    @RequestMapping("getPetroleumTenementTypes.do")
+    public ModelAndView getPetroleumTenementTypes() {
+        String[] topConcepts = {
+                "http://resource.geoscience.gov.au/classifier/ggic/petroleum-tenement-type/production",
+                "http://resource.geoscience.gov.au/classifier/ggic/petroleum-tenement-type/exploration"
+        };
+
+        Selector[] selectors = new Selector[topConcepts.length];
+
+        for (int i = 0; i < topConcepts.length; i++) {
+            selectors[i] = new SimpleSelector(ResourceFactory.createResource(topConcepts[i]), null, (RDFNode) null);
+        }
+
+        Map<String, String> vocabularyMappings = this.vocabularyFilterService.getVocabularyById(PETROLEUM_TENEMENT_TYPE_VOCABULARY_ID, selectors);
+
+        return getVocabularyMappings(vocabularyMappings);
+    }
+
+    /**
+     * @return
+     */
+    @RequestMapping("getPetroleumTenementStatuses.do")
+    public ModelAndView getPetroleumTenementStatuses() {
+        String[] topConcepts = {
+                "http://resource.geoscience.gov.au/classifier/ggic/petroleum-tenement-status/granted",
+                "http://resource.geoscience.gov.au/classifier/ggic/petroleum-tenement-status/application"
+        };
+
+        Selector[] selectors = new Selector[topConcepts.length];
+
+        for (int i = 0; i < topConcepts.length; i++) {
+            selectors[i] = new SimpleSelector(ResourceFactory.createResource(topConcepts[i]), null, (RDFNode) null);
+        }
+
+        Map<String, String> vocabularyMappings = this.vocabularyFilterService.getVocabularyById(PETROLEUM_TENEMENT_STATUS_VOCABULARY_ID, selectors);
 
         return getVocabularyMappings(vocabularyMappings);
     }
