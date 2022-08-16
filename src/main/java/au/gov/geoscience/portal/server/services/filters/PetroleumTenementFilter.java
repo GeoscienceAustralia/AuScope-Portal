@@ -16,16 +16,6 @@ public class PetroleumTenementFilter extends AbstractFilter {
     List<String> fragments;
 
     /**
-     * Utility constructor that takes a given tenement name, and builds a filter to wild card
-     * search for tenement names.
-     *
-     * @param name - the name of the tenement
-     */
-    public PetroleumTenementFilter(String name) {
-        this(name, null, null, null);
-    }
-
-    /**
      * Utility constructor that takes a given tenement name and tenement holder and builds a filter to wild card
      * search for tenement names.
      *
