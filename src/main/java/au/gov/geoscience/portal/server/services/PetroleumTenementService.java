@@ -65,7 +65,7 @@ public class PetroleumTenementService extends BaseWFSService {
      * @param bbox        - bounding box
      * @return - returns the tenement count
      * @throws PortalServiceException - PortalServiceException
-     * @throws URISyntaxException - URISyntaxException
+     * @throws URISyntaxException     - URISyntaxException
      */
     public WFSCountResponse getTenementCount(String serviceUrl, String name, String holder, int maxFeatures, FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
         String filterString;

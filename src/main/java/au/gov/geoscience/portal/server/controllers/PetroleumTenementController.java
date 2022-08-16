@@ -35,10 +35,12 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "holder") String holder,
             @RequestParam(required = false, value = "statusUri") String statusUri,
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
-        FilterBoundingBox bbox = null;
         // Add an escape for any modulus operators
-        holder = this.escapeModulusOperators(holder);
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, tenementTypeUri);
+        String modifiedHolder = holder;
+        if (holder.contains("%")) {
+            modifiedHolder = this.escapeModulusOperators(holder);
+        }
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, modifiedHolder, null, statusUri, tenementTypeUri);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
@@ -88,8 +90,6 @@ public class PetroleumTenementController extends BasePortalController {
         if (!forceOutputFormat) {
             outputFormat = "CSV";
         }
-        // Add an escape for any modulus operators
-        holder = this.escapeModulusOperators(holder);
         String filter = this.petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, null, null);
         InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, petroleumTenementServiceProviderType.featureType(), filter, maxFeatures, outputFormat);
         OutputStream outputStream = response.getOutputStream();
