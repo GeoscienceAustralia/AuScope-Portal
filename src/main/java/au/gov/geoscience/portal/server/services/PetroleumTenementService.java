@@ -75,8 +75,7 @@ public class PetroleumTenementService extends BaseWFSService {
         } else {
             filterString = petroleumTenementFilter.getFilterStringBoundingBox(bbox);
         }
-        HttpRequestBase method = null;
-        method = generateWFSRequest(serviceUrl, "pt:PetroleumTenement", null, filterString, maxFeatures, null, WFSGetFeatureMethodMaker.ResultType.Hits);
+        HttpRequestBase method = generateWFSRequest(serviceUrl, "pt:PetroleumTenement", null, filterString, maxFeatures, null, WFSGetFeatureMethodMaker.ResultType.Hits);
         return getWfsFeatureCount(method);
     }
 
@@ -96,7 +95,7 @@ public class PetroleumTenementService extends BaseWFSService {
     }
 
     public InputStream getAllTenements(String serviceUrl, String type, String filter, int maxFeatures, String outputFormat) throws PortalServiceException {
-        if (outputFormat.toUpperCase().equals("CSV")) {
+        if (outputFormat.equalsIgnoreCase("CSV")) {
             return downloadCSV(serviceUrl, type, filter, maxFeatures);
         }
         return downloadWFS(serviceUrl, type, filter, maxFeatures);

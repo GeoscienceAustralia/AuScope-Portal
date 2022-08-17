@@ -75,6 +75,18 @@ public class VocabularyCacheList {
     }
 
     @Bean
+    VocabularyServiceItem vocabularyPetroleumTenementStatuses(){
+        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http//resource.geoscience.gov.au/classifierScheme/ggic/2021.01/petroleum-tenement-status");
+        return new VocabularyServiceItem("vocabularyPetroleumTenementStatuses", "Petroleum Tenement Status Vocabulary", service);
+    }
+
+    @Bean
+    VocabularyServiceItem vocabularyPetroleumTenementTypes(){
+        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http//resource.geoscience.gov.au/classifierScheme/ggic/2021.01/petroleum-tenement-type");
+        return new VocabularyServiceItem("vocabularyPetroleumTenementTypes", "Petroleum Tenement Type Vocabulary", service);
+    }
+
+    @Bean
     VocabularyServiceItem vocabularyMineralOccurrenceTypes(){
         VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http://vocabs.ga.gov.au/cgi/sissvoc/mineral-occurrence-type");
         VocabularyServiceItem serviceItem = new VocabularyServiceItem("vocabularyMineralOccurrenceTypes", "Mineral Occurrence Type   Vocabulary", service);

@@ -3,7 +3,6 @@ package au.gov.geoscience.portal.server.controllers;
 import org.apache.jena.rdf.model.Model;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.auscope.portal.core.services.VocabularyCacheService;
-import org.auscope.portal.core.services.responses.csw.CSWRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ import java.util.Map;
 @Controller
 public class VocabularyCacheController extends BasePortalController {
 
-    private VocabularyCacheService vocabularyCacheService;
+    private final VocabularyCacheService vocabularyCacheService;
 
     @Autowired
     public VocabularyCacheController(VocabularyCacheService vocabularyCacheService) {
