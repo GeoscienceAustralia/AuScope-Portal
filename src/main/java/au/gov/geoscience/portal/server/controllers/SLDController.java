@@ -1,7 +1,6 @@
 package au.gov.geoscience.portal.server.controllers;
 
 import org.auscope.portal.core.server.controllers.BasePortalController;
-import org.auscope.portal.core.test.ResourceUtil;
 import org.auscope.portal.core.util.FileIOUtil;
 import org.auscope.portal.core.util.SLDLoader;
 import org.springframework.http.MediaType;
@@ -48,7 +47,7 @@ public class SLDController extends BasePortalController {
 
         String gasStyle = SLDLoader.loadSLD("/au/gov/geoscience/portal/sld/gaspipelines.sld", null, true);
 
-         writeStyleStream(gasStyle, response);
+        writeStyleStream(gasStyle, response);
 
     }
 

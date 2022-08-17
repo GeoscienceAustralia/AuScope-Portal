@@ -2,6 +2,7 @@ package au.gov.geoscience.portal.server.controllers;
 
 import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.PetroleumTenementService;
+import org.apache.commons.text.StringEscapeUtils;
 import org.auscope.portal.core.server.controllers.BasePortalController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,9 +37,9 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "statusUri") String statusUri,
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
-        // Add an escape for any modulus operators
-        String modifiedName = this.escapeModulusOperators(name);
-        String modifiedHolder = this.escapeModulusOperators(holder);
+        // Add an escape for any Java operators
+        String modifiedName = this.escapeJavaOperators(name);
+        String modifiedHolder = this.escapeJavaOperators(holder);
         String filter = this.petroleumTenementService.getPetroleumTenementFilter(modifiedName, modifiedHolder, null, statusUri, tenementTypeUri);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
@@ -56,9 +57,9 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "bbox") String bboxJson,
             @RequestParam(required = false, value = "maxFeatures", defaultValue = "0") int maxFeatures) {
-        // Add an escape for any modulus operators
-        String modifiedName = this.escapeModulusOperators(name);
-        String modifiedHolder = this.escapeModulusOperators(holder);
+        // Add an escape for any Java operators
+        String modifiedName = this.escapeJavaOperators(name);
+        String modifiedHolder = this.escapeJavaOperators(holder);
         // The presence of a bounding box causes us to assume we will be using this GML for visualizing on a map
         // This will in turn limit the number of points returned to 200
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
@@ -84,9 +85,9 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "outputFormat") String outputFormat,
             @RequestParam(required = false, value = "forceOutputFormat", defaultValue = "false") Boolean forceOutputFormat,
             HttpServletResponse response) throws Exception {
-        // Add an escape for any modulus operators
-        String modifiedName = this.escapeModulusOperators(name);
-        String modifiedHolder = this.escapeModulusOperators(holder);
+        // Add an escape for any Java operators
+        String modifiedName = this.escapeJavaOperators(name);
+        String modifiedHolder = this.escapeJavaOperators(holder);
         PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
         // This is required to work with FilterBoundingBox. Needs a better fix than this
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
@@ -101,8 +102,11 @@ public class PetroleumTenementController extends BasePortalController {
         FileIOUtil.writeInputToOutputStream(inputStream, outputStream, 1024, false);
     }
 
-    public String escapeModulusOperators(String value) {
+    // Prevent any Java compiler issues
+    public String escapeJavaOperators(String value) {
         if (value != null && !value.equals("")) {
+            value = value.strip();
+            value = StringEscapeUtils.escapeJava(value);
             if (value.contains("%")) {
                 Pattern pattern = Pattern.compile("(%)");
                 Matcher matcher = pattern.matcher(value);
