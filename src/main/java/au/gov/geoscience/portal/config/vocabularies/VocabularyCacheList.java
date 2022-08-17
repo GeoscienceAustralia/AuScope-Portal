@@ -76,13 +76,13 @@ public class VocabularyCacheList {
 
     @Bean
     VocabularyServiceItem vocabularyPetroleumTenementStatuses(){
-        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http//resource.geoscience.gov.au/classifierScheme/ggic/2021.01/petroleum-tenement-status");
+        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http://resource.geoscience.gov.au/classifierScheme/ggic/2021.01/petroleum-tenement-status");
         return new VocabularyServiceItem("vocabularyPetroleumTenementStatuses", "Petroleum Tenement Status Vocabulary", service);
     }
 
     @Bean
     VocabularyServiceItem vocabularyPetroleumTenementTypes(){
-        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http//resource.geoscience.gov.au/classifierScheme/ggic/2021.01/petroleum-tenement-type");
+        VocabularyService service= new VocabularyService(serviceCaller, new VocabularyMethodMaker(), "http://resource.geoscience.gov.au/classifierScheme/ggic/2021.01/petroleum-tenement-type");
         return new VocabularyServiceItem("vocabularyPetroleumTenementTypes", "Petroleum Tenement Type Vocabulary", service);
     }
 
