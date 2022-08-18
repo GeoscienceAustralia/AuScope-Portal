@@ -1,6 +1,5 @@
 package au.gov.geoscience.portal.server.services.filters;
 
-import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import org.auscope.portal.core.services.methodmakers.filter.AbstractFilter;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 
