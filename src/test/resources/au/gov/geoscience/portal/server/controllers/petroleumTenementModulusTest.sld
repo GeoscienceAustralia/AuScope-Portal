@@ -27,7 +27,7 @@ ov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
                                     <ogc:Literal></ogc:Literal>
                                     <ogc:Literal>true</ogc:Literal>
                                 </ogc:Function>
-                                <ogc:Literal>BHPBilliton Limited (100%%)</ogc:Literal>
+                                <ogc:Literal>BHPBilliton Limited (100%)</ogc:Literal>
                             </ogc:PropertyIsLike>
                         </ogc:And>
                     </ogc:Filter>
