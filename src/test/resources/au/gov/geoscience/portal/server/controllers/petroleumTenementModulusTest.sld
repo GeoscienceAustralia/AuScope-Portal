@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:pt="http://xmlns.geoscience.gov.au/petroleumtenementml/1.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2
-001/XMLSchema-instance" version="1.3.0" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd http://xmlns.geoscience.gov.au/petroleumtenementml/1.0 http://schemas.geoscience.g
-ov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
+<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:pt="http://xmlns.geoscience.gov.au/petroleumtenementml/1.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.3.0" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd http://xmlns.geoscience.gov.au/petroleumtenementml/1.0 http://schemas.geoscience.gov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
     <NamedLayer>
         <Name>pt:PetroleumTenement</Name>
         <UserStyle>
@@ -27,7 +25,7 @@ ov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
                                     <ogc:Literal></ogc:Literal>
                                     <ogc:Literal>true</ogc:Literal>
                                 </ogc:Function>
-                                <ogc:Literal>BHPBilliton Limited (100%%)</ogc:Literal>
+                                <ogc:Literal>BHPBilliton Limited (100%)</ogc:Literal>
                             </ogc:PropertyIsLike>
                         </ogc:And>
                     </ogc:Filter>

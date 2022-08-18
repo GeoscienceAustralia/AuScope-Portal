@@ -44,9 +44,9 @@ public class TestPetroleumTenementService extends PortalTestClass {
         String statusUri = "http://vocabs.ga/tenement-type/exploration";
         String typeUri = "http://vocabs.ga/tenement-type/exploration";
         FilterBoundingBox bbox = null;
-        Set<String> typeUris = new HashSet();
+        Set<String> typeUris = new HashSet<>();
         typeUris.add(typeUri);
-        Set<String> statusUris = new HashSet();
+        Set<String> statusUris = new HashSet<>();
         statusUris.add(statusUri);
         context.checking(new Expectations() {
             {

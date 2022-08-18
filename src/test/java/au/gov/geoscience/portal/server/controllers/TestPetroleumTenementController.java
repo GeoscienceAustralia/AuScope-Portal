@@ -57,13 +57,12 @@ public class TestPetroleumTenementController extends PortalTestClass {
     public void testPetroleumTenementFilterStyleWithModulus() throws Exception {
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited (100%)";
-        final String modifiedHolder = "BHPBilliton Limited (100%%)";
-        final String filterString = new PetroleumTenementFilter(name, modifiedHolder, null, null).getFilterStringAllRecords();
+        final String filterString = new PetroleumTenementFilter(name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementModulusTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, modifiedHolder, null, null, null);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, null, null);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
@@ -75,20 +74,6 @@ public class TestPetroleumTenementController extends PortalTestClass {
         Assert.assertNotNull(writtenData);
         Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));
         context.assertIsSatisfied();
-    }
-
-    @Test
-    public void testEscapeModulusOperators() {
-        String modifiedHolder = petroleumTenementController.escapeJavaOperators("BHPBilliton Limited 100%");
-        Assert.assertEquals("BHPBilliton Limited 100%%", modifiedHolder);
-        modifiedHolder = petroleumTenementController.escapeJavaOperators("Holder - IMPERIAL OIL & GAS A PTY LI"
-                + "MITED (100.0%), Manager - IMPERIAL OIL & GAS A PTY LIMITED");
-        Assert.assertEquals("Holder - IMPERIAL OIL & GAS A PTY LI"
-                + "MITED (100.0%%), Manager - IMPERIAL OIL & GAS A PTY LIMITED", modifiedHolder);
-        modifiedHolder = petroleumTenementController.escapeJavaOperators("Holder - MINERALS AUSTRALIA PTY LTD"
-                + "(50.0%), Holder - JACARANDA MINERALS PTY LTD (50.0%), Manager - MINERALS AUSTRALIA PTY LTD");
-        Assert.assertEquals("Holder - MINERALS AUSTRALIA PTY LTD"
-                + "(50.0%%), Holder - JACARANDA MINERALS PTY LTD (50.0%%), Manager - MINERALS AUSTRALIA PTY LTD", modifiedHolder);
     }
 
     @Test
