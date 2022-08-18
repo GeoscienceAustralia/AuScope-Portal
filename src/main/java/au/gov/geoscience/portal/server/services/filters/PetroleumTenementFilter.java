@@ -82,7 +82,8 @@ public class PetroleumTenementFilter extends AbstractFilter {
         return this.generateFilter(this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
     }
 
-    // Filter a column, ignoring newline characters. This is required for the Northern Territory services due to them containing a \n character.
+    // Filter a given column and ignore newline characters
+    // This is required for the Northern Territory services due to them containing a \n character
     public String generatePropertyIsLikeFragmentExcludingNewlineCharacters(String propertyName, String value) {
         String filter = "<ogc:PropertyIsLike escapeChar=\"!\" matchCase=\"false\" singleChar=\"#\" wildCard=\"*\">" +
                 "<ogc:Function name=\"strReplace\"><ogc:PropertyName>%s</ogc:PropertyName>" +
