@@ -45,7 +45,7 @@ public class PetroleumTenementService extends BaseWFSService {
      * @param bbox            - bounding box
      * @return
      */
-    public String getPetroleumTenementFilter(String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri) {
+    public String getPetroleumTenementFilter(String serviceUrl, String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri) {
         Set<String> tenementTypeUris = new HashSet<>();
         if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
             tenementTypeUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_TYPE_VOCABULARY_ID, tenementTypeUri);
@@ -54,7 +54,7 @@ public class PetroleumTenementService extends BaseWFSService {
         if (statusUri != null && !statusUri.isEmpty()) {
             statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_STATUS_VOCABULARY_ID, statusUri);
         }
-        PetroleumTenementFilter filter = new PetroleumTenementFilter(name, holder, statusUris, tenementTypeUris);
+        PetroleumTenementFilter filter = new PetroleumTenementFilter(serviceUrl, name, holder, statusUris, tenementTypeUris);
         return generateFilterString(filter, bbox);
     }
 
@@ -71,7 +71,7 @@ public class PetroleumTenementService extends BaseWFSService {
     public WFSCountResponse getTenementCount(String serviceUrl, String name, String holder, int maxFeatures, FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
         String filterString;
         PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
-        PetroleumTenementFilter petroleumTenementFilter = new PetroleumTenementFilter(name, holder);
+        PetroleumTenementFilter petroleumTenementFilter = new PetroleumTenementFilter(serviceUrl, name, holder);
         if (bbox == null) {
             filterString = petroleumTenementFilter.getFilterStringAllRecords();
         } else {

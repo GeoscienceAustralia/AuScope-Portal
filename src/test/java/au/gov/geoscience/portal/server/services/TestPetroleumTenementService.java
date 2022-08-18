@@ -39,6 +39,7 @@ public class TestPetroleumTenementService extends PortalTestClass {
 
     @Test
     public void testGetPetroleumTenementFilter() {
+        String serviceUrl = "http://portal.ga/wfs";
         String name = "Name";
         String holder = "BHPBilliton Limited";
         String statusUri = "http://vocabs.ga/tenement-type/exploration";
@@ -56,7 +57,7 @@ public class TestPetroleumTenementService extends PortalTestClass {
                 will(returnValue(statusUris));
             }
         });
-        petroleumTenementService.getPetroleumTenementFilter(name, holder, bbox, statusUri, typeUri);
+        petroleumTenementService.getPetroleumTenementFilter(serviceUrl, name, holder, bbox, statusUri, typeUri);
     }
 
     @Test
@@ -66,7 +67,7 @@ public class TestPetroleumTenementService extends PortalTestClass {
         String owner = "BHPBilliton Limited";
         int maxFeatures = 0;
         FilterBoundingBox bbox = null;
-        String filterString = new PetroleumTenementFilter(name, owner).getFilterStringBoundingBox(bbox);
+        String filterString = new PetroleumTenementFilter(serviceUrl, name, owner).getFilterStringBoundingBox(bbox);
         InputStream in = ResourceUtil.loadResourceAsStream("au/gov/geoscience/portal/server/services/petroleumTenementCount.xml");
         context.checking(new Expectations() {
             {

@@ -22,8 +22,8 @@ public class PetroleumTenementFilter extends AbstractFilter {
      * @param name   - the name of the tenement
      * @param holder - the name of the tenement holder
      */
-    public PetroleumTenementFilter(String name, String holder) {
-        this(name, holder, null, null);
+    public PetroleumTenementFilter(String serviceUrl, String name, String holder) {
+        this(serviceUrl, name, holder, null, null);
     }
 
     /**
@@ -32,14 +32,14 @@ public class PetroleumTenementFilter extends AbstractFilter {
      * @param statusUris       - status of tenement
      * @param tenementTypeUris - type of tenement
      */
-    public PetroleumTenementFilter(String name, String holder, Set<String> statusUris, Set<String> tenementTypeUris) {
+    public PetroleumTenementFilter(String serviceUrl, String name, String holder, Set<String> statusUris, Set<String> tenementTypeUris) {
         PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
         fragments = new ArrayList<>();
         if (name != null && !name.isEmpty()) {
-            fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceProviderType.nameField(), name));
+            fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceUrl, serviceProviderType.nameField(), name));
         }
         if (holder != null && !holder.isEmpty()) {
-            fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceProviderType.holderField(), holder));
+            fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceUrl, serviceProviderType.holderField(), holder));
         }
         if (statusUris != null && !statusUris.isEmpty() && statusUris.size() > 1) {
             List<String> localFragments = new ArrayList<>();
@@ -85,11 +85,17 @@ public class PetroleumTenementFilter extends AbstractFilter {
 
     // Filter a given column and ignore newline characters
     // This is required for the Northern Territory services due to them containing a \n character
-    public String generatePropertyIsLikeFragmentExcludingNewlineCharacters(String propertyName, String value) {
-        String filter = "<ogc:PropertyIsLike escapeChar=\"!\" matchCase=\"false\" singleChar=\"#\" wildCard=\"*\">" +
-                "<ogc:Function name=\"strReplace\"><ogc:PropertyName>%s</ogc:PropertyName>" +
-                "<ogc:Literal>\\n</ogc:Literal><ogc:Literal></ogc:Literal><ogc:Literal>true</ogc:Literal>" +
-                "</ogc:Function><ogc:Literal>%s</ogc:Literal></ogc:PropertyIsLike>";
-        return String.format(filter, propertyName, value);
+    public String generatePropertyIsLikeFragmentExcludingNewlineCharacters(String serviceUrl, String propertyName, String value) {
+        String filter;
+        if (serviceUrl.contains("geology.data.nt.gov.au")) {
+            filter = "<ogc:PropertyIsLike escapeChar=\"!\" matchCase=\"false\" singleChar=\"#\" wildCard=\"*\">" +
+                    "<ogc:Function name=\"strReplace\"><ogc:PropertyName>%s</ogc:PropertyName>" +
+                    "<ogc:Literal>\\n</ogc:Literal><ogc:Literal></ogc:Literal><ogc:Literal>true</ogc:Literal>" +
+                    "</ogc:Function><ogc:Literal>%s</ogc:Literal></ogc:PropertyIsLike>";
+            return String.format(filter, propertyName, value);
+        } else {
+            filter = this.generatePropertyIsLikeFragment(propertyName, value);
+            return filter;
+        }
     }
 }
