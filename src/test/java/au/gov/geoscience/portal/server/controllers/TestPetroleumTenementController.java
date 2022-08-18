@@ -57,13 +57,12 @@ public class TestPetroleumTenementController extends PortalTestClass {
     public void testPetroleumTenementFilterStyleWithModulus() throws Exception {
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited (100%)";
-        final String modifiedHolder = "BHPBilliton Limited (100%)";
-        final String filterString = new PetroleumTenementFilter(name, modifiedHolder, null, null).getFilterStringAllRecords();
+        final String filterString = new PetroleumTenementFilter(name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementModulusTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, modifiedHolder, null, null, null);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, null, null);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
