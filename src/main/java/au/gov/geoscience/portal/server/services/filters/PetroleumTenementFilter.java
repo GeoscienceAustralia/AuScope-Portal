@@ -44,23 +44,23 @@ public class PetroleumTenementFilter extends AbstractFilter {
         if (statusUris != null && !statusUris.isEmpty() && statusUris.size() > 1) {
             List<String> localFragments = new ArrayList<>();
             for (String statusUri : statusUris) {
-                localFragments.add(this.generatePropertyIsEqualToFragment("pt:status_uri", statusUri));
+                localFragments.add(this.generatePropertyIsEqualToFragment(serviceProviderType.statusURIField(), statusUri));
             }
             fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
         } else if (statusUris != null && statusUris.size() == 1) {
             for (String statusURI : statusUris) {
-                fragments.add(this.generatePropertyIsEqualToFragment("pt:status_uri", statusURI));
+                fragments.add(this.generatePropertyIsEqualToFragment(serviceProviderType.statusURIField(), statusURI));
             }
         }
         if (tenementTypeUris != null && !tenementTypeUris.isEmpty() && tenementTypeUris.size() > 1) {
             List<String> localFragments = new ArrayList<>();
             for (String typeUri : tenementTypeUris) {
-                localFragments.add(this.generatePropertyIsEqualToFragment("pt:tenementType_uri", typeUri));
+                localFragments.add(this.generatePropertyIsEqualToFragment(serviceProviderType.tenementTypeURIField(), typeUri));
             }
             fragments.add(this.generateOrComparisonFragment(localFragments.toArray(new String[localFragments.size()])));
         } else if (tenementTypeUris != null && tenementTypeUris.size() == 1) {
             for (String tenementTypeURI : tenementTypeUris) {
-                fragments.add(this.generatePropertyIsEqualToFragment("pt:tenementType_uri", tenementTypeURI));
+                fragments.add(this.generatePropertyIsEqualToFragment(serviceProviderType.tenementTypeURIField(), tenementTypeURI));
             }
         }
     }
@@ -70,9 +70,10 @@ public class PetroleumTenementFilter extends AbstractFilter {
     }
 
     public String getFilterStringBoundingBox(FilterBoundingBox bbox) {
+        PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
         List<String> localFragment = new ArrayList<>(fragments);
         if (bbox != null) {
-            localFragment.add(this.generateBboxFragment(bbox, "pt:shape"));
+            localFragment.add(this.generateBboxFragment(bbox, serviceProviderType.shapeField()));
         }
         return this.generateFilter(this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
     }
