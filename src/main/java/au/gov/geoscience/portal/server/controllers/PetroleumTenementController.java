@@ -30,13 +30,14 @@ public class PetroleumTenementController extends BasePortalController {
 
     @RequestMapping("/petroleumTenementFilterStyle.do")
     public void petroleumTenementFilterStyle(
+            @RequestParam("serviceUrl") String serviceUrl,
             @RequestParam(required = false, value = "name", defaultValue = "") String name,
             @RequestParam(required = false, value = "holder", defaultValue = "") String holder,
             @RequestParam(required = false, value = "statusUri") String statusUri,
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
         String modifiedName = name.strip();
         String modifiedHolder = holder.strip();
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(modifiedName, modifiedHolder, null, statusUri, tenementTypeUri);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(serviceUrl, modifiedName, modifiedHolder, null, statusUri, tenementTypeUri);
         String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
         response.setContentType("text/xml");
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
@@ -89,7 +90,7 @@ public class PetroleumTenementController extends BasePortalController {
         if (!forceOutputFormat) {
             outputFormat = "CSV";
         }
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(modifiedName, modifiedHolder, bbox, null, null);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(serviceUrl, modifiedName, modifiedHolder, bbox, null, null);
         InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, petroleumTenementServiceProviderType.featureType(), filter, maxFeatures, outputFormat);
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("text/csv");

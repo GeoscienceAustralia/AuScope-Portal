@@ -1,5 +1,6 @@
 package au.gov.geoscience.portal.server.controllers;
 
+import org.apache.jena.base.Sys;
 import org.auscope.portal.core.test.PortalTestClass;
 import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
@@ -30,23 +31,22 @@ public class TestPetroleumTenementController extends PortalTestClass {
 
     @Test
     public void testPetroleumTenementFilterStyle() throws Exception {
+        final String serviceUrl = "gs.geoscience.nsw.gov.au";
         final String name = "Tenement";
-        final String holder = "BHPBilliton Limited";
-        final String tenementTypeUri = null;
-        final String statusUri = null;
-        final String filterString = new PetroleumTenementFilter(name, holder, null, null).getFilterStringAllRecords();
+        final String holder = "BHPBilliton Limited (100%)";
+        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, statusUri, tenementTypeUri);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
                 will(returnValue(os));
             }
         });
-        petroleumTenementController.petroleumTenementFilterStyle(name, holder, statusUri, tenementTypeUri, response);
+        petroleumTenementController.petroleumTenementFilterStyle(serviceUrl, name, holder, null, null, response);
         String writtenData = new String(os.getDataWritten());
         Assert.assertNotNull(writtenData);
         Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));
@@ -54,22 +54,23 @@ public class TestPetroleumTenementController extends PortalTestClass {
     }
 
     @Test
-    public void testPetroleumTenementFilterStyleWithModulus() throws Exception {
+    public void testPetroleumTenementFilterStyleWithNorthernTerritoryServices() throws Exception {
+        final String serviceUrl = "geology.data.nt.gov.au";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited (100%)";
-        final String filterString = new PetroleumTenementFilter(name, holder, null, null).getFilterStringAllRecords();
+        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementModulusTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(name, holder, null, null, null);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
                 will(returnValue(os));
             }
         });
-        petroleumTenementController.petroleumTenementFilterStyle(name, holder, null, null, response);
+        petroleumTenementController.petroleumTenementFilterStyle(serviceUrl, name, holder, null, null, response);
         String writtenData = new String(os.getDataWritten());
         Assert.assertNotNull(writtenData);
         Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));

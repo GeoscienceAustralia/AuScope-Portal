@@ -17,7 +17,7 @@ public class TestPetroleumTenementFilter {
      */
     @Test
     public void testEmptyPetroleumTenementFilter() throws Exception {
-        PetroleumTenementFilter filter = new PetroleumTenementFilter("", "", new HashSet<String>(), new HashSet<String>());
+        PetroleumTenementFilter filter = new PetroleumTenementFilter("http://portal.ga/wfs", "", "", new HashSet<String>(), new HashSet<String>());
         String result = filter.getFilterStringAllRecords();
         Assert.assertTrue(result.isEmpty());
     }
@@ -33,7 +33,7 @@ public class TestPetroleumTenementFilter {
         statusUris.add("ghi");
         Set<String> tenementTypeUris = new HashSet<>();
         tenementTypeUris.add("jkl");
-        PetroleumTenementFilter filter = new PetroleumTenementFilter("abc", "def", statusUris, tenementTypeUris);
+        PetroleumTenementFilter filter = new PetroleumTenementFilter("http://portal.ga/wfs", "abc", "def", statusUris, tenementTypeUris);
         String result = filter.getFilterWithAdditionalStyle();
         Document doc = AbstractFilterTestUtilities.parsefilterStringXML(result);
         AbstractFilterTestUtilities.runNodeSetValueCheck(doc, "/descendant::ogc:PropertyIsLike/ogc:Literal", new String[]{"abc", "def"}, 2);
