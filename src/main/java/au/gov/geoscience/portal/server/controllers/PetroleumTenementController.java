@@ -88,7 +88,7 @@ public class PetroleumTenementController extends BasePortalController {
         // Add an escape for any Java operators
         String modifiedName = this.escapeJavaOperators(name);
         String modifiedHolder = this.escapeJavaOperators(holder);
-        PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = PetroleumTenementServiceProviderType.parseUrl(serviceUrl);
+        PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = new PetroleumTenementServiceProviderType();
         // This is required to work with FilterBoundingBox. Needs a better fix than this
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);

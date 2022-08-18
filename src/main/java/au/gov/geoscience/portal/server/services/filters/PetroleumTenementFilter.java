@@ -1,5 +1,6 @@
 package au.gov.geoscience.portal.server.services.filters;
 
+import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import org.auscope.portal.core.services.methodmakers.filter.AbstractFilter;
 import org.auscope.portal.core.services.methodmakers.filter.FilterBoundingBox;
 
@@ -32,12 +33,13 @@ public class PetroleumTenementFilter extends AbstractFilter {
      * @param tenementTypeUris - type of tenement
      */
     public PetroleumTenementFilter(String name, String holder, Set<String> statusUris, Set<String> tenementTypeUris) {
+        PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
         fragments = new ArrayList<>();
         if (name != null && !name.isEmpty()) {
-            fragments.add(this.generatePropertyIsLikeFragmentWithStringReplace("pt:name", name));
+            fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceProviderType.nameField(), name));
         }
         if (holder != null && !holder.isEmpty()) {
-            fragments.add(this.generatePropertyIsLikeFragmentWithStringReplace("pt:holder", holder));
+            fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceProviderType.holderField(), holder));
         }
         if (statusUris != null && !statusUris.isEmpty() && statusUris.size() > 1) {
             List<String> localFragments = new ArrayList<>();
@@ -80,8 +82,8 @@ public class PetroleumTenementFilter extends AbstractFilter {
         return this.generateFilter(this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
     }
 
-    // The Northern Territory services returns owner/holder names with a \n in front that causes the filter to fail
-    public String generatePropertyIsLikeFragmentWithStringReplace(String propertyName, String value) {
+    // Filter a column, ignoring newline characters. This is required for the Northern Territory services due to them containing a \n character.
+    public String generatePropertyIsLikeFragmentExcludingNewlineCharacters(String propertyName, String value) {
         String filter = "<ogc:PropertyIsLike escapeChar=\"!\" matchCase=\"false\" singleChar=\"#\" wildCard=\"*\">" +
                 "<ogc:Function name=\"strReplace\"><ogc:PropertyName>%s</ogc:PropertyName>" +
                 "<ogc:Literal>\\n</ogc:Literal><ogc:Literal></ogc:Literal><ogc:Literal>true</ogc:Literal>" +
