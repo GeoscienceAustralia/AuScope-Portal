@@ -12,11 +12,21 @@ ov.au/PetroleumTenementML/1.0/petroleumtenementml.xsd">
                     <ogc:Filter>
                         <ogc:And>
                             <ogc:PropertyIsLike escapeChar="!" matchCase="false" singleChar="#" wildCard="*">
+                                <ogc:Function name="strReplace">
                                 <ogc:PropertyName>pt:name</ogc:PropertyName>
+                                    <ogc:Literal>\n</ogc:Literal>
+                                    <ogc:Literal></ogc:Literal>
+                                    <ogc:Literal>true</ogc:Literal>
+                                </ogc:Function>
                                 <ogc:Literal>Tenement</ogc:Literal>
                             </ogc:PropertyIsLike>
                             <ogc:PropertyIsLike escapeChar="!" matchCase="false" singleChar="#" wildCard="*">
+                                <ogc:Function name="strReplace">
                                 <ogc:PropertyName>pt:holder</ogc:PropertyName>
+                                    <ogc:Literal>\n</ogc:Literal>
+                                    <ogc:Literal></ogc:Literal>
+                                    <ogc:Literal>true</ogc:Literal>
+                                </ogc:Function>
                                 <ogc:Literal>BHPBilliton Limited</ogc:Literal>
                             </ogc:PropertyIsLike>
                         </ogc:And>

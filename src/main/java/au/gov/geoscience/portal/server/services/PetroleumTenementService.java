@@ -1,5 +1,6 @@
 package au.gov.geoscience.portal.server.services;
 
+import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpServiceCaller;
@@ -69,13 +70,14 @@ public class PetroleumTenementService extends BaseWFSService {
      */
     public WFSCountResponse getTenementCount(String serviceUrl, String name, String holder, int maxFeatures, FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
         String filterString;
+        PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
         PetroleumTenementFilter petroleumTenementFilter = new PetroleumTenementFilter(name, holder);
         if (bbox == null) {
             filterString = petroleumTenementFilter.getFilterStringAllRecords();
         } else {
             filterString = petroleumTenementFilter.getFilterStringBoundingBox(bbox);
         }
-        HttpRequestBase method = generateWFSRequest(serviceUrl, "pt:PetroleumTenement", null, filterString, maxFeatures, null, WFSGetFeatureMethodMaker.ResultType.Hits);
+        HttpRequestBase method = generateWFSRequest(serviceUrl, serviceProviderType.featureType(), null, filterString, maxFeatures, null, WFSGetFeatureMethodMaker.ResultType.Hits);
         return getWfsFeatureCount(method);
     }
 

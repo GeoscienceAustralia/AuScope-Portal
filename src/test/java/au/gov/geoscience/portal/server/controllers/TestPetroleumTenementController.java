@@ -1,7 +1,6 @@
 package au.gov.geoscience.portal.server.controllers;
 
 import org.auscope.portal.core.test.PortalTestClass;
-import org.junit.After;
 import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
 import org.auscope.portal.core.services.responses.wfs.WFSCountResponse;
@@ -51,6 +50,7 @@ public class TestPetroleumTenementController extends PortalTestClass {
         String writtenData = new String(os.getDataWritten());
         Assert.assertNotNull(writtenData);
         Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));
+        context.assertIsSatisfied();
     }
 
     @Test
