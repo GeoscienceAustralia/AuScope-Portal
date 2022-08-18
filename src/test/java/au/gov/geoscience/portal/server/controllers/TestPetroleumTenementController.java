@@ -1,6 +1,5 @@
 package au.gov.geoscience.portal.server.controllers;
 
-import org.apache.jena.base.Sys;
 import org.auscope.portal.core.test.PortalTestClass;
 import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
@@ -54,13 +53,13 @@ public class TestPetroleumTenementController extends PortalTestClass {
     }
 
     @Test
-    public void testPetroleumTenementFilterStyleWithNorthernTerritoryServices() throws Exception {
+    public void testPetroleumTenementFilterStyleExcludingNewLinesTest() throws Exception {
         final String serviceUrl = "geology.data.nt.gov.au";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited (100%)";
         final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
-        String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementModulusTest.sld");
+        String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementExcludeNewLinesTest.sld");
         context.checking(new Expectations() {
             {
                 oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null);
