@@ -50,7 +50,10 @@ public class TestPetroleumTenementController extends PortalTestClass {
         petroleumTenementController.petroleumTenementFilterStyle(name, holder, statusUri, tenementTypeUri, response);
         String writtenData = new String(os.getDataWritten());
         Assert.assertNotNull(writtenData);
+        System.out.println("MOCKSLD: " + mockSld);
+        System.out.println("WD: " + writtenData);
         Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));
+        context.assertIsSatisfied();
     }
 
     @Test
