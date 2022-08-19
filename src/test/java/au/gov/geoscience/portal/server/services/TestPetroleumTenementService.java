@@ -1,5 +1,6 @@
 package au.gov.geoscience.portal.server.services;
 
+import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.filters.PetroleumTenementFilter;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.auscope.portal.core.server.http.HttpClientInputStream;
@@ -12,13 +13,16 @@ import org.auscope.portal.core.test.ResourceUtil;
 import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.auscope.portal.core.services.VocabularyFilterService;
 import au.gov.geoscience.portal.server.controllers.VocabularyController;
+
 import static org.auscope.portal.core.services.BaseWFSService.DEFAULT_SRS;
 
 public class TestPetroleumTenementService extends PortalTestClass {
@@ -44,6 +48,7 @@ public class TestPetroleumTenementService extends PortalTestClass {
         String holder = "BHPBilliton Limited";
         String statusUri = "http://vocabs.ga/tenement-type/exploration";
         String typeUri = "http://vocabs.ga/tenement-type/exploration";
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
         FilterBoundingBox bbox = null;
         Set<String> typeUris = new HashSet<>();
         typeUris.add(typeUri);
@@ -57,7 +62,7 @@ public class TestPetroleumTenementService extends PortalTestClass {
                 will(returnValue(statusUris));
             }
         });
-        petroleumTenementService.getPetroleumTenementFilter(serviceUrl, name, holder, bbox, statusUri, typeUri);
+        petroleumTenementService.getPetroleumTenementFilter(serviceUrl, name, holder, bbox, statusUri, typeUri, serviceProviderType);
     }
 
     @Test
@@ -67,17 +72,18 @@ public class TestPetroleumTenementService extends PortalTestClass {
         String owner = "BHPBilliton Limited";
         int maxFeatures = 0;
         FilterBoundingBox bbox = null;
-        String filterString = new PetroleumTenementFilter(serviceUrl, name, owner).getFilterStringBoundingBox(bbox);
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        String filterString = new PetroleumTenementFilter(serviceUrl, name, owner, serviceProviderType).setFilterStringBoundingBoxServiceType(bbox, serviceProviderType);
         InputStream in = ResourceUtil.loadResourceAsStream("au/gov/geoscience/portal/server/services/petroleumTenementCount.xml");
         context.checking(new Expectations() {
             {
-                oneOf(wfsMethodMaker).makePostMethod(serviceUrl, "pt:PetroleumTenement", filterString, maxFeatures, DEFAULT_SRS, WFSGetFeatureMethodMaker.ResultType.Hits, null, null);
+                oneOf(wfsMethodMaker).makePostMethod(serviceUrl, serviceProviderType.featureType(), filterString, maxFeatures, DEFAULT_SRS, WFSGetFeatureMethodMaker.ResultType.Hits, null, null);
                 will(returnValue(method));
                 oneOf(httpServiceCaller).getMethodResponseAsStream(method);
                 will(returnValue(new HttpClientInputStream(in, null)));
                 oneOf(method).releaseConnection();
             }
         });
-        petroleumTenementService.getTenementCount(serviceUrl, name, owner, maxFeatures, bbox);
+        petroleumTenementService.getTenementCount(serviceUrl, name, owner, maxFeatures, bbox, serviceProviderType);
     }
 }

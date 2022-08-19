@@ -1,5 +1,6 @@
 package au.gov.geoscience.portal.server.controllers;
 
+import au.gov.geoscience.portal.server.MineralTenementServiceProviderType;
 import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import au.gov.geoscience.portal.server.services.PetroleumTenementService;
 import org.auscope.portal.core.server.controllers.BasePortalController;
@@ -37,8 +38,17 @@ public class PetroleumTenementController extends BasePortalController {
             @RequestParam(required = false, value = "tenementTypeUri") String tenementTypeUri, HttpServletResponse response) throws Exception {
         String modifiedName = name.strip();
         String modifiedHolder = holder.strip();
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(serviceUrl, modifiedName, modifiedHolder, null, statusUri, tenementTypeUri);
-        String style = SLDLoader.loadSLDWithFilter("/au/gov/geoscience/portal/sld/petroleumtenement.sld", filter);
+        String style;
+        String sldFileName;
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        if (serviceUrl.contains("gs.geoscience.nsw.gov.au")) {
+            serviceProviderType = PetroleumTenementServiceProviderType.NSWGeoServer;
+            sldFileName = "/au/gov/geoscience/portal/sld/petroleumtenement-nsw.sld";
+        } else {
+            sldFileName = "/au/gov/geoscience/portal/sld/petroleumtenement.sld";
+        }
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(serviceUrl, modifiedName, modifiedHolder, null, statusUri, tenementTypeUri, serviceProviderType);
+        style = SLDLoader.loadSLDWithFilter(sldFileName, filter);
         response.setContentType("text/xml");
         ByteArrayInputStream styleStream = new ByteArrayInputStream(style.getBytes());
         OutputStream outputStream = response.getOutputStream();
@@ -61,8 +71,12 @@ public class PetroleumTenementController extends BasePortalController {
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
         WFSCountResponse response;
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        if (serviceUrl.contains("gs.geoscience.nsw.gov.au")) {
+            serviceProviderType = PetroleumTenementServiceProviderType.NSWGeoServer;
+        }
         try {
-            response = this.petroleumTenementService.getTenementCount(serviceUrl, modifiedName, modifiedHolder, maxFeatures, bbox);
+            response = this.petroleumTenementService.getTenementCount(serviceUrl, modifiedName, modifiedHolder, maxFeatures, bbox, serviceProviderType);
         } catch (Exception e) {
             log.warn(String.format("Error performing filter for '%1$s': %2$s", serviceUrl, e));
             log.debug("Exception: ", e);
@@ -83,15 +97,18 @@ public class PetroleumTenementController extends BasePortalController {
             HttpServletResponse response) throws Exception {
         String modifiedName = name.strip();
         String modifiedHolder = holder.strip();
-        PetroleumTenementServiceProviderType petroleumTenementServiceProviderType = new PetroleumTenementServiceProviderType();
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        if (serviceUrl.contains("gs.geoscience.nsw.gov.au")) {
+            serviceProviderType = PetroleumTenementServiceProviderType.NSWGeoServer;
+        }
         // This is required to work with FilterBoundingBox. Needs a better fix than this
         OgcServiceProviderType ogcServiceProviderType = OgcServiceProviderType.parseUrl(serviceUrl);
         FilterBoundingBox bbox = FilterBoundingBox.attemptParseFromJSON(bboxJson, ogcServiceProviderType);
         if (!forceOutputFormat) {
             outputFormat = "CSV";
         }
-        String filter = this.petroleumTenementService.getPetroleumTenementFilter(serviceUrl, modifiedName, modifiedHolder, bbox, null, null);
-        InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, petroleumTenementServiceProviderType.featureType(), filter, maxFeatures, outputFormat);
+        String filter = this.petroleumTenementService.getPetroleumTenementFilter(serviceUrl, modifiedName, modifiedHolder, bbox, null, null, serviceProviderType);
+        InputStream inputStream = this.petroleumTenementService.getAllTenements(serviceUrl, serviceProviderType.featureType(), filter, maxFeatures, outputFormat);
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("text/csv");
         FileIOUtil.writeInputToOutputStream(inputStream, outputStream, 1024, false);

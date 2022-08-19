@@ -3,7 +3,10 @@ package au.gov.geoscience.portal.server;
 /**
  * Petroleum Tenement services' Geoserver settings
  */
-public class PetroleumTenementServiceProviderType {
+public enum PetroleumTenementServiceProviderType {
+    GeoServer("pt:PetroleumTenement", "pt:name", "pt:holder", "pt:status_uri", "pt:tenementType_uri", "pt:shape"),
+    NSWGeoServer("PetroleumTenement", "name", "holder", "status_uri", "tenementType_uri", "shape");
+
     private final String featureType;
     private final String nameField;
     private final String holderField;
@@ -11,13 +14,13 @@ public class PetroleumTenementServiceProviderType {
     private final String tenementTypeURIField;
     private final String shapeField;
 
-    public PetroleumTenementServiceProviderType() {
-        this.featureType = "pt:PetroleumTenement";
-        this.nameField = "pt:name";
-        this.holderField = "pt:holder";
-        this.statusURIField = "pt:status_uri";
-        this.tenementTypeURIField = "pt:tenementType_uri";
-        this.shapeField = "pt:shape";
+    PetroleumTenementServiceProviderType(String featureType, String nameField, String holderField, String statusURIField, String tenementTypeURIField, String shapeField) {
+        this.featureType = featureType;
+        this.nameField = nameField;
+        this.holderField = holderField;
+        this.statusURIField = statusURIField;
+        this.tenementTypeURIField = tenementTypeURIField;
+        this.shapeField = shapeField;
     }
 
     public String featureType() {

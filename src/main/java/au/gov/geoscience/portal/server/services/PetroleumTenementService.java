@@ -45,7 +45,7 @@ public class PetroleumTenementService extends BaseWFSService {
      * @param bbox            - bounding box
      * @return
      */
-    public String getPetroleumTenementFilter(String serviceUrl, String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri) {
+    public String getPetroleumTenementFilter(String serviceUrl, String name, String holder, FilterBoundingBox bbox, String statusUri, String tenementTypeUri, PetroleumTenementServiceProviderType serviceProviderType) {
         Set<String> tenementTypeUris = new HashSet<>();
         if (tenementTypeUri != null && !tenementTypeUri.isEmpty()) {
             tenementTypeUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_TYPE_VOCABULARY_ID, tenementTypeUri);
@@ -54,8 +54,8 @@ public class PetroleumTenementService extends BaseWFSService {
         if (statusUri != null && !statusUri.isEmpty()) {
             statusUris = this.vocabularyFilterService.getAllNarrower(VocabularyController.PETROLEUM_TENEMENT_STATUS_VOCABULARY_ID, statusUri);
         }
-        PetroleumTenementFilter filter = new PetroleumTenementFilter(serviceUrl, name, holder, statusUris, tenementTypeUris);
-        return generateFilterString(filter, bbox);
+        PetroleumTenementFilter filter = new PetroleumTenementFilter(serviceUrl, name, holder, statusUris, tenementTypeUris, serviceProviderType);
+        return generateFilterString(filter, bbox, serviceProviderType);
     }
 
     /**
@@ -68,10 +68,9 @@ public class PetroleumTenementService extends BaseWFSService {
      * @throws PortalServiceException - PortalServiceException
      * @throws URISyntaxException     - URISyntaxException
      */
-    public WFSCountResponse getTenementCount(String serviceUrl, String name, String holder, int maxFeatures, FilterBoundingBox bbox) throws PortalServiceException, URISyntaxException {
+    public WFSCountResponse getTenementCount(String serviceUrl, String name, String holder, int maxFeatures, FilterBoundingBox bbox, PetroleumTenementServiceProviderType serviceProviderType) throws PortalServiceException, URISyntaxException {
         String filterString;
-        PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
-        PetroleumTenementFilter petroleumTenementFilter = new PetroleumTenementFilter(serviceUrl, name, holder);
+        PetroleumTenementFilter petroleumTenementFilter = new PetroleumTenementFilter(serviceUrl, name, holder, serviceProviderType);
         if (bbox == null) {
             filterString = petroleumTenementFilter.getFilterStringAllRecords();
         } else {
@@ -86,12 +85,12 @@ public class PetroleumTenementService extends BaseWFSService {
      * @param bbox   - bounding box
      * @return - returns an OGC filter XML string
      */
-    public static String generateFilterString(IFilter filter, FilterBoundingBox bbox) {
+    public static String generateFilterString(PetroleumTenementFilter filter, FilterBoundingBox bbox, PetroleumTenementServiceProviderType serviceProviderType) {
         String filterString;
         if (bbox == null) {
             filterString = filter.getFilterStringAllRecords();
         } else {
-            filterString = filter.getFilterStringBoundingBox(bbox);
+            filterString = filter.setFilterStringBoundingBoxServiceType(bbox, serviceProviderType);
         }
         return filterString;
     }

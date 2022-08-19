@@ -22,8 +22,8 @@ public class PetroleumTenementFilter extends AbstractFilter {
      * @param name   - the name of the tenement
      * @param holder - the name of the tenement holder
      */
-    public PetroleumTenementFilter(String serviceUrl, String name, String holder) {
-        this(serviceUrl, name, holder, null, null);
+    public PetroleumTenementFilter(String serviceUrl, String name, String holder, PetroleumTenementServiceProviderType serviceProviderType) {
+        this(serviceUrl, name, holder, null, null, serviceProviderType);
     }
 
     /**
@@ -32,8 +32,7 @@ public class PetroleumTenementFilter extends AbstractFilter {
      * @param statusUris       - status of tenement
      * @param tenementTypeUris - type of tenement
      */
-    public PetroleumTenementFilter(String serviceUrl, String name, String holder, Set<String> statusUris, Set<String> tenementTypeUris) {
-        PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
+    public PetroleumTenementFilter(String serviceUrl, String name, String holder, Set<String> statusUris, Set<String> tenementTypeUris, PetroleumTenementServiceProviderType serviceProviderType) {
         fragments = new ArrayList<>();
         if (name != null && !name.isEmpty()) {
             fragments.add(this.generatePropertyIsLikeFragmentExcludingNewlineCharacters(serviceUrl, serviceProviderType.nameField(), name));
@@ -69,8 +68,25 @@ public class PetroleumTenementFilter extends AbstractFilter {
         return this.generateFilter(this.generateAndComparisonFragment(fragments.toArray(new String[fragments.size()])));
     }
 
+    public String setFilterStringBoundingBoxServiceType(FilterBoundingBox bbox, PetroleumTenementServiceProviderType serviceProviderType) {
+        if (serviceProviderType == PetroleumTenementServiceProviderType.NSWGeoServer) {
+            return this.getFilterStringBoundingBoxNSWService(bbox);
+        } else {
+            return this.getFilterStringBoundingBox(bbox);
+        }
+    }
+
     public String getFilterStringBoundingBox(FilterBoundingBox bbox) {
-        PetroleumTenementServiceProviderType serviceProviderType = new PetroleumTenementServiceProviderType();
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        List<String> localFragment = new ArrayList<>(fragments);
+        if (bbox != null) {
+            localFragment.add(this.generateBboxFragment(bbox, serviceProviderType.shapeField()));
+        }
+        return this.generateFilter(this.generateAndComparisonFragment(localFragment.toArray(new String[localFragment.size()])));
+    }
+
+    public String getFilterStringBoundingBoxNSWService(FilterBoundingBox bbox) {
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.NSWGeoServer;
         List<String> localFragment = new ArrayList<>(fragments);
         if (bbox != null) {
             localFragment.add(this.generateBboxFragment(bbox, serviceProviderType.shapeField()));
