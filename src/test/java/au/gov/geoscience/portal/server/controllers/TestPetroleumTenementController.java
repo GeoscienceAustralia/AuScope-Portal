@@ -1,5 +1,6 @@
 package au.gov.geoscience.portal.server.controllers;
 
+import au.gov.geoscience.portal.server.PetroleumTenementServiceProviderType;
 import org.auscope.portal.core.test.PortalTestClass;
 import org.junit.Before;
 import org.auscope.portal.core.services.PortalServiceException;
@@ -30,15 +31,41 @@ public class TestPetroleumTenementController extends PortalTestClass {
 
     @Test
     public void testPetroleumTenementFilterStyle() throws Exception {
-        final String serviceUrl = "gs.geoscience.nsw.gov.au";
+        final String serviceUrl = "http://portal.ga/wms";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited (100%)";
-        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null).getFilterStringAllRecords();
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null, serviceProviderType).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null, serviceProviderType);
+                will(returnValue(filterString));
+                allowing(response).setContentType((with(any(String.class))));
+                oneOf(response).getOutputStream();
+                will(returnValue(os));
+            }
+        });
+        petroleumTenementController.petroleumTenementFilterStyle(serviceUrl, name, holder, null, null, response);
+        String writtenData = new String(os.getDataWritten());
+        Assert.assertNotNull(writtenData);
+        Assert.assertTrue(xmlStringEquals(mockSld, writtenData, true, true));
+        context.assertIsSatisfied();
+    }
+
+    @Test
+    public void testPetroleumTenementFilterStyleNSW() throws Exception {
+        final String serviceUrl = "gs.geoscience.nsw.gov.au";
+        final String name = "Tenement";
+        final String holder = "BHPBilliton Limited (100%)";
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.NSWGeoServer;
+        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null, serviceProviderType).getFilterStringAllRecords();
+        final ReadableServletOutputStream os = new ReadableServletOutputStream();
+        String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementTestExcludeSubstring.sld");
+        context.checking(new Expectations() {
+            {
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null, serviceProviderType);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
@@ -57,12 +84,13 @@ public class TestPetroleumTenementController extends PortalTestClass {
         final String serviceUrl = "geology.data.nt.gov.au";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited (100%)";
-        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null).getFilterStringAllRecords();
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
+        final String filterString = new PetroleumTenementFilter(serviceUrl, name, holder, null, null, serviceProviderType).getFilterStringAllRecords();
         final ReadableServletOutputStream os = new ReadableServletOutputStream();
         String mockSld = ResourceUtil.loadResourceAsString("au/gov/geoscience/portal/server/controllers/petroleumTenementExcludeNewLinesTest.sld");
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null);
+                oneOf(mockPetroleumTenementService).getPetroleumTenementFilter(serviceUrl, name, holder, null, null, null, serviceProviderType);
                 will(returnValue(filterString));
                 allowing(response).setContentType((with(any(String.class))));
                 oneOf(response).getOutputStream();
@@ -81,9 +109,10 @@ public class TestPetroleumTenementController extends PortalTestClass {
         final String mockServiceUrl = "http://portal.ga/wms";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited";
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl, name, holder, 0, null);
+                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl, name, holder, 0, null, serviceProviderType);
                 will(returnValue(new WFSCountResponse(10)));
             }
         });
@@ -97,9 +126,10 @@ public class TestPetroleumTenementController extends PortalTestClass {
         final String mockServiceUrl = "http://portal.ga/wms";
         final String name = "Tenement";
         final String holder = "BHPBilliton Limited";
+        PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
         context.checking(new Expectations() {
             {
-                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl, name, holder, 0, null);
+                oneOf(mockPetroleumTenementService).getTenementCount(mockServiceUrl, name, holder, 0, null, serviceProviderType);
                 will(throwException(new PortalServiceException("Mock Exception")));
             }
         });
