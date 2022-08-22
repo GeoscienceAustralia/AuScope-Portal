@@ -30,7 +30,12 @@
                     </PolygonSymbolizer>
                     <TextSymbolizer>
                         <Label>
-                            <PropertyName>pt:name</PropertyName>
+                            <Function name="strReplace">
+                               <PropertyName>pt:name</PropertyName>
+                               <Literal>AttributeImpl:name&lt;string&gt;=</Literal>
+                               <Literal></Literal>
+                               <Literal>true</Literal>
+                           </Function>
                         </Label>
                         <Font>
                             <CssParameter name="font-family">SansSerif</CssParameter>
