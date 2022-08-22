@@ -10,11 +10,11 @@
                     <ogc:Filter>
                         <ogc:And>
                             <ogc:PropertyIsLike escapeChar="!" matchCase="false" singleChar="#" wildCard="*">
-                                <ogc:PropertyName>name</ogc:PropertyName>
+                                <ogc:PropertyName>pt:name</ogc:PropertyName>
                                 <ogc:Literal>Tenement</ogc:Literal>
                             </ogc:PropertyIsLike>
                             <ogc:PropertyIsLike escapeChar="!" matchCase="false" singleChar="#" wildCard="*">
-                                <ogc:PropertyName>holder</ogc:PropertyName>
+                                <ogc:PropertyName>pt:holder</ogc:PropertyName>
                                 <ogc:Literal>BHPBilliton Limited (100%)</ogc:Literal>
                             </ogc:PropertyIsLike>
                         </ogc:And>
@@ -30,7 +30,7 @@
                     </PolygonSymbolizer>
                     <TextSymbolizer>
                         <Label>
-                            <ogc:PropertyName>name</ogc:PropertyName>
+                            <ogc:PropertyName>pt:name</ogc:PropertyName>
                         </Label>
                         <Font>
                             <CssParameter name="font-family">SansSerif</CssParameter>

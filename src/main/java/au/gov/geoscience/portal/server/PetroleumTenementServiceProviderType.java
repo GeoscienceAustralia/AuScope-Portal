@@ -5,7 +5,7 @@ package au.gov.geoscience.portal.server;
  */
 public enum PetroleumTenementServiceProviderType {
     GeoServer("pt:PetroleumTenement", "pt:name", "pt:holder", "pt:status_uri", "pt:tenementType_uri", "pt:shape"),
-    NSWGeoServer("PetroleumTenement", "name", "holder", "status_uri", "tenementType_uri", "shape");
+    NSWGeoServer("PetroleumTenement", "pt:name", "pt:holder", "pt:status_uri", "pt:tenementType_uri", "pt:shape");
 
     private final String featureType;
     private final String nameField;
