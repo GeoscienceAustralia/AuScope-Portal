@@ -43,7 +43,7 @@ public class PetroleumTenementController extends BasePortalController {
         PetroleumTenementServiceProviderType serviceProviderType = PetroleumTenementServiceProviderType.GeoServer;
         if (serviceUrl.contains("gs.geoscience.nsw.gov.au")) {
             serviceProviderType = PetroleumTenementServiceProviderType.NSWGeoServer;
-            sldFileName = "/au/gov/geoscience/portal/sld/petroleumtenement-nsw.sld";
+            sldFileName = "/au/gov/geoscience/portal/sld/petroleumTenement-nsw.sld";
         } else {
             sldFileName = "/au/gov/geoscience/portal/sld/petroleumtenement.sld";
         }
