@@ -30,7 +30,7 @@
                     </PolygonSymbolizer>
                     <TextSymbolizer>
                         <Label>
-                            <ogc:PropertyName>name</ogc:PropertyName>
+                            <PropertyName>pt:name</PropertyName>
                         </Label>
                         <Font>
                             <CssParameter name="font-family">SansSerif</CssParameter>
