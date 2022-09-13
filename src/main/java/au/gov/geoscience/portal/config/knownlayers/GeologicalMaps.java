@@ -31,15 +31,14 @@ public class GeologicalMaps {
 
         knownLayer.setName(name);
         knownLayer.setDescription("This Web Map Service displays the spatial extents of scanned images of all " +
-                "1:250,000 scale geological maps of Australia. The service contains information on the edition, " +
-                "publication date, and map publisher, and has links to map images available as 75 DPI, 125 DPI or " +
-                "250 DPI resolution JPG files.");
+            "1:250,000 scale geological maps of Australia. The service contains information on the edition, " +
+            "publication date, and map publisher, and has links to map images available as 75 DPI, 125 DPI or " +
+            "250 DPI resolution JPG files.");
 
         knownLayer.setGroup(GROUP);
 
         knownLayer.setProxyStyleUrl("scannedGeologicalMapsStyle.do");
         knownLayer.setSingleTile(true);
-        knownLayer.setStaticLegendUrl("http://services.ga.gov.au/Scanned_250K_Geological_Map_Index/capabilities/Scanned_250K_Geological_Map_Index_Legend.png");
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
 
@@ -63,10 +62,10 @@ public class GeologicalMaps {
         String name = "Contacts, faults, dykes, marker beds";
 
         List<String> layerNames = Arrays.asList("AUS_GA_2500k_Faults",
-                "AUS_GA_2500k_Contacts",
-                "AUS_GA_1M_Faults",
-                "AUS_GA_1M_Contacts",
-                "AUS_GA_1M_GULine");
+            "AUS_GA_2500k_Contacts",
+            "AUS_GA_1M_Faults",
+            "AUS_GA_1M_Contacts",
+            "AUS_GA_1M_GULine");
 
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
 
@@ -74,16 +73,16 @@ public class GeologicalMaps {
 
         knownLayer.setName(name);
         knownLayer.setDescription("This layer contains lines that complement the geology data, but are not classified " +
-                "as geological features (eg, coastline and other water boundaries, limits of mapping or available " +
-                "data), compiled at 1:1M scale. This layer is limited to display only at scales greater than " +
-                "1:1,500,000), AUS GA 1:1M Faults and Shears (Fault and shear structures, represented as lines, " +
-                "compiled for use around 1:1M scale. This layer is limited to display only at scales greater than " +
-                "1:1,500,000), AUS GA 1:1M Contacts (Lines that represent contacts between geological units (eg, " +
-                "depositional, intrusive and faulted contacts), compiled for use around 1:1M scale. This layer is " +
-                "limited to display only at scales greater than 1:1,500,000), AUS GA 1:1M Geological Unit Lines " +
-                "(Surface geological units (outcrop or near-outcrop) that are too narrow to be represented by polygons, " +
-                "compiled for use around 1:1M scale. This layer is limited to display only at scales greater than " +
-                "1:1,500,000.");
+            "as geological features (eg, coastline and other water boundaries, limits of mapping or available " +
+            "data), compiled at 1:1M scale. This layer is limited to display only at scales greater than " +
+            "1:1,500,000), AUS GA 1:1M Faults and Shears (Fault and shear structures, represented as lines, " +
+            "compiled for use around 1:1M scale. This layer is limited to display only at scales greater than " +
+            "1:1,500,000), AUS GA 1:1M Contacts (Lines that represent contacts between geological units (eg, " +
+            "depositional, intrusive and faulted contacts), compiled for use around 1:1M scale. This layer is " +
+            "limited to display only at scales greater than 1:1,500,000), AUS GA 1:1M Geological Unit Lines " +
+            "(Surface geological units (outcrop or near-outcrop) that are too narrow to be represented by polygons, " +
+            "compiled for use around 1:1M scale. This layer is limited to display only at scales greater than " +
+            "1:1,500,000.");
 
         knownLayer.setGroup(GROUP);
 
@@ -100,8 +99,8 @@ public class GeologicalMaps {
         String name = "Geological units (lithostratigraphy)";
 
         List<String> layerNames = Arrays.asList(
-                "AUS_GA_2500k_GUPoly_Lithostratigraphy",
-                "AUS_GA_1M_GUPoly_Lithostratigraphy"
+            "AUS_GA_2500k_GUPoly_Lithostratigraphy",
+            "AUS_GA_1M_GUPoly_Lithostratigraphy"
         );
 
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
@@ -111,7 +110,7 @@ public class GeologicalMaps {
 
         knownLayer.setName(name);
         knownLayer.setDescription("Surface geological units (outcrop or near-outcrop bedrock and surficial regolith " +
-                "units) symbolised by lithostratigraphic classification.");
+            "units) symbolised by lithostratigraphic classification.");
 
         knownLayer.setGroup(GROUP);
 
@@ -129,8 +128,8 @@ public class GeologicalMaps {
         String name = "Geological units (lithology)";
 
         List<String> layerNames = Arrays.asList(
-                "AUS_GA_2500k_GUPoly_Lithology",
-                "AUS_GA_1M_GUPoly_Lithology"
+            "AUS_GA_2500k_GUPoly_Lithology",
+            "AUS_GA_1M_GUPoly_Lithology"
         );
 
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
@@ -139,7 +138,7 @@ public class GeologicalMaps {
 
         knownLayer.setName(name);
         knownLayer.setDescription("Surface geological units (outcrop or near-outcrop bedrock and surficial regolith " +
-                "units) symbolised by lithological classification.");
+            "units) symbolised by lithological classification.");
 
         knownLayer.setGroup(GROUP);
 
@@ -157,8 +156,8 @@ public class GeologicalMaps {
         String name = "Geological units (age)";
 
         List<String> layerNames = Arrays.asList(
-                "AUS_GA_2500k_GUPoly_Age",
-                "AUS_GA_1M_GUPoly_Age"
+            "AUS_GA_2500k_GUPoly_Age",
+            "AUS_GA_1M_GUPoly_Age"
         );
 
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
@@ -167,7 +166,7 @@ public class GeologicalMaps {
 
         knownLayer.setName(name);
         knownLayer.setDescription("Surface geological units (outcrop or near-outcrop bedrock and surficial regolith " +
-                "units) symbolised by age.");
+            "units) symbolised by age.");
 
         knownLayer.setGroup(GROUP);
 

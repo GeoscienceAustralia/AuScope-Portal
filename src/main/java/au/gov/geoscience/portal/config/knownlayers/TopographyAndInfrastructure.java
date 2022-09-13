@@ -26,13 +26,13 @@ public class TopographyAndInfrastructure {
     KnownLayer populatedPlaces() {
         String id = "populated-places";
         List<String> layerNames = Arrays.asList("Populated_Places_1",
-                "Populated_Places_2",
-                "Populated_Places_3",
-                "Populated_Places_4",
-                "Populated_Places_5",
-                "Populated_Places_6",
-                "Populated_Places_7",
-                "Populated_Places_8");
+            "Populated_Places_2",
+            "Populated_Places_3",
+            "Populated_Places_4",
+            "Populated_Places_5",
+            "Populated_Places_6",
+            "Populated_Places_7",
+            "Populated_Places_8");
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
         String name = "Populated Places";
 
@@ -43,8 +43,6 @@ public class TopographyAndInfrastructure {
         knownLayer.setGroup(GROUP);
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
-
-        knownLayer.setStaticLegendUrl(TOPOGRAPHY_LEGEND);
 
         return knownLayer;
     }
@@ -64,8 +62,6 @@ public class TopographyAndInfrastructure {
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
 
-        knownLayer.setStaticLegendUrl(TOPOGRAPHY_LEGEND);
-
         return knownLayer;
     }
 
@@ -74,15 +70,15 @@ public class TopographyAndInfrastructure {
     KnownLayer riversAndLakes() {
         String id = "rivers-and-lakes";
         List<String> layerNames = Arrays.asList("Watercourses_All_Rivers_Watercourse_Lines",
-                "Watercourse_Areas",
-                "Watercourses_Major_Rivers_National_Scale_to_5Million",
-                "Watercourses_Major_Rivers_Scale_5Million_to_300000",
-                "Waterbody_Extra_Lakes_and_Reservoirs",
-                "Waterbody_Lakes_National_Scale_to_5Million",
-                "Waterbody_Lakes_Scale_5Million_to_300000",
-                "Waterbody_All_Lakes",
-                "Waterbody_Reservoirs_National_Scale_to_300000",
-                "Waterbody_All_Reservoirs");
+            "Watercourse_Areas",
+            "Watercourses_Major_Rivers_National_Scale_to_5Million",
+            "Watercourses_Major_Rivers_Scale_5Million_to_300000",
+            "Waterbody_Extra_Lakes_and_Reservoirs",
+            "Waterbody_Lakes_National_Scale_to_5Million",
+            "Waterbody_Lakes_Scale_5Million_to_300000",
+            "Waterbody_All_Lakes",
+            "Waterbody_Reservoirs_National_Scale_to_300000",
+            "Waterbody_All_Reservoirs");
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
         String name = "Rivers and Lakes";
 
@@ -94,8 +90,6 @@ public class TopographyAndInfrastructure {
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
 
-        knownLayer.setStaticLegendUrl(TOPOGRAPHY_LEGEND);
-
         return knownLayer;
     }
 
@@ -104,11 +98,11 @@ public class TopographyAndInfrastructure {
     KnownLayer roads() {
         String id = "roads";
         List<String> layerNames = Arrays.asList(
-                "TOPO250K_Roads",
-                "Roads_1",
-                "Roads_2",
-                "Roads_3",
-                "Roads_4"
+            "TOPO250K_Roads",
+            "Roads_1",
+            "Roads_2",
+            "Roads_3",
+            "Roads_4"
         );
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
         String name = "Roads";
@@ -121,8 +115,6 @@ public class TopographyAndInfrastructure {
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
 
-        knownLayer.setStaticLegendUrl(TOPOGRAPHY_LEGEND);
-
         return knownLayer;
     }
 
@@ -131,9 +123,9 @@ public class TopographyAndInfrastructure {
     KnownLayer railways() {
         String id = "railways";
         List<String> layerNames = Arrays.asList(
-                "Railways_1",
-                "Railways_2",
-                "Railways_3"
+            "Railways_1",
+            "Railways_2",
+            "Railways_3"
         );
         KnownLayerSelector selector = new WMSSelectors(SelectorsMode.AND, layerNames);
         String name = "Railways";
@@ -145,8 +137,6 @@ public class TopographyAndInfrastructure {
         knownLayer.setGroup(GROUP);
 
         knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
-
-        knownLayer.setStaticLegendUrl(TOPOGRAPHY_LEGEND);
 
         return knownLayer;
     }
