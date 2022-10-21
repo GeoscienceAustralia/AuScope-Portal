@@ -30,7 +30,7 @@ public class MinesAndMiningActivity {
     @Order(GROUP_ORDER)
     KnownLayer mineView() {
         String id = "mine-view";
-        String name = "Mines (new version)";
+        String name = "Mines";
         String description = "A collection of services that implement the EarthResourceML Lite v1.0 schema for " +
                 "erl:MineView.";
 
@@ -70,55 +70,6 @@ public class MinesAndMiningActivity {
         return knownLayer;
     }
 
-    @Bean(name = "mine")
-    @Order(GROUP_ORDER + 1)
-    KnownLayer mine() {
-        String id = "mine";
-        String name = "Mine";
-        String description = "A collection of services that implement the AuScope EarthResourceML v1 Profile for er:Mine.";
-
-        WFSSelector selector = new WFSSelector("er:MiningFeatureOccurrence");
-
-        selector.setRelatedFeatureTypeNames(new String[]{"er:Mine", "gsml:MappedFeature"});
-
-        KnownLayer knownLayer = new KnownLayer(id, selector);
-
-        knownLayer.setName(name);
-        knownLayer.setDescription(description);
-
-        knownLayer.setProxyCountUrl("mineFilterCount.do");
-        knownLayer.setProxyStyleUrl("mineFilterStyle.do");
-        knownLayer.setProxyDownloadUrl("mineDownload.do");
-
-        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/er_mine.jpg");
-
-
-        knownLayer.setGroup(GROUP);
-        knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
-
-        FilterCollection filterCollection = new FilterCollection();
-
-        AbstractBaseFilter nameFilter = new UIFilterText("Name", "All mine names",
-                "mineName");
-        nameFilter.setToolTip("Type all or part of a mine name. Use wildcards to broaden your search.  # = a single " +
-                "character, * = any number of characters. (eg, M*T#ISA*). Search terms are case insensitive.");
-
-        AbstractBaseFilter mineStatusFilter = new UIFilterVocabulary("Operating status",
-                "All mine statuses", "statusUri", "getAllMineStatuses.do");
-        mineStatusFilter.setToolTip("Choose from a list of operating mine statuses from our mine status lookup " +
-                "service.");
-
-        AbstractBaseFilter providerFilter = new UICheckBoxGroupProvider("Provider", "All data providers");
-        providerFilter.setToolTip("Choose a data provider from the drop-down list.");
-
-        filterCollection.setOptionalFilters(Arrays.asList(nameFilter, mineStatusFilter, providerFilter));
-
-        knownLayer.setFilterCollection(filterCollection);
-
-        return knownLayer;
-    }
-
-
     @Bean(name = "mining-activity")
     @Order(GROUP_ORDER + 2)
     KnownLayer miningActivity() {
@@ -127,7 +78,8 @@ public class MinesAndMiningActivity {
         String description = "A collection of services that implement the AuScope EarthResourceML v1 Profile for " +
                 "er:MiningActivity.";
 
-        WFSSelector selector = new WFSSelector("er:MiningFeatureOccurrence");
+        String[] serviceEndPoints = new String[]{"https://gs.geoscience.nsw.gov.au/geoserver/wfs"};
+        WFSSelector selector = new WFSSelector("er:MiningFeatureOccurrence", serviceEndPoints, true);
 
         selector.setRelatedFeatureTypeNames(new String[]{"er:MiningActivity", "gsml:MappedFeature"});
 
