@@ -3,7 +3,7 @@
                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0"
                        xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
     <NamedLayer>
-        <Name>National_Onshore_Gas_Pipelines</Name>
+        <Name>0</Name>
         <UserStyle>
             <Name>gas-pipelines-portal</Name>
             <FeatureTypeStyle>

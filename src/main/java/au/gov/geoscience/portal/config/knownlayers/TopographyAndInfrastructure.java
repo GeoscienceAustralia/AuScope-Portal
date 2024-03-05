@@ -145,7 +145,10 @@ public class TopographyAndInfrastructure {
     @Order(GROUP_ORDER + 5)
     KnownLayer oilPipelines() {
         String id = "oil-pipelines";
-        KnownLayerSelector selector = new WMSSelector("National_Onshore_Oil_Pipelines");
+        String[] serviceEndPoints = new String[]{
+            "https://services.ga.gov.au:443/gis/services/Oil_Gas_Pipelines/MapServer/WMSServer?"
+        };
+        KnownLayerSelector selector = new WMSSelector("1", serviceEndPoints, true);
         String name = "Oil Pipelines";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
@@ -165,7 +168,10 @@ public class TopographyAndInfrastructure {
     @Order(GROUP_ORDER + 6)
     KnownLayer gasPipelines() {
         String id = "gas-pipelines";
-        KnownLayerSelector selector = new WMSSelector("National_Onshore_Gas_Pipelines");
+        String[] serviceEndPoints = new String[]{
+            "https://services.ga.gov.au:443/gis/services/Oil_Gas_Pipelines/MapServer/WMSServer?"
+        };
+        KnownLayerSelector selector = new WMSSelector("0", serviceEndPoints, true);
         String name = "Gas Pipelines";
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
