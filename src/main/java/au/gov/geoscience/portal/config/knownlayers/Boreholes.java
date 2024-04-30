@@ -35,8 +35,10 @@ public class Boreholes {
     KnownLayer nationalVirtualCoreLibrary() {
         String id = "national-virtual-core-library";
         String name = "National Virtual Core Library";
+        String[] serviceEndPoints = new String[]{"https://services.ga.gov.au/gis/boreholes/wfs"};
 
-        KnownLayerSelector selector = new WFSSelector("gsmlp:BoreholeView");
+        // Exclude GA as provider for NVCL
+        KnownLayerSelector selector = new WFSSelector("gsmlp:BoreholeView", serviceEndPoints, false);
 
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
