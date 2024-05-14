@@ -93,7 +93,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "TotalMagneticIntensity2015Greyscale";
 
-        KnownLayerSelector selector = new WMSSelector("TotalMagneticIntensity2015_greyscale");
+        KnownLayerSelector selector = new WMSSelector("geophys:magmap_V6_2015");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -114,7 +114,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "TotalMagneticIntensity2015HSI";
 
-        KnownLayerSelector selector = new WMSSelector("TotalMagneticIntensity2015_HSI");
+        KnownLayerSelector selector = new WMSSelector("geophys:magmap_v6_2015_tmi_HSI");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -135,7 +135,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "TotalMagneticIntensityVRTP2015Greyscale";
 
-        KnownLayerSelector selector = new WMSSelector("TotalMagneticIntensityVRTP2015_greyscale");
+        KnownLayerSelector selector = new WMSSelector("geophys:magmap_V6_2015_VRTP1");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -162,7 +162,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "GravityBouguerOnshore2010Greyscale";
 
-        KnownLayerSelector selector = new WMSSelector("GravityBouguerOnshore2010_greyscale");
+        KnownLayerSelector selector = new WMSSelector("geophys:Aust_onshore_only_Bouguer_gravity_2010");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -186,7 +186,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "GravityAnomaly2010Greyscale";
 
-        KnownLayerSelector selector = new WMSSelector("GravityAnomaly2010_greyscale");
+        KnownLayerSelector selector = new WMSSelector("geophys:Aust_gravity_anomaly_2010");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -207,7 +207,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "GravityAnomaly2010HSI";
 
-        KnownLayerSelector selector = new WMSSelector("GravityAnomaly2010_HSI");
+        KnownLayerSelector selector = new WMSSelector("geophys:Aust_gravity_bandpass_hsi_image_2009");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -228,11 +228,11 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015TernaryKThU";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_ternary_KThU");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v4_2019_filtered_ternary_image");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
-        String name = "Radiometrics Ternary KThU image 2010";
+        String name = "Radiometric Ternary Image of Australia 2019";
         knownLayer.setName(name);
 
         String description = "The national ternary radiometric image (2015 edition) shows the concentrations of the " +
@@ -255,7 +255,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015UnfilteredDose";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_unfiltered_dose");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_unfiltered_dose");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -276,7 +276,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredDose";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_filtered_dose");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_filtered_dose_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -297,7 +297,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015UnfilteredPcK";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_unfiltered_pcK");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_unfiltered_pctk");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -318,7 +318,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredPcK";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_filtered_pcK");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_filtered_pctk_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -339,7 +339,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015UnfilteredPpmTh";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_unfiltered_ppmTh");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_unfiltered_ppmth");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -360,7 +360,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredPpmTh";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_filtered_ppmTh");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_filtered_ppmth_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -381,7 +381,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015UnfilteredPpmU";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_unfiltered_ppmU");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_unfiltered_ppmu");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -402,7 +402,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredPpmU";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics2015_filtered_ppmU");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_filtered_ppmu_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -423,7 +423,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredThKRatio";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics_ThK_ratio_filtered_2015");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_ratio_tk_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -444,7 +444,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredUKRatio";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics_UK_ratio_filtered_2015");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_ratio_uk_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -465,7 +465,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredUthRatio";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics_UTh_ratio_filtered_2015");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_ratio_ut_x");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
@@ -486,7 +486,7 @@ public class NationalGeophysicalDatasets {
 
         String id = "Radiometrics2015FilteredU2thRatio";
 
-        KnownLayerSelector selector = new WMSSelector("Radiometrics_U2Th_ratio_filtered_2015");
+        KnownLayerSelector selector = new WMSSelector("geophys:radmap_v3_2015_ratio_u2tx");
         KnownLayer knownLayer = new KnownLayer(id, selector);
 
 
