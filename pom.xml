@@ -141,7 +141,7 @@
         <repository>
             <id>nexus</id>
             <name>GA Nexus</name>
-            <url>https://nexus.flying-hellfish.cloud.ga.gov.au/repository/maven-public</url>
+            <url>https://nexus.customerdigitalservices.ga.gov.au/repository/maven-public</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -153,12 +153,12 @@
         <repository>
             <id>releases</id>
             <name>Internal nexus</name>
-            <url>https://nexus.flying-hellfish.cloud.ga.gov.au/repository/maven-releases</url>
+            <url>https://nexus.customerdigitalservices.ga.gov.au/repository/maven-releases</url>
 
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <url>https://nexus.flying-hellfish.cloud.ga.gov.au/repository/maven-snapshots</url>
+            <url>https://nexus.customerdigitalservices.ga.gov.au/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
