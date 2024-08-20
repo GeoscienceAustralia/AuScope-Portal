@@ -34,10 +34,10 @@
         <Logger name="org.auscope.portal.server.web.view.JSONView" level="INFO" />
         <Logger name="org.auscope.portal.core.server.http.HttpServiceCaller" level="INFO" />
         <Logger name="org.auscope.portal.server.web.service.MineralOccurrenceService" level="INFO" />
-        <Logger name="org.auscope.portal.core.services.methodmakers.CSWMethodMakerGetDataRecords" level="TRACE" />
+        <!--<Logger name="org.auscope.portal.core.services.methodmakers.CSWMethodMakerGetDataRecords" level="TRACE" />
         <Logger name="org.auscope.portal.core.services.CSWService" level="TRACE" />
         <Logger name="org.auscope.portal.core.services.methodmakers.filter.AbstractFilter" level="TRACE" />
-        <Logger name="org.auscope.portal.core.server.http.HttpServiceCaller" level="TRACE" />
+        <Logger name="org.auscope.portal.core.server.http.HttpServiceCaller" level="TRACE" />-->
 
         <Logger name="au.gov.geoscience.portal" level="DEBUG" />
 
