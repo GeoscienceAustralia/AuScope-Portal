@@ -145,4 +145,20 @@ public class Tenements {
         return knownLayer;
     }
 
+    @Bean(name = "mrt-tas-mineral-tenements")
+    @Order(GROUP_ORDER + 5)
+    KnownLayer mrtTasMineralTenements() {
+        String id = "mrt-tas-mineral-tenements";
+        String name = "Mrt Tas Mineral Tenements";
+        String description = "Test MRT Tas ArcGIS web service";
+        String[] serviceEndPoints = new String[]{
+                "https://data.stategrowth.tas.gov.au/ags/services/MRT/MRT_AGSON/MapServer/WMSServer?"
+        };
+        KnownLayerSelector selector = new WMSSelector("MT_MINERALTENEMENT", serviceEndPoints, true);
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+        knownLayer.setName(name);
+        knownLayer.setDescription(description);
+        knownLayer.setGroup(GROUP);
+        return knownLayer;
+    }
 }
