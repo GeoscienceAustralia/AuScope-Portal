@@ -204,6 +204,31 @@ public class MineralOccurrencesAndResources {
 
         return knownLayer;
     }
+
+    @Bean(name = "tas-mineral-occurrence-view")
+    @Order(GROUP_ORDER + 3)
+    KnownLayer tasMineralOccurrenceView() {
+        String id = "tas-mineral-occurrence-view";
+        String name = "Tas Mineral Occurrences ArcGIS)";
+        String description = "Test Tas new ArcGIS webservice";
+
+        String[] serviceEndPoints = new String[]{
+                "https://data.stategrowth.tas.gov.au/ags/services/MRT/MRT_AGSON/MapServer/WMSServer?"
+        };
+        KnownLayerSelector selector = new WMSSelector("ERL_MINERALOCCURRENCEVIEW", serviceEndPoints, true);
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+        knownLayer.setName(name);
+        knownLayer.setDescription(description);
+
+        knownLayer.setProxyCountUrl("mineralOccurrenceViewFilterCount.do");
+        knownLayer.setProxyStyleUrl("mineralOccurrenceViewFilterStyle.do");
+        knownLayer.setProxyDownloadUrl("mineralOccurrenceViewDownload.do");
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/erl_mineraloccurrenceview.jpg");
+        knownLayer.setGroup(GROUP);
+        knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
+
+        return knownLayer;
+    }
 }
 
 
