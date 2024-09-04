@@ -9,6 +9,7 @@ import org.auscope.portal.core.uifilter.optional.UICheckBoxGroupProvider;
 import org.auscope.portal.core.view.knownlayer.KnownLayer;
 import org.auscope.portal.core.view.knownlayer.KnownLayerSelector;
 import org.auscope.portal.core.view.knownlayer.WFSSelector;
+import org.auscope.portal.core.view.knownlayer.WMSSelector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
