@@ -117,4 +117,31 @@ public class Boreholes {
         filterCollection.setOptionalFilters(Arrays.asList(nameFilter, drillingDateFilter, providerFilter));
         return filterCollection;
     }
+
+    @Order(GROUP_ORDER + 2)
+    @Bean(name = "tas-boreholes")
+    KnownLayer tasBoreholes() {
+        String id = "tas-boreholes";
+        String name = "Tas Boreholes";
+
+        String[] serviceEndPoints = new String[]{
+                "https://data.stategrowth.tas.gov.au/ags/services/MRT/MRT_AGSON/MapServer/WMSServer?"
+        };
+        KnownLayerSelector selector = new WMSSelector("GSMLP_BOREHOLEVIEW", serviceEndPoints, true);
+        KnownLayer knownLayer = new KnownLayer(id, selector);
+        knownLayer.setName(name);
+        knownLayer.setDescription("Test new ArcGIS service");
+        knownLayer.setGroup(GROUP);
+        knownLayer.setNagiosHostGroup(NAGIOS_HOST_GROUP);
+
+        knownLayer.setProxyCountUrl("doBoreholeViewCount.do");
+        knownLayer.setProxyDownloadUrl("doBoreholeViewFilter.do");
+        knownLayer.setProxyStyleUrl("doBoreholeViewFilterStyle.do");
+
+        FilterCollection filterCollection = generateBoreholeFilters();
+        knownLayer.setFilterCollection(filterCollection);
+        knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/gsmlp_boreholeview.jpg");
+
+        return knownLayer;
+    }
 }
