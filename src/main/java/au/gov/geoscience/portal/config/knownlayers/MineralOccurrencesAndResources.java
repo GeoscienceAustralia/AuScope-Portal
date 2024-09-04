@@ -210,7 +210,7 @@ public class MineralOccurrencesAndResources {
     @Order(GROUP_ORDER + 3)
     KnownLayer tasMineralOccurrenceView() {
         String id = "tas-mineral-occurrence-view";
-        String name = "Tas Mineral Occurrences ArcGIS)";
+        String name = "Tas Mineral Occurrences ArcGIS";
         String description = "Test Tas new ArcGIS webservice";
 
         String[] serviceEndPoints = new String[]{
@@ -222,7 +222,6 @@ public class MineralOccurrencesAndResources {
         knownLayer.setDescription(description);
 
         knownLayer.setProxyCountUrl("mineralOccurrenceViewFilterCount.do");
-        knownLayer.setProxyStyleUrl("mineralOccurrenceViewFilterStyle.do");
         knownLayer.setProxyDownloadUrl("mineralOccurrenceViewDownload.do");
         knownLayer.setStaticLegendUrl(HOSTNAME + "/img/legends/erl_mineraloccurrenceview.jpg");
         knownLayer.setGroup(GROUP);
