@@ -137,7 +137,6 @@ public class Boreholes {
 
         knownLayer.setProxyCountUrl("doBoreholeViewCount.do");
         knownLayer.setProxyDownloadUrl("doBoreholeViewFilter.do");
-        knownLayer.setProxyStyleUrl("doBoreholeViewFilterStyle.do");
 
         FilterCollection filterCollection = generateBoreholeFilters();
         knownLayer.setFilterCollection(filterCollection);
